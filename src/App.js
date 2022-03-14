@@ -10,7 +10,7 @@ function App() {
             .then((response) => response.json())
             .then((data) => setAlbumsState(data.albums))
             .catch((error) => console.log(error));
-    });
+    }, []);
 
     const listAlbums = albumsState.map((album) =>
         <div key={album.name}>
