@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 
 function Login(props) {
     const { setServerUrl } = props;
-    const [ textInput, setTextInput ] = useState("http://0.0.0.0:8000");
+    const [ textInput, setTextInput ] = useState("https://0.0.0.0:8000");
 
     const updateInput = (e) => setTextInput(e.target.value);
     const updateServerUrl = () => {
