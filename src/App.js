@@ -15,6 +15,7 @@ function Player(props) {
     const { serverUrl, setServerUrl } = props;
     const [ albumsState, setAlbumsState ] = useState([]);
     const [ nowPlaying, setNowPlaying ] = useState("");
+    const [ artSource, setArtSource ] = useState("");
     const [ npSource, setnpSource ] = useState("");
 
     useEffect(() => {
@@ -32,8 +33,10 @@ function Player(props) {
                 discs = {album.discs}
                 album_artist = {album.album_artist_name}
                 album_name = {album.name}
+                album_art_path = {`${serverUrl}/art/${album.album_art_path}`}
                 serverUrl = {serverUrl}
                 setNowPlaying = {setNowPlaying}
+                setArtSource = {setArtSource}
                 setnpSource = {setnpSource}
             />
         </div>
@@ -64,7 +67,7 @@ function Player(props) {
             <button onClick={reload}>Reload Metadata DB</button>
             <button onClick={hard_reload}>Hard-Reload Metadata DB</button>
             <button onClick={disconnect}>Disconnect from DB</button>
-            <MediaPlayer nowPlaying={nowPlaying} npSource={npSource} />
+            <MediaPlayer nowPlaying={nowPlaying} artSource={artSource} npSource={npSource} />
             { listAlbums }
         </div>
     );
@@ -75,8 +78,10 @@ function Discs(props) {
         discs,
         album_artist,
         album_name,
+        album_art_path,
         serverUrl,
         setNowPlaying,
+        setArtSource,
         setnpSource
     } = props;
 
@@ -86,9 +91,11 @@ function Discs(props) {
             <Songs 
                 album_artist={album_artist}
                 album_name = {album_name}
+                album_art_path = {album_art_path}
                 tracks={disc.tracks}
                 serverUrl={serverUrl}
                 setNowPlaying = {setNowPlaying}
+                setArtSource = {setArtSource}
                 setnpSource = {setnpSource}
             />
         </div>
@@ -103,9 +110,11 @@ function Songs(props) {
     const {
         album_artist,
         album_name,
+        album_art_path,
         tracks,
         serverUrl,
         setNowPlaying,
+        setArtSource,
         setnpSource
     } = props;
     
@@ -114,9 +123,11 @@ function Songs(props) {
             <Song
                 album_artist={album_artist}
                 album_name={album_name}
+                album_art_path = {album_art_path}
                 serverUrl={serverUrl}
                 track={track}
                 setNowPlaying = {setNowPlaying}
+                setArtSource = {setArtSource}
                 setnpSource = {setnpSource}
             />
         </div>
@@ -130,8 +141,10 @@ function Song(props) {
         album_artist,
         track,
         album_name,
+        album_art_path,
         serverUrl,
         setNowPlaying,
+        setArtSource,
         setnpSource,
     } = props;
 
@@ -159,11 +172,12 @@ function Song(props) {
         length_formatted = `${hours}:${minutes}:${seconds}`;
     }
 
-    const url = `${serverUrl}/static/` + track.path;
+    const url = `${serverUrl}/track/` + track.path;
     const filename = track.path.split("/").pop();
 
     const updatePlayer = () => {
         setNowPlaying(`${track.artist} - ${track.name} - ${album_name}`);
+        setArtSource(album_art_path);
         setnpSource(url);
 
         const a = document.querySelector('audio');
@@ -186,10 +200,16 @@ function Song(props) {
 }
 
 function MediaPlayer(props) {
-    const { nowPlaying, npSource } = props;
+    const { nowPlaying, artSource, npSource } = props;
 
     return (
         <div>
+            <img 
+                src={artSource} 
+                alt={`Front cover art for ${nowPlaying}`} 
+                width="300" 
+                height="300">
+            </img>
             <h3>Now Playing: {nowPlaying}</h3>
             <audio 
                 controls 
