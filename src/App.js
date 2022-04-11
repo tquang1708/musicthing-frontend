@@ -5,7 +5,7 @@ import Login from './Login';
 function App() {
     const [ serverUrl, setServerUrl ] = useState(localStorage.getItem("serverUrl"));
     return(
-        serverUrl == null 
+        serverUrl === null 
             ? <Login setServerUrl={setServerUrl} /> 
             : <Player serverUrl={serverUrl} setServerUrl={setServerUrl}/>
     );
@@ -135,11 +135,28 @@ function Song(props) {
         setnpSource,
     } = props;
 
+    // set track text
     let text;
-    if (album_artist == track.artist) {
+    if (album_artist === track.artist) {
         text = `${track.name}`
     } else {
         text = `${track.artist} - ${track.name}`
+    }
+
+    // format track length
+    // https://stackoverflow.com/questions/6312993/javascript-seconds-to-time-string-with-format-hhmmss
+    let hours = Math.floor(track.length_seconds / 3600);
+    let minutes = Math.floor((track.length_seconds - hours * 3600) / 60);
+    let seconds = track.length_seconds - hours * 3600 - minutes * 60;
+
+    if (minutes < 10) {minutes = "0" + minutes;}
+    if (seconds < 10) {seconds = "0" + seconds;}
+    
+    let length_formatted;
+    if (hours === 0) {
+        length_formatted = `${minutes}:${seconds}`;
+    } else {
+        length_formatted = `${hours}:${minutes}:${seconds}`;
     }
 
     const url = `${serverUrl}/static/` + track.path;
@@ -155,7 +172,7 @@ function Song(props) {
     }
 
     return (
-    <div>
+    <div className = "track">
         <button onClick={() => updatePlayer()}>▶</button>
         {track.number + ". "}
         <a 
@@ -164,6 +181,7 @@ function Song(props) {
             target="_blank" rel="noreferrer">
             {text}
         </a>
+        <small>&nbsp;{length_formatted}</small>
     </div>);
 }
 
