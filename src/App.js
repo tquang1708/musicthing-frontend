@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import './App.css';
 import Login from './Login';
+import MediaPlayer from './mediaplayer/MediaPlayer';
 
 function App() {
     const [ serverUrl, setServerUrl ] = useState(localStorage.getItem("serverUrl"));
@@ -42,19 +43,19 @@ function Player(props) {
         </div>
     );
 
-    const reload = () => {
-        fetch(`${serverUrl}/api/reload`)
-            .then((response) => response.text())
-            .then(() => location.reload())
-            .catch((error) => console.log(error));
-    }
+    // const reload = () => {
+    //     fetch(`${serverUrl}/api/reload`)
+    //         .then((response) => response.text())
+    //         .then(() => location.reload())
+    //         .catch((error) => console.log(error));
+    // }
 
-    const hard_reload = () => {
-        fetch(`${serverUrl}/api/hard_reload`)
-            .then((response) => response.text())
-            .then(() => location.reload())
-            .catch((error) => console.log(error));
-    }
+    // const hard_reload = () => {
+    //     fetch(`${serverUrl}/api/hard_reload`)
+    //         .then((response) => response.text())
+    //         .then(() => location.reload())
+    //         .catch((error) => console.log(error));
+    // }
 
     const disconnect = () => {
         localStorage.removeItem('serverUrl');
@@ -64,8 +65,8 @@ function Player(props) {
 
     return (
         <div>
-            <button onClick={reload}>Reload Metadata DB</button>
-            <button onClick={hard_reload}>Hard-Reload Metadata DB</button>
+            {/* <button onClick={reload}>Reload Metadata DB</button>
+            <button onClick={hard_reload}>Hard-Reload Metadata DB</button> */}
             <button onClick={disconnect}>Disconnect from DB</button>
             <MediaPlayer nowPlaying={nowPlaying} artSource={artSource} npSource={npSource} />
             { listAlbums }
@@ -197,28 +198,6 @@ function Song(props) {
         </a>
         <small>&nbsp;{length_formatted}</small>
     </div>);
-}
-
-function MediaPlayer(props) {
-    const { nowPlaying, artSource, npSource } = props;
-
-    return (
-        <div>
-            <img 
-                src={artSource} 
-                alt={`Front cover art for ${nowPlaying}`} 
-                width="300" 
-                height="300">
-            </img>
-            <h3>Now Playing: {nowPlaying}</h3>
-            <audio 
-                controls 
-                preload="auto">
-                <source src={npSource} />
-                Your browser does not support the <code>audio</code> element.
-            </audio>
-        </div>
-    );
 }
 
 export default App;
