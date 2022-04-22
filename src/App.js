@@ -1,19 +1,33 @@
 import { React, useState, useEffect } from 'react';
-import './App.css';
+import { Helmet } from 'react-helmet-async';
 import Login from './Login';
 import MediaPlayer from './mediaplayer/MediaPlayer';
 
 function App() {
     const [ serverUrl, setServerUrl ] = useState(localStorage.getItem("serverUrl"));
+    const [ tabTitle, setTabTitle ] = useState("musicthing");
+    
+    const mainApp = serverUrl === null 
+        ? <Login setServerUrl={setServerUrl} /> 
+        : <Player 
+            serverUrl={serverUrl} 
+            setServerUrl={setServerUrl} 
+            setTabTitle={setTabTitle} 
+          />;
+
     return(
-        serverUrl === null 
-            ? <Login setServerUrl={setServerUrl} /> 
-            : <Player serverUrl={serverUrl} setServerUrl={setServerUrl}/>
+        <div>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>{tabTitle}</title>
+            </Helmet>
+            {mainApp}
+        </div>
     );
 }
 
 function Player(props) {
-    const { serverUrl, setServerUrl } = props;
+    const { serverUrl, setServerUrl, setTabTitle } = props;
     const [ albumsState, setAlbumsState ] = useState([]);
     const [ nowPlaying, setNowPlaying ] = useState("");
     const [ artSource, setArtSource ] = useState("");
@@ -39,6 +53,7 @@ function Player(props) {
                 setNowPlaying = {setNowPlaying}
                 setArtSource = {setArtSource}
                 setnpSource = {setnpSource}
+                setTabTitle = {setTabTitle}
             />
         </div>
     );
@@ -83,7 +98,8 @@ function Discs(props) {
         serverUrl,
         setNowPlaying,
         setArtSource,
-        setnpSource
+        setnpSource,
+        setTabTitle,
     } = props;
 
     const listDiscs = discs.map((disc) =>
@@ -98,6 +114,7 @@ function Discs(props) {
                 setNowPlaying = {setNowPlaying}
                 setArtSource = {setArtSource}
                 setnpSource = {setnpSource}
+                setTabTitle = {setTabTitle}
             />
         </div>
     );
@@ -116,7 +133,8 @@ function Songs(props) {
         serverUrl,
         setNowPlaying,
         setArtSource,
-        setnpSource
+        setnpSource,
+        setTabTitle,
     } = props;
     
     const listTracks = tracks.map((track) =>
@@ -130,6 +148,7 @@ function Songs(props) {
                 setNowPlaying = {setNowPlaying}
                 setArtSource = {setArtSource}
                 setnpSource = {setnpSource}
+                setTabTitle = {setTabTitle}
             />
         </div>
     )
@@ -147,6 +166,7 @@ function Song(props) {
         setNowPlaying,
         setArtSource,
         setnpSource,
+        setTabTitle,
     } = props;
 
     // set track text
@@ -180,6 +200,7 @@ function Song(props) {
         setNowPlaying(`${track.artist} - ${track.name} - ${album_name}`);
         setArtSource(album_art_path);
         setnpSource(url);
+        setTabTitle(`${track.artist} - ${track.name} | musicthing`)
 
         const a = document.querySelector('audio');
         a.load();
@@ -187,7 +208,7 @@ function Song(props) {
     }
 
     return (
-    <div className = "track">
+    <div>
         <button onClick={() => updatePlayer()}>▶</button>
         {track.number + ". "}
         <a 
