@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Login from './Login';
 import MediaPlayer from './mediaplayer/MediaPlayer';
+import MainDisplay from './maindisplay/MainDisplay';
 
 function App() {
     const [ serverUrl, setServerUrl ] = useState(localStorage.getItem("serverUrl"));
@@ -84,10 +85,11 @@ function Player(props) {
     // }
 
     return (
-        <div>
+        <div className="bg-gray-600">
             {/* <button onClick={reload}>Reload Metadata DB</button>
             <button onClick={hard_reload}>Hard-Reload Metadata DB</button> */}
             {/* <button onClick={disconnect}>Disconnect from DB</button> */}
+            <div className="h-0 md:h-20"></div>
             <MediaPlayer 
                 artSource={artSource}
                 npSource={npSource}
@@ -95,9 +97,13 @@ function Player(props) {
                 npAlbum={npAlbum}
                 npTitle={npTitle}
                 isPlaying={isPlaying}
-                setIsPlaying={setIsPlaying} />
-            { listAlbums }
-            <div className="h-8"></div>
+                setIsPlaying={setIsPlaying}
+            />
+            <MainDisplay 
+                serverUrl={serverUrl}
+            />
+            {/* { listAlbums } */}
+            <div className="h-8 md:h-20"></div>
         </div>
     );
 }

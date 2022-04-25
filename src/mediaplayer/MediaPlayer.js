@@ -45,28 +45,26 @@ function MediaPlayer(props) {
     }, []);
 
     return (
-        <div>
-            {onBigScreen && 
-                <BigScreenPlayer 
-                    npArtist={npArtist}
-                    npAlbum={npAlbum}
-                    npTitle={npTitle}
-                    artSource={artSource}
-                    isPlaying={isPlaying}
-                    setIsPlaying={setIsPlaying}
-                    showPlayer={showPlayer}
-                    setShowPlayer={setShowPlayer}
-                />}
-            {!onBigScreen && 
-                <MobilePlayer 
-                    npArtist={npArtist}
-                    npAlbum={npAlbum}
-                    npTitle={npTitle}
-                    artSource={artSource}
-                    isPlaying={isPlaying}
-                    setIsPlaying={setIsPlaying}
-                />}
-        </div>
+        onBigScreen ?
+            <BigScreenPlayer 
+                npArtist={npArtist}
+                npAlbum={npAlbum}
+                npTitle={npTitle}
+                artSource={artSource}
+                isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying}
+                showPlayer={showPlayer}
+                setShowPlayer={setShowPlayer}
+            />
+        :
+            <MobilePlayer 
+                npArtist={npArtist}
+                npAlbum={npAlbum}
+                npTitle={npTitle}
+                artSource={artSource}
+                isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying}
+            />
     );
 }
 
@@ -115,17 +113,17 @@ function MobilePlayer(props) {
     } = props;
 
     return (
-        <div className="fixed flex flex-row h-8 bottom-0">
+        <div className="fixed flex flex-row h-8 w-screen bottom-0">
             <TrackImage 
                 npArtist={npArtist}
                 npAlbum={npAlbum}
                 npTitle={npTitle}
                 artSource={artSource} />
-            <div className="flex flex-col w-20 bg-gray-700">
-                <div className="font-sans font-bold text-base pl-1 pt-1.5 text-slate-50 truncate">
+            <div className="flex flex-col grow bg-gray-700">
+                <div className="font-sans font-bold text-base pl-1 pt-1 text-slate-50 truncate">
                     {npTitle}
                 </div>
-                <div className="font-sans font-sem text-xs pl-1 pt-1.5 text-slate-50 truncate">
+                <div className="font-sans font-sem text-xs pl-1 pt-1 pb-1 text-slate-50 truncate">
                     {npArtist} - {npAlbum}
                 </div>
             </div>
