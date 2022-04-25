@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Login from './Login';
 import MediaPlayer from './mediaplayer/MediaPlayer';
@@ -29,9 +29,12 @@ function App() {
 function Player(props) {
     const { serverUrl, setServerUrl, setTabTitle } = props;
     const [ albumsState, setAlbumsState ] = useState([]);
-    const [ nowPlaying, setNowPlaying ] = useState("");
     const [ artSource, setArtSource ] = useState("");
     const [ npSource, setnpSource ] = useState("");
+    const [ npArtist, setnpArtist ] = useState("Unknown Artist");
+    const [ npAlbum, setnpAlbum ] = useState("Unknown Album");
+    const [ npTitle, setnpTitle ] = useState("Untitled");
+    const [ isPlaying, setIsPlaying ] = useState(false);
 
     useEffect(() => {
         fetch(`${serverUrl}/api/list`)
@@ -50,10 +53,13 @@ function Player(props) {
                 album_name = {album.name}
                 album_art_path = {`${serverUrl}/art/${album.album_art_path}`}
                 serverUrl = {serverUrl}
-                setNowPlaying = {setNowPlaying}
+                setnpArtist = {setnpArtist}
+                setnpAlbum = {setnpAlbum}
+                setnpTitle = {setnpTitle}
                 setArtSource = {setArtSource}
                 setnpSource = {setnpSource}
                 setTabTitle = {setTabTitle}
+                setIsPlaying = {setIsPlaying}
             />
         </div>
     );
@@ -72,19 +78,27 @@ function Player(props) {
     //         .catch((error) => console.log(error));
     // }
 
-    const disconnect = () => {
-        localStorage.removeItem('serverUrl');
-        setServerUrl(null);
-        location.reload();
-    }
+    // const disconnect = () => {
+    //     localStorage.removeItem('serverUrl');
+    //     setServerUrl(null);
+    //     location.reload();
+    // }
 
     return (
         <div>
             {/* <button onClick={reload}>Reload Metadata DB</button>
             <button onClick={hard_reload}>Hard-Reload Metadata DB</button> */}
-            <button onClick={disconnect}>Disconnect from DB</button>
-            <MediaPlayer nowPlaying={nowPlaying} artSource={artSource} npSource={npSource} />
+            {/* <button onClick={disconnect}>Disconnect from DB</button> */}
+            <MediaPlayer 
+                artSource={artSource}
+                npSource={npSource}
+                npArtist={npArtist}
+                npAlbum={npAlbum}
+                npTitle={npTitle}
+                isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying} />
             { listAlbums }
+            <div className="h-8"></div>
         </div>
     );
 }
@@ -96,10 +110,13 @@ function Discs(props) {
         album_name,
         album_art_path,
         serverUrl,
-        setNowPlaying,
+        setnpArtist,
+        setnpAlbum,
+        setnpTitle,
         setArtSource,
         setnpSource,
         setTabTitle,
+        setIsPlaying,
     } = props;
 
     const listDiscs = discs.map((disc) =>
@@ -111,10 +128,13 @@ function Discs(props) {
                 album_art_path = {album_art_path}
                 tracks={disc.tracks}
                 serverUrl={serverUrl}
-                setNowPlaying = {setNowPlaying}
+                setnpArtist = {setnpArtist}
+                setnpAlbum = {setnpAlbum}
+                setnpTitle = {setnpTitle}
                 setArtSource = {setArtSource}
                 setnpSource = {setnpSource}
                 setTabTitle = {setTabTitle}
+                setIsPlaying = {setIsPlaying}
             />
         </div>
     );
@@ -131,24 +151,30 @@ function Songs(props) {
         album_art_path,
         tracks,
         serverUrl,
-        setNowPlaying,
+        setnpArtist,
+        setnpAlbum,
+        setnpTitle,
         setArtSource,
         setnpSource,
         setTabTitle,
+        setIsPlaying,
     } = props;
     
     const listTracks = tracks.map((track) =>
-        <div key={track.number + track.artist + track.name}>
+        <div key={track.path}>
             <Song
                 album_artist={album_artist}
                 album_name={album_name}
                 album_art_path = {album_art_path}
                 serverUrl={serverUrl}
                 track={track}
-                setNowPlaying = {setNowPlaying}
+                setnpArtist = {setnpArtist}
+                setnpAlbum = {setnpAlbum}
+                setnpTitle = {setnpTitle}
                 setArtSource = {setArtSource}
                 setnpSource = {setnpSource}
                 setTabTitle = {setTabTitle}
+                setIsPlaying = {setIsPlaying}
             />
         </div>
     )
@@ -163,10 +189,13 @@ function Song(props) {
         album_name,
         album_art_path,
         serverUrl,
-        setNowPlaying,
+        setnpArtist,
+        setnpAlbum,
+        setnpTitle,
         setArtSource,
         setnpSource,
         setTabTitle,
+        setIsPlaying,
     } = props;
 
     // set track text
@@ -197,14 +226,13 @@ function Song(props) {
     const filename = track.path.split("/").pop();
 
     const updatePlayer = () => {
-        setNowPlaying(`${track.artist} - ${track.name} - ${album_name}`);
+        setnpArtist(track.artist);
+        setnpAlbum(album_name);
+        setnpTitle(track.name);
         setArtSource(album_art_path);
         setnpSource(url);
         setTabTitle(`${track.artist} - ${track.name} | musicthing`)
-
-        const a = document.querySelector('audio');
-        a.load();
-        a.play();
+        setIsPlaying(true);
     }
 
     return (
