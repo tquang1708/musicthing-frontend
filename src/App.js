@@ -11,7 +11,6 @@ function App() {
         ? <Login setServerUrl={setServerUrl} /> 
         : <Player 
             serverUrl={serverUrl} 
-            setServerUrl={setServerUrl} 
             setTabTitle={setTabTitle} 
           />;
 
@@ -27,7 +26,7 @@ function App() {
 }
 
 function Player(props) {
-    const { serverUrl, setServerUrl, setTabTitle } = props;
+    const { serverUrl, setTabTitle } = props;
     const [ albumsState, setAlbumsState ] = useState([]);
     const [ artSource, setArtSource ] = useState("");
     const [ npSource, setnpSource ] = useState("");
