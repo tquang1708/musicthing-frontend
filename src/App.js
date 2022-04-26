@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
     BrowserRouter as Router,
@@ -11,20 +11,49 @@ import MediaPlayer from './mediaplayer/MediaPlayer';
 import AlbumDisplay from './maindisplay/AlbumDisplay';
 import Album from './maindisplay/Album';
 
+import unknown_album from './unknown_album.svg';
+
 function App() {
     const [ serverUrl, setServerUrl ] = useState(localStorage.getItem("serverUrl"));
+    const [ tabTitle, setTabTitle ] = useState("musicthing");
+    const [ artSource, setArtSource ] = useState(unknown_album);
+    const [ npSource, setnpSource ] = useState("");
+    const [ npArtist, setnpArtist ] = useState("Unknown Artist");
+    const [ npAlbum, setnpAlbum ] = useState(null);
+    const [ npTitle, setnpTitle ] = useState("Untitled");
+    const [ isPlaying, setIsPlaying ] = useState(false);
     
     const mainApp = serverUrl === null 
         ? <Login setServerUrl={setServerUrl} /> 
-        : <Player 
-            serverUrl={serverUrl} 
+        : <Main 
+            tabTitle={tabTitle}
+            artSource={artSource}
+            npSource={npSource}
+            npArtist={npArtist}
+            npAlbum={npAlbum}
+            npTitle={npTitle}
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
           />;
 
     const albumDisplay = 
         <AlbumDisplay 
             serverUrl={serverUrl}
             displayType="tiles"
-        /> 
+        />
+
+    const album =
+        <Album 
+            serverUrl={serverUrl}
+            backLinkTo="/album"
+            setTabTitle={setTabTitle}
+            setArtSource={setArtSource}
+            setnpSource={setnpSource}
+            setnpArtist={setnpArtist}
+            setnpAlbum={setnpAlbum}
+            setnpTitle={setnpTitle}
+            setIsPlaying={setIsPlaying}
+        />
 
     return(
         <Router>
@@ -32,51 +61,24 @@ function App() {
                 <Route path="/" element={mainApp}>
                     <Route index element={albumDisplay} />
                     <Route path="album" element={albumDisplay} />
-                    <Route path="album/:id" element={<Album />} />
+                    <Route path="album/:id" element={album} />
                 </Route>
             </Routes>
         </Router>
     );
 }
 
-function Player(props) {
-    const { serverUrl } = props;
-    const [ tabTitle, setTabTitle ] = useState("musicthing");
-    const [ albumsState, setAlbumsState ] = useState([]);
-    const [ artSource, setArtSource ] = useState("");
-    const [ npSource, setnpSource ] = useState("");
-    const [ npArtist, setnpArtist ] = useState("Unknown Artist");
-    const [ npAlbum, setnpAlbum ] = useState("Unknown Album");
-    const [ npTitle, setnpTitle ] = useState("Untitled");
-    const [ isPlaying, setIsPlaying ] = useState(false);
-
-    useEffect(() => {
-        fetch(`${serverUrl}/api/list`)
-            .then((response) => response.json())
-            .then((data) => setAlbumsState(data.albums))
-            .catch((error) => console.log(error));
-    }, []);
-
-    const listAlbums = albumsState.map((album) =>
-        <div key={album.name + album.album_artist_name}>
-            <h2>{album.name}</h2>
-            <h3>{album.album_artist_name}</h3>
-            <Discs
-                discs = {album.discs}
-                album_artist = {album.album_artist_name}
-                album_name = {album.name}
-                album_art_path = {`${serverUrl}/art/${album.album_art_path}`}
-                serverUrl = {serverUrl}
-                setnpArtist = {setnpArtist}
-                setnpAlbum = {setnpAlbum}
-                setnpTitle = {setnpTitle}
-                setArtSource = {setArtSource}
-                setnpSource = {setnpSource}
-                setTabTitle = {setTabTitle}
-                setIsPlaying = {setIsPlaying}
-            />
-        </div>
-    );
+function Main(props) {
+    const { 
+        tabTitle,
+        artSource,
+        npSource,
+        npArtist,
+        npAlbum,
+        npTitle,
+        isPlaying,
+        setIsPlaying,
+    } = props;
 
     // const reload = () => {
     //     fetch(`${serverUrl}/api/reload`)
@@ -107,7 +109,6 @@ function Player(props) {
             {/* <button onClick={reload}>Reload Metadata DB</button>
             <button onClick={hard_reload}>Hard-Reload Metadata DB</button> */}
             {/* <button onClick={disconnect}>Disconnect from DB</button> */}
-            <div className="h-0 md:h-20"></div>
             <MediaPlayer 
                 artSource={artSource}
                 npSource={npSource}
@@ -118,156 +119,9 @@ function Player(props) {
                 setIsPlaying={setIsPlaying}
             />
             <Outlet />
-            {/* { listAlbums } */}
             <div className="h-8 md:h-20"></div>
         </div>
     );
-}
-
-function Discs(props) {
-    const {
-        discs,
-        album_artist,
-        album_name,
-        album_art_path,
-        serverUrl,
-        setnpArtist,
-        setnpAlbum,
-        setnpTitle,
-        setArtSource,
-        setnpSource,
-        setTabTitle,
-        setIsPlaying,
-    } = props;
-
-    const listDiscs = discs.map((disc) =>
-        <div key={album_name + album_artist + disc.number}>
-            <h5>Disc {disc.number}</h5>
-            <Songs 
-                album_artist={album_artist}
-                album_name = {album_name}
-                album_art_path = {album_art_path}
-                tracks={disc.tracks}
-                serverUrl={serverUrl}
-                setnpArtist = {setnpArtist}
-                setnpAlbum = {setnpAlbum}
-                setnpTitle = {setnpTitle}
-                setArtSource = {setArtSource}
-                setnpSource = {setnpSource}
-                setTabTitle = {setTabTitle}
-                setIsPlaying = {setIsPlaying}
-            />
-        </div>
-    );
-
-    return (
-        <div>{ listDiscs }</div>
-    );
-}
-
-function Songs(props) {
-    const {
-        album_artist,
-        album_name,
-        album_art_path,
-        tracks,
-        serverUrl,
-        setnpArtist,
-        setnpAlbum,
-        setnpTitle,
-        setArtSource,
-        setnpSource,
-        setTabTitle,
-        setIsPlaying,
-    } = props;
-    
-    const listTracks = tracks.map((track) =>
-        <div key={track.path}>
-            <Song
-                album_artist={album_artist}
-                album_name={album_name}
-                album_art_path = {album_art_path}
-                serverUrl={serverUrl}
-                track={track}
-                setnpArtist = {setnpArtist}
-                setnpAlbum = {setnpAlbum}
-                setnpTitle = {setnpTitle}
-                setArtSource = {setArtSource}
-                setnpSource = {setnpSource}
-                setTabTitle = {setTabTitle}
-                setIsPlaying = {setIsPlaying}
-            />
-        </div>
-    )
-
-    return (<div>{ listTracks }</div>);
-}
-
-function Song(props) {
-    const {
-        album_artist,
-        track,
-        album_name,
-        album_art_path,
-        serverUrl,
-        setnpArtist,
-        setnpAlbum,
-        setnpTitle,
-        setArtSource,
-        setnpSource,
-        setTabTitle,
-        setIsPlaying,
-    } = props;
-
-    // set track text
-    let text;
-    if (album_artist === track.artist) {
-        text = `${track.name}`
-    } else {
-        text = `${track.artist} - ${track.name}`
-    }
-
-    // format track length
-    // https://stackoverflow.com/questions/6312993/javascript-seconds-to-time-string-with-format-hhmmss
-    let hours = Math.floor(track.length_seconds / 3600);
-    let minutes = Math.floor((track.length_seconds - hours * 3600) / 60);
-    let seconds = track.length_seconds - hours * 3600 - minutes * 60;
-
-    if (minutes < 10) {minutes = "0" + minutes;}
-    if (seconds < 10) {seconds = "0" + seconds;}
-    
-    let length_formatted;
-    if (hours === 0) {
-        length_formatted = `${minutes}:${seconds}`;
-    } else {
-        length_formatted = `${hours}:${minutes}:${seconds}`;
-    }
-
-    const url = `${serverUrl}/track/` + track.path;
-    const filename = track.path.split("/").pop();
-
-    const updatePlayer = () => {
-        setnpArtist(track.artist);
-        setnpAlbum(album_name);
-        setnpTitle(track.name);
-        setArtSource(album_art_path);
-        setnpSource(url);
-        setTabTitle(`${track.artist} - ${track.name} | musicthing`)
-        setIsPlaying(true);
-    }
-
-    return (
-    <div>
-        <button onClick={() => updatePlayer()}>▶</button>
-        {track.number + ". "}
-        <a 
-            href = {url}
-            download = {filename}
-            target="_blank" rel="noreferrer">
-            {text}
-        </a>
-        <small>&nbsp;{length_formatted}</small>
-    </div>);
 }
 
 export default App;

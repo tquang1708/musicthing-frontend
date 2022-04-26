@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from "react-router-dom";
 
 // alot referred from this article
 // https://letsbuildui.dev/articles/building-an-audio-player-with-react-hooks
@@ -81,7 +82,7 @@ function BigScreenPlayer(props) {
     } = props;
 
     return (
-        <div className="fixed flex flex-row h-20 top-0">
+        <div className="fixed flex flex-row h-20 top-0 z-50">
             <div className={`flex transition ease-in-out duration-500 ${showPlayer ? "translate-x-0" : "-translate-x-full"}`}>
                 <TrackImage 
                     npArtist={npArtist}
@@ -113,18 +114,18 @@ function MobilePlayer(props) {
     } = props;
 
     return (
-        <div className="fixed flex flex-row h-8 w-screen bottom-0">
+        <div className="fixed flex flex-row h-10 w-screen bottom-0 z-50">
             <TrackImage 
                 npArtist={npArtist}
                 npAlbum={npAlbum}
                 npTitle={npTitle}
                 artSource={artSource} />
             <div className="flex flex-col grow bg-gray-700">
-                <div className="font-sans font-bold text-base pl-1 pt-1 text-slate-50 truncate">
+                <div className="font-sans font-bold text-xl pl-1 pt-1 text-slate-50 truncate">
                     {npTitle}
                 </div>
-                <div className="font-sans font-sem text-xs pl-1 pt-1 pb-1 text-slate-50 truncate">
-                    {npArtist} - {npAlbum}
+                <div className="font-sans font-sem text-base pl-1 pt-1 pb-1 text-slate-50 truncate">
+                    {npArtist} - {npAlbum ? npAlbum.name : "Unknown Album"}
                 </div>
             </div>
             <div className="flex flex-col justify-center w-6 bg-gray-700">
@@ -147,8 +148,8 @@ function TrackImage(props) {
     return (
         <img 
             src={artSource} 
-            alt={`Front cover art for ${npTitle} by ${npArtist} from the album ${npAlbum}`} 
-            className="bg-gray-700 object-contain w-8 md:w-20" >
+            alt={`Front cover art for ${npTitle} by ${npArtist} from the album ${npAlbum ? npAlbum.title : "Unknown Album"}`} 
+            className="bg-gray-700 object-contain w-10 md:w-20" >
         </img>
     );
 }
@@ -186,8 +187,11 @@ function Controls(props) {
             <div className="font-sans font-bold text-3xl pl-3 pt-3 text-slate-50 truncate">
                 {npTitle}
             </div>
-            <div className="font-sans font-sem text-xl pl-3 pt-3 text-slate-50 truncate">
-                {npArtist} - {npAlbum}
+            <div className="flex flex-row font-sans font-sem text-xl pl-3 pt-3 text-slate-50 truncate">
+                <div>
+                    {npArtist} - 
+                </div>
+                <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} className="hover:underline hover:decoration-solid">{npAlbum ? npAlbum.name : "Unknown Album"}</Link>
             </div>
             <div className="grid grid-cols-3 justify-center grow">
                 <p></p>

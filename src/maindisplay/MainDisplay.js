@@ -1,36 +1,44 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+
+import unknown_album from '../unknown_album.svg';
 
 function MainDisplay(props) {
     const {
         items,
-        itemType,
         serverUrl,
+        displayType,
+        defaultTitle,
+        defaultSubtitle,
     } = props;
 
-    // just albums for now
-    let listItems;
-    if (itemType === "album") {
-        // generate tiles for album
-        listItems = items.map((i) => 
-            <div key={`${itemType} + ${i.id}`} className="item">
+    // just tiles for now
+    let display;
+    if (displayType === "tiles") {
+        const listItems = items.map((i) => 
+            <div key={i.key} className="item">
                 <MainDisplayTile 
-                    imgSource={`${serverUrl}/art/${i.art_path}`}
-                    title={i.name}
-                    noTitle="Unknown Album"
-                    subtitle={i.artist_name}
-                    noSubtitle="Unknown Artist"
+                    imgSource={i.art_path ? `${serverUrl}/art/${i.art_path}` : unknown_album}
+                    title={i.title}
+                    noTitle={defaultTitle}
+                    subtitle={i.subtitle}
+                    noSubtitle={defaultSubtitle}
+                    linkTo={i.link_to}
                 />
             </div>
-            );
+        );
+        display = 
+            <div>
+                <div className="h-0 md:h-20"></div>
+                <div className="grid p-2 gap-4 md:gap-6 grid-cols-auto-mobile md:grid-cols-auto">
+                    {listItems}
+                </div>
+            </div>
     } else {
-        listItems = [];
+        display = null;
     }
 
-    return (
-        <div className="grid p-2 gap-4 md:gap-6 grid-cols-auto-mobile md:grid-cols-auto">
-            {listItems}
-        </div>
-    );
+    return display;
 }
 
 function MainDisplayTile(props) {
@@ -40,24 +48,27 @@ function MainDisplayTile(props) {
         noTitle,
         subtitle,
         noSubtitle,
+        linkTo,
     } = props;
 
     return (
-        <div className="flex flex-col p-1.5 rounded-lg bg-gray-500 text-slate-50 transition ease-linear duration-200 hover:bg-gray-300 hover:text-slate-700 hover:cursor-pointer">
-            <img
-                src={imgSource}
-                alt={`Art for ${title}`}
-                className="object-contain h-16 md:h-20" >
-            </img>
-            <div
-                className="font-sans font-bold truncate">
-                {title ? title : noTitle}
+        <Link to={`${linkTo}`}>
+            <div className="flex flex-col p-1.5 rounded-lg drop-shadow-md bg-gray-500 text-slate-50 transition ease-linear duration-200 hover:bg-gray-300 hover:text-slate-700 hover:cursor-pointer hover:drop-shadow-none">
+                <img
+                    src={imgSource}
+                    alt={`Art for ${title}`}
+                    className="object-contain h-12 md:h-20 drop-shadow-md" >
+                </img>
+                <div
+                    className="font-sans font-bold truncate">
+                    {title ? title : noTitle}
+                </div>
+                <div
+                    className="font-sans font-light truncate">
+                    {subtitle ? subtitle : noSubtitle}
+                </div>
             </div>
-            <div
-                className="font-sans font-light truncate">
-                {subtitle ? subtitle : noSubtitle}
-            </div>
-        </div>
+        </Link>
     );
 }
 
