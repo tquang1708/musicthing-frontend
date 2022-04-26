@@ -1,33 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Outlet,
+} from 'react-router-dom';
 import Login from './Login';
 import MediaPlayer from './mediaplayer/MediaPlayer';
-import MainDisplay from './maindisplay/MainDisplay';
+import AlbumDisplay from './maindisplay/AlbumDisplay';
+import Album from './maindisplay/Album';
 
 function App() {
     const [ serverUrl, setServerUrl ] = useState(localStorage.getItem("serverUrl"));
-    const [ tabTitle, setTabTitle ] = useState("musicthing");
     
     const mainApp = serverUrl === null 
         ? <Login setServerUrl={setServerUrl} /> 
         : <Player 
             serverUrl={serverUrl} 
-            setTabTitle={setTabTitle} 
           />;
 
+    const albumDisplay = 
+        <AlbumDisplay 
+            serverUrl={serverUrl}
+            displayType="tiles"
+        /> 
+
     return(
-        <div>
-            <Helmet>
-                <meta charSet="utf-8" />
-                <title>{tabTitle}</title>
-            </Helmet>
-            {mainApp}
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/" element={mainApp}>
+                    <Route index element={albumDisplay} />
+                    <Route path="album" element={albumDisplay} />
+                    <Route path="album/:id" element={<Album />} />
+                </Route>
+            </Routes>
+        </Router>
     );
 }
 
 function Player(props) {
-    const { serverUrl, setTabTitle } = props;
+    const { serverUrl } = props;
+    const [ tabTitle, setTabTitle ] = useState("musicthing");
     const [ albumsState, setAlbumsState ] = useState([]);
     const [ artSource, setArtSource ] = useState("");
     const [ npSource, setnpSource ] = useState("");
@@ -86,6 +100,10 @@ function Player(props) {
 
     return (
         <div className="bg-gray-600">
+             <Helmet>
+                <meta charSet="utf-8" />
+                <title>{tabTitle}</title>
+            </Helmet>
             {/* <button onClick={reload}>Reload Metadata DB</button>
             <button onClick={hard_reload}>Hard-Reload Metadata DB</button> */}
             {/* <button onClick={disconnect}>Disconnect from DB</button> */}
@@ -99,9 +117,7 @@ function Player(props) {
                 isPlaying={isPlaying}
                 setIsPlaying={setIsPlaying}
             />
-            <MainDisplay 
-                serverUrl={serverUrl}
-            />
+            <Outlet />
             {/* { listAlbums } */}
             <div className="h-8 md:h-20"></div>
         </div>

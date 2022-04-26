@@ -1,38 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-// just albums for now
 function MainDisplay(props) {
     const {
+        items,
+        itemType,
         serverUrl,
     } = props;
-    const [ albums, setAlbums ] = useState([]);
 
-    // get albums
-    useEffect(() => {
-        fetch(`${serverUrl}/api/list/albums`)
-            .then((response) => response.json())
-            .then((data) => setAlbums(data))
-            .catch((error) => console.log(error));
-    }, []);
-
-    // generate tiles based on albums
-    const listAlbums = albums.map((album) => 
-        <div 
-            key={"AlbumID" + album.id}
-            className="item" >
-            <MainDisplayTile 
-                imgSource={`${serverUrl}/art/${album.art_path}`}
-                title={album.name}
-                noTitle="Unknown Album"
-                subtitle={album.artist_name}
-                noSubtitle="Unknown Artist"
-            />
-        </div>
-    );
+    // just albums for now
+    let listItems;
+    if (itemType === "album") {
+        // generate tiles for album
+        listItems = items.map((i) => 
+            <div key={`${itemType} + ${i.id}`} className="item">
+                <MainDisplayTile 
+                    imgSource={`${serverUrl}/art/${i.art_path}`}
+                    title={i.name}
+                    noTitle="Unknown Album"
+                    subtitle={i.artist_name}
+                    noSubtitle="Unknown Artist"
+                />
+            </div>
+            );
+    } else {
+        listItems = [];
+    }
 
     return (
         <div className="grid p-2 gap-4 md:gap-6 grid-cols-auto-mobile md:grid-cols-auto">
-            {listAlbums}
+            {listItems}
         </div>
     );
 }
