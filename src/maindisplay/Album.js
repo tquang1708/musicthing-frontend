@@ -253,13 +253,13 @@ function Track(props) {
         setnpTitle,
         setIsPlaying,
     } = props;
-    const [ showPlay, setShowPlay ] = useState(false);
+    const [ showButton, setShowButton ] = useState(false);
 
-    const onEnterShowPlay = () => {
-        setShowPlay(true);
+    const onEnterShowButton = () => {
+        setShowButton(true);
     };
-    const onLeaveHidePlay = () => {
-        setShowPlay(false);
+    const onLeaveHideButton = () => {
+        setShowButton(false);
     };
     
     // get art source
@@ -282,26 +282,33 @@ function Track(props) {
         setIsPlaying(true);
     };
 
-    const playButton = <div className="font-mono text-3xl md:text-4xl hover:cursor-pointer" onClick={onClickPlayTrack}>▶</div>;
+    const playButton = <div className="font-mono text-3xl hover:cursor-pointer" onClick={onClickPlayTrack}>▶</div>;
+    const settingButton = <div className="font-mono text-3xl hover:cursor-pointer">…</div>;
+    let rightButton;
+    if (onBigScreen && !showButton) {
+        rightButton = <div>{secondsToTimeString(track.length_seconds)}</div>;
+    } else {
+        rightButton = settingButton;
+    }
 
     return (
         <div className="flex flex-row max-w-screen text-slate-50 items-center">
             {!onBigScreen && playButton}
             <div className="flex flex-row grow min-w-0 items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 hover:bg-gray-300 hover:text-slate-700"
-                onMouseEnter={onEnterShowPlay} onMouseLeave={onLeaveHidePlay}>
-                <div className="font-sans text-sm md:text-2xl font-semibold px-2">
-                    {track.number}
+                onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}>
+                <div className="flex justify-center font-sans text-sm md:text-2xl font-semibold mx-2 w-2 md:w-3">
+                    {onBigScreen && showButton ? 
+                            playButton : 
+                            <div>{track.number}</div>}
                 </div>
                 <div className="font-sans text-base md:text-2xl max-h-8 font-semibold overflow-hidden text-ellipsis">
-                    {`${track.artist}`}
+                    {track.artist}
                 </div>
-                <div className="font-sans text-lg md:text-3xl max-h-8 font-light px-2 overflow-hidden text-ellipsis">
+                <div className="font-sans text-lg md:text-2xl max-h-8 font-light px-2 overflow-hidden text-ellipsis">
                     {track.name}
                 </div>
                 <div className="ml-auto px-2">
-                    {onBigScreen && showPlay ? 
-                        <div className="font-mono text-4xl hover:cursor-pointer" onClick={onClickPlayTrack}>▶</div> : 
-                        <div>{secondsToTimeString(track.length_seconds)}</div>}
+                    {rightButton}
                 </div>
             </div>
         </div>
