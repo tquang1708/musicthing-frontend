@@ -189,7 +189,7 @@ function Controls(props) {
             </div>
             <div className="flex flex-row font-sans font-sem text-xl pl-3 pt-3 text-slate-50 truncate">
                 <div>
-                    {npArtist} - 
+                    {npArtist} -&nbsp;
                 </div>
                 <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} className="hover:underline hover:decoration-solid">{npAlbum ? npAlbum.name : "Unknown Album"}</Link>
             </div>

@@ -30,12 +30,13 @@ function Album(props) {
         .addEventListener('change', e => setOnBigScreen( e.matches ));
     }, []);
 
+    // fetch info
     useEffect(() => {
         fetch(`${serverUrl}/api/list/album/${id}`)
             .then((response) => response.json())
             .then((data) => setAlbum(data))
             .catch((error) => console.log(error));
-    }, []);
+    }, [id]);
 
     const onClickGoBack = () => {
         navigate(backLinkTo ? backLinkTo : "/album");

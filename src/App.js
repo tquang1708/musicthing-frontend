@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
-    BrowserRouter as Router,
     Routes,
     Route,
     Outlet,
@@ -56,15 +55,13 @@ function App() {
         />
 
     return(
-        <Router>
-            <Routes>
-                <Route path="/" element={mainApp}>
-                    <Route index element={albumDisplay} />
-                    <Route path="album" element={albumDisplay} />
-                    <Route path="album/:id" element={album} />
-                </Route>
-            </Routes>
-        </Router>
+        <Routes>
+            <Route path="/" element={mainApp}>
+                <Route index element={albumDisplay} />
+                <Route path="album" element={albumDisplay} />
+                <Route path="album/:id" element={album} />
+            </Route>
+        </Routes>
     );
 }
 
