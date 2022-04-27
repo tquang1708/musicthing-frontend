@@ -5,6 +5,7 @@ function AlbumDisplay(props) {
     const {
         serverUrl,
         displayType,
+        setSidebarOverlay,
     } = props;
     const [ albums, setAlbums ] = useState([]);
 
@@ -34,6 +35,7 @@ function AlbumDisplay(props) {
             displayType={displayType}
             defaultTitle="Unknown Album"
             defaultSubtitle="Unknown Artist"
+            setSidebarOverlay={setSidebarOverlay}
         />
     );
 }

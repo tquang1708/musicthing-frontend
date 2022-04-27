@@ -7,6 +7,7 @@ function Album(props) {
     const {
         serverUrl,
         backLinkTo,
+        onBigScreen,
         setTabTitle,
         setArtSource,
         setnpSource,
@@ -14,20 +15,16 @@ function Album(props) {
         setnpAlbum,
         setnpTitle,
         setIsPlaying,
+        setSidebarOverlay,
     } = props;
     const [ album, setAlbum ] = useState(null);
-    const [ onBigScreen, setOnBigScreen ] = useState(
-        window.matchMedia("(min-width: 768px)").matches
-    );
 
     const { id } = useParams();
     const navigate = useNavigate();
 
-    // detect mobile
+    // allow sidebar to overlay
     useEffect(() => {
-        window
-        .matchMedia("(min-width: 768px)")
-        .addEventListener('change', e => setOnBigScreen( e.matches ));
+        setSidebarOverlay(true);
     }, []);
 
     // fetch info
@@ -62,10 +59,10 @@ function Album(props) {
         </div>
 
     return (
-        <div className="flex flex-col">
+        <div className="grow flex flex-col">
             {onBigScreen && <div
                 onClick={onClickGoBack} 
-                className="self-end flex justify-center items-center w-20 h-20 font-mono text-8xl text-slate-50 transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-300">
+                className="self-end flex justify-center items-center w-14 h-14 text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono text-slate-50 transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-300">
                 X
             </div>}
             {display}
@@ -97,21 +94,21 @@ function AlbumDisplay(props) {
     const totalSecondsCount = discsTimeCount.reduce((a,b) => a+b, 0);
 
     return (
-        <div className="flex flex-col 2xl:flex-row md:p-4">
+        <div className="flex flex-col 2xl:flex-row md:p-6">
             <div className="flex flex-col md:flex-row 2xl:flex-col 2xl:w-80 2xl:sticky 2xl:top-0 2xl:self-start">
                 <img 
                     src={artSource} 
                     alt={`Front cover art for album ${album.name} by ${album.album_artist_name}`} 
-                    className="bg-gray-700 object-contain drop-shadow-2xl w-full md:w-40 md:h-40 2xl:w-80 2xl:h-80" >
+                    className="bg-gray-700 object-contain md:w-40 md:h-40 2xl:w-80 2xl:h-80" >
                 </img>
                 <div className="flex flex-col-reverse pt-3 md:pt-0">
                     <div className="font-sans font-light text-base md:text-xl pl-3 text-slate-50 break-words">
                         {`${totalTrackCount} Tracks - ${secondsToTimeString(totalSecondsCount)}`}
                     </div>
-                    <div className="font-sans font-sem text-xl md:text-3xl pl-3 pb-3 text-slate-50 break-words">
+                    <div className="font-sans font-sem text-xl md:text-3xl pl-3 pb-1 md:pb-3 text-slate-50 break-words">
                         {album.album_artist_name}
                     </div>
-                    <div className="font-sans font-bold text-3xl md:text-5xl pl-3 pb-3 2xl:pt-3 text-slate-50 break-words">
+                    <div className="font-sans font-bold text-3xl md:text-5xl pl-3 pb-1 md:pb-3 2xl:pt-3 text-slate-50 break-words">
                         {album.name}
                     </div>
                 </div>
@@ -202,21 +199,20 @@ function Disc(props) {
 
     // generate tracks
     const tracks = disc[0].tracks.map((track) => 
-        <div key={`Album ${album.id} Disc ${disc[0].number} Track ${track.number}`}>
-            <Track 
-                track={track}
-                album={album}
-                serverUrl={serverUrl}
-                onBigScreen={onBigScreen}
-                setTabTitle={setTabTitle}
-                setArtSource={setArtSource}
-                setnpSource={setnpSource}
-                setnpArtist={setnpArtist}
-                setnpAlbum={setnpAlbum}
-                setnpTitle={setnpTitle}
-                setIsPlaying={setIsPlaying}
-            />
-        </div>
+        <Track 
+            key={`Album ${album.id} Disc ${disc[0].number} Track ${track.path}`}
+            track={track}
+            album={album}
+            serverUrl={serverUrl}
+            onBigScreen={onBigScreen}
+            setTabTitle={setTabTitle}
+            setArtSource={setArtSource}
+            setnpSource={setnpSource}
+            setnpArtist={setnpArtist}
+            setnpAlbum={setnpAlbum}
+            setnpTitle={setnpTitle}
+            setIsPlaying={setIsPlaying}
+        />
     );
 
     return (
@@ -292,19 +288,19 @@ function Track(props) {
     }
 
     return (
-        <div className="flex flex-row max-w-screen text-slate-50 items-center">
+        <div className="flex flex-row text-slate-50 items-center">
             {!onBigScreen && playButton}
-            <div className="flex flex-row grow min-w-0 items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 hover:bg-gray-300 hover:text-slate-700"
+            <div className="flex flex-row grow min-w-0 overflow-hidden items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 hover:bg-gray-300 hover:text-slate-700"
                 onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}>
                 <div className="flex justify-center font-sans text-sm md:text-2xl font-semibold mx-2 w-2 md:w-3">
                     {onBigScreen && showButton ? 
                             playButton : 
                             <div>{track.number}</div>}
                 </div>
-                <div className="font-sans text-base md:text-2xl max-h-8 font-semibold overflow-hidden text-ellipsis">
+                <div className="font-sans text-base md:text-2xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
                     {track.artist}
                 </div>
-                <div className="font-sans text-lg md:text-2xl max-h-8 font-light px-2 overflow-hidden text-ellipsis">
+                <div className="font-sans text-lg md:text-2xl font-light px-2 whitespace-nowrap overflow-hidden text-ellipsis">
                     {track.name}
                 </div>
                 <div className="ml-auto px-2">

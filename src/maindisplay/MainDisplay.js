@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 
 import unknown_album from '../unknown_album.svg';
@@ -10,7 +10,13 @@ function MainDisplay(props) {
         displayType,
         defaultTitle,
         defaultSubtitle,
+        setSidebarOverlay,
     } = props;
+
+    // sidebar should not overlay on main display
+    useEffect(() => {
+        setSidebarOverlay(false);
+    }, []);
 
     // just tiles for now
     let display;
@@ -28,9 +34,9 @@ function MainDisplay(props) {
             </div>
         );
         display = 
-            <div>
+            <div className="grow">
                 <div className="h-0 md:h-20"></div>
-                <div className="grid p-2 gap-4 md:gap-6 grid-cols-auto-mobile md:grid-cols-auto">
+                <div className="grid p-2 gap-4 md:gap-6 justify-evenly grid-cols-auto-mobile md:grid-cols-auto">
                     {listItems}
                 </div>
             </div>
@@ -57,7 +63,7 @@ function MainDisplayTile(props) {
                 <img
                     src={imgSource}
                     alt={`Art for ${title}`}
-                    className="object-contain h-12 md:h-20 drop-shadow-md" >
+                    className="object-contain h-12 md:h-20" >
                 </img>
                 <div
                     className="font-sans font-bold truncate">

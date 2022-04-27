@@ -19,14 +19,16 @@ module.exports = {
             '16': '8rem',
             '20': '10rem',
             '40': '20rem',
+            '42': '21rem',
+            '56': '28rem',
             '60': '30rem',
             '70': '35rem',
             '80': '40rem',
             '100': '50rem',
         },
         gridTemplateColumns: {
-            'auto': 'repeat(auto-fill, minmax( 10rem, 1fr ))',
-            'auto-mobile': 'repeat(auto-fill, minmax( 8rem, 1fr ))'
+            'auto': 'repeat(auto-fill, 10rem)',
+            'auto-mobile': 'repeat(auto-fill, 8rem)'
         }
     },
   },
