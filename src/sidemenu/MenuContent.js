@@ -8,12 +8,17 @@ function MenuContent(props) {
         showSidebar,
         serverUrl,
         setServerUrl,
+        implicitQueuePlaylist,
+        implicitQueueDiscIndex,
+        implicitQueueTrackIndex,
+        setImplicitQueueDiscIndex,
+        setImplicitQueueTrackIndex,
     } = props;
     const [ selectedTab, setSelectedTab ] = useState(0);
     const [ showSettingMessage, setShowSettingMessage ] = useState(false);
 
     return (
-        <div className={`flex flex-row grow transition ease-in-out duration-500 ${showSidebar ? "translate-y-0" : "-translate-y-full"}`}>
+        <div className={`flex flex-row grow overflow-auto .display-hidden transition ease-in-out duration-500 ${showSidebar ? "translate-y-0" : "-translate-y-full"}`}>
             <MenuTabItems 
                 setSelectedTab={setSelectedTab}
                 setShowSettingMessage={setShowSettingMessage}
@@ -24,6 +29,11 @@ function MenuContent(props) {
                 setServerUrl={setServerUrl}
                 showSettingMessage={showSettingMessage}
                 setShowSettingMessage={setShowSettingMessage}
+                implicitQueuePlaylist={implicitQueuePlaylist}
+                implicitQueueDiscIndex={implicitQueueDiscIndex}
+                implicitQueueTrackIndex={implicitQueueTrackIndex}
+                setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+                setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
             />
         </div>
     );
@@ -48,7 +58,7 @@ function MenuTabItems(props) {
                 key={`tab image ${tab[0]}`} 
                 src={tab[1]}
                 onClick={() => onClickSetTab(i)}
-                className={`border-gray-800 p-2 2xl:p-3 border-x-6 2xl:border-x-8 border-b-6 2xl:border-b-8 ${i === tab_images.length - 1 && "mt-auto border-t-6 2xl:border-t-8"} transition duration-350 ease-in-out hover:cursor-pointer hover:bg-amber-700`}>
+                className={`border-gray-800 bg-gray-700 p-2 2xl:p-3 border-x-6 2xl:border-x-8 border-b-6 2xl:border-b-8 ${i === tab_images.length - 1 && "mt-auto border-t-6 2xl:border-t-8"} transition duration-350 ease-in-out hover:cursor-pointer hover:bg-amber-700`}>
             </img>
         )
     });
@@ -67,10 +77,22 @@ function MenuTabContent(props) {
         setServerUrl,
         showSettingMessage,
         setShowSettingMessage,
+        implicitQueuePlaylist,
+        implicitQueueDiscIndex,
+        implicitQueueTrackIndex,
+        setImplicitQueueDiscIndex,
+        setImplicitQueueTrackIndex,
     } = props;
 
     const tab_contents = [
-        <Queue key="tab queue" />,
+        <Queue 
+            key="tab queue" 
+            implicitQueuePlaylist={implicitQueuePlaylist}
+            implicitQueueDiscIndex={implicitQueueDiscIndex}
+            implicitQueueTrackIndex={implicitQueueTrackIndex}
+            setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+            setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
+        />,
         <Setting 
             key="tab setting"
             serverUrl={serverUrl}

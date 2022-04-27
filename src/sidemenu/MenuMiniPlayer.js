@@ -13,6 +13,8 @@ function MenuMiniPlayer(props) {
         isPlaying,
         setIsPlaying,
         setDivHeight,
+        showMenu,
+        setDivWidth,
     } = props;
 
     return (
@@ -25,6 +27,8 @@ function MenuMiniPlayer(props) {
                 showSidebar={showSidebar}
                 setShowSidebar={setShowSidebar}
                 setDivHeight={setDivHeight}
+                showMenu={showMenu}
+                setDivWidth={setDivWidth}
             />
             <MenuMiniControls 
                 npArtist={npArtist}
@@ -46,6 +50,8 @@ function MenuCornerImage(props) {
         showSidebar,
         setShowSidebar,
         setDivHeight,
+        showMenu,
+        setDivWidth,
     } = props;
     const [ showButton, setShowButton ] = useState(false);
 
@@ -62,6 +68,9 @@ function MenuCornerImage(props) {
     useEffect(() => {
         if (showSidebar) {
             setDivHeight("h-screen");
+        }
+        if (showMenu) {
+            setDivWidth("w-auto");
         }
     }, [showSidebar]);
 

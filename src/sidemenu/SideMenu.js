@@ -14,6 +14,11 @@ function SideMenu(props) {
         setIsPlaying,
         serverUrl,
         setServerUrl,
+        implicitQueuePlaylist,
+        implicitQueueDiscIndex,
+        implicitQueueTrackIndex,
+        setImplicitQueueDiscIndex,
+        setImplicitQueueTrackIndex,
     } = props;
     const [ showMenu, setShowMenu ] = useState(true);
     const [ showSidebar, setShowSidebar ] = useState(true);
@@ -46,15 +51,23 @@ function SideMenu(props) {
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
                     setDivHeight={setDivHeight}
+                    showMenu={showMenu}
+                    setDivWidth={setDivWidth}
                 />
                 <MenuContent 
                     showSidebar={showSidebar}
+                    implicitQueuePlaylist={implicitQueuePlaylist}
+                    implicitQueueDiscIndex={implicitQueueDiscIndex}
+                    implicitQueueTrackIndex={implicitQueueTrackIndex}
+                    setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+                    setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                     serverUrl={serverUrl}
                     setServerUrl={setServerUrl}
                 />
             </div>
             <MenuHideButton 
                 showMenu={showMenu}
+                showSidebar={showSidebar}
                 setShowMenu={setShowMenu}
                 setDivWidth={setDivWidth} />
         </div>
@@ -64,12 +77,13 @@ function SideMenu(props) {
 function MenuHideButton(props) {
     const {
         showMenu,
+        showSidebar,
         setShowMenu,
         setDivWidth,
     } = props;
 
     useEffect(() => {
-        if (showMenu) {
+        if (showMenu && showSidebar) {
             setDivWidth("w-auto");
         }
     }, [showMenu]);

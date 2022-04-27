@@ -26,6 +26,10 @@ function App() {
     const [ isPlaying, setIsPlaying ] = useState(false);    
     const [ newAudio, setNewAudio ] = useState(false);
 
+    const [ implicitQueuePlaylist, setImplicitQueuePlaylist ] = useState(null);
+    const [ implicitQueueDiscIndex, setImplicitQueueDiscIndex ] = useState(0);
+    const [ implicitQueueTrackIndex, setImplicitQueueTrackIndex ] = useState(0);
+
     const [ onBigScreen, setOnBigScreen ] = useState(
         window.matchMedia("(min-width: 768px)").matches
     );
@@ -63,6 +67,11 @@ function App() {
             setNewAudio={setNewAudio}
             serverUrl={serverUrl}
             setServerUrl={setServerUrl}
+            implicitQueuePlaylist={implicitQueuePlaylist}
+            implicitQueueDiscIndex={implicitQueueDiscIndex}
+            implicitQueueTrackIndex={implicitQueueTrackIndex}
+            setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+            setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
         />;
 
     const albumDisplay = 
@@ -86,6 +95,9 @@ function App() {
             setnpTitle={setnpTitle}
             setIsPlaying={setIsPlaying}
             setNewAudio={setNewAudio}
+            setImplicitQueuePlaylist={setImplicitQueuePlaylist}
+            setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+            setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
         />
 
     return(
@@ -115,6 +127,11 @@ function Main(props) {
         setNewAudio,
         serverUrl,
         setServerUrl,
+        implicitQueuePlaylist,
+        implicitQueueDiscIndex,
+        implicitQueueTrackIndex,
+        setImplicitQueueDiscIndex,
+        setImplicitQueueTrackIndex,
     } = props;
 
     // audio source
@@ -162,6 +179,11 @@ function Main(props) {
                         setIsPlaying={setIsPlaying}
                         serverUrl={serverUrl}
                         setServerUrl={setServerUrl}
+                        implicitQueuePlaylist={implicitQueuePlaylist}
+                        implicitQueueDiscIndex={implicitQueueDiscIndex}
+                        implicitQueueTrackIndex={implicitQueueTrackIndex}
+                        setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+                        setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                     />
                     :
                     <BottomMenuMobile 

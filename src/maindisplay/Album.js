@@ -17,6 +17,9 @@ function Album(props) {
         setIsPlaying,
         setSidebarOverlay,
         setNewAudio,
+        setImplicitQueuePlaylist,
+        setImplicitQueueDiscIndex,
+        setImplicitQueueTrackIndex,
     } = props;
     const [ album, setAlbum ] = useState(null);
 
@@ -53,11 +56,14 @@ function Album(props) {
             setnpTitle={setnpTitle}
             setIsPlaying={setIsPlaying}
             setNewAudio={setNewAudio}
+            setImplicitQueuePlaylist={setImplicitQueuePlaylist}
+            setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+            setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
         />
         : 
         <div
             className="p-4 text-slate-50 text-3xl 2xl:text-5xl font-semibold self-end">
-            Album can&apos;t be displayed. Maybe Invalid ID?
+            Album can&apos;t be displayed. Maybe the ID is Invalid?
         </div>
 
     return (
@@ -85,6 +91,9 @@ function AlbumDisplay(props) {
         setnpTitle,
         setIsPlaying,
         setNewAudio,
+        setImplicitQueuePlaylist,
+        setImplicitQueueDiscIndex,
+        setImplicitQueueTrackIndex,
     } = props;
 
     // calculating some information
@@ -130,6 +139,9 @@ function AlbumDisplay(props) {
                 setnpTitle={setnpTitle}
                 setIsPlaying={setIsPlaying}
                 setNewAudio={setNewAudio}
+                setImplicitQueuePlaylist={setImplicitQueuePlaylist}
+                setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+                setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
             />
         </div>
 
@@ -151,16 +163,24 @@ function TrackListing(props) {
         setnpTitle,
         setIsPlaying,
         setNewAudio,
+        setImplicitQueuePlaylist,
+        setImplicitQueueDiscIndex,
+        setImplicitQueueTrackIndex,
     } = props;
 
     // zip relevant information for discs
     const discsInfo = album.discs.map((disc, i) => {
-        return [disc, discsTrackCount[i], discsTimeCount[i]];
+        return {
+            "disc": disc,
+            "index": i,
+            "trackCount": discsTrackCount[i],
+            "lengthSecondsCount": discsTimeCount[i],
+        };
     });
 
     // generate discs
     const discs = discsInfo.map((disc) =>
-        <div key={`Album ${album.id} Disc ${disc[0].number}`}
+        <div key={`Album ${album.id} Disc ${disc.index}`}
             className="md:pt-2">
             <Disc 
                 disc={disc}
@@ -176,6 +196,9 @@ function TrackListing(props) {
                 setnpTitle={setnpTitle}
                 setIsPlaying={setIsPlaying}
                 setNewAudio={setNewAudio}
+                setImplicitQueuePlaylist={setImplicitQueuePlaylist}
+                setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+                setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
             />
         </div>
     );
@@ -202,14 +225,21 @@ function Disc(props) {
         setnpTitle,
         setIsPlaying,
         setNewAudio,
+        setImplicitQueuePlaylist,
+        setImplicitQueueDiscIndex,
+        setImplicitQueueTrackIndex,
     } = props;
 
     // generate tracks
-    const tracks = disc[0].tracks.map((track) => 
+    let discContent = disc.disc;
+    let discIndex = disc.index;
+    const tracks = discContent.tracks.map((track, i) => 
         <Track 
-            key={`Album ${album.id} Disc ${disc[0].number} Track ${track.path}`}
+            key={`Album ${album.id} Disc ${discContent.number} Track ${track.path}`}
             track={track}
             album={album}
+            discIndex={discIndex}
+            trackIndex={i}
             serverUrl={serverUrl}
             onBigScreen={onBigScreen}
             setTabTitle={setTabTitle}
@@ -220,6 +250,9 @@ function Disc(props) {
             setnpTitle={setnpTitle}
             setIsPlaying={setIsPlaying}
             setNewAudio={setNewAudio}
+            setImplicitQueuePlaylist={setImplicitQueuePlaylist}
+            setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+            setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
         />
     );
 
@@ -231,10 +264,10 @@ function Disc(props) {
                         ⦿
                     </div>
                     <div className="font-sans font-semibold text-2xl">
-                        &nbsp;&nbsp;{`Disc ${disc[0].number}`}
+                        &nbsp;&nbsp;{`Disc ${discContent.number}`}
                     </div>
                     <div className="font-light">
-                        &nbsp;&nbsp;{`${disc[1]} Tracks - ${secondsToTimeString(disc[2])}`}
+                        &nbsp;&nbsp;{`${disc.trackCount} Tracks - ${secondsToTimeString(disc.lengthSecondsCount)}`}
                     </div>
                 </div>
             }
@@ -247,6 +280,8 @@ function Track(props) {
     const {
         track,
         album,
+        discIndex,
+        trackIndex,
         serverUrl,
         onBigScreen,
         setTabTitle,
@@ -257,6 +292,9 @@ function Track(props) {
         setnpTitle,
         setIsPlaying,
         setNewAudio,
+        setImplicitQueuePlaylist,
+        setImplicitQueueDiscIndex,
+        setImplicitQueueTrackIndex,
     } = props;
     const [ showButton, setShowButton ] = useState(false);
 
@@ -286,6 +324,11 @@ function Track(props) {
         setnpTitle(track.name);
         setIsPlaying(true);
         setNewAudio(true);
+
+        // update queue
+        setImplicitQueuePlaylist(album);
+        setImplicitQueueDiscIndex(discIndex);
+        setImplicitQueueTrackIndex(trackIndex);
     };
 
     const playButton = <div className="font-mono text-3xl hover:cursor-pointer" onClick={onClickPlayTrack}>▶</div>;
