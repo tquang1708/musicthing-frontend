@@ -16,6 +16,7 @@ function Album(props) {
         setnpTitle,
         setIsPlaying,
         setSidebarOverlay,
+        setNewAudio,
     } = props;
     const [ album, setAlbum ] = useState(null);
 
@@ -51,11 +52,12 @@ function Album(props) {
             setnpAlbum={setnpAlbum}
             setnpTitle={setnpTitle}
             setIsPlaying={setIsPlaying}
+            setNewAudio={setNewAudio}
         />
         : 
         <div
-            className="p-4 text-slate-50 text-xl font-semibold">
-            Invalid ID - Album can&apos;t be displayed
+            className="p-4 text-slate-50 text-3xl 2xl:text-5xl font-semibold self-end">
+            Album can&apos;t be displayed. Maybe Invalid ID?
         </div>
 
     return (
@@ -82,6 +84,7 @@ function AlbumDisplay(props) {
         setnpAlbum,
         setnpTitle,
         setIsPlaying,
+        setNewAudio,
     } = props;
 
     // calculating some information
@@ -126,6 +129,7 @@ function AlbumDisplay(props) {
                 setnpAlbum={setnpAlbum}
                 setnpTitle={setnpTitle}
                 setIsPlaying={setIsPlaying}
+                setNewAudio={setNewAudio}
             />
         </div>
 
@@ -146,6 +150,7 @@ function TrackListing(props) {
         setnpAlbum,
         setnpTitle,
         setIsPlaying,
+        setNewAudio,
     } = props;
 
     // zip relevant information for discs
@@ -170,6 +175,7 @@ function TrackListing(props) {
                 setnpAlbum={setnpAlbum}
                 setnpTitle={setnpTitle}
                 setIsPlaying={setIsPlaying}
+                setNewAudio={setNewAudio}
             />
         </div>
     );
@@ -195,6 +201,7 @@ function Disc(props) {
         setnpAlbum,
         setnpTitle,
         setIsPlaying,
+        setNewAudio,
     } = props;
 
     // generate tracks
@@ -212,6 +219,7 @@ function Disc(props) {
             setnpAlbum={setnpAlbum}
             setnpTitle={setnpTitle}
             setIsPlaying={setIsPlaying}
+            setNewAudio={setNewAudio}
         />
     );
 
@@ -248,6 +256,7 @@ function Track(props) {
         setnpAlbum,
         setnpTitle,
         setIsPlaying,
+        setNewAudio,
     } = props;
     const [ showButton, setShowButton ] = useState(false);
 
@@ -276,6 +285,7 @@ function Track(props) {
         setnpAlbum(album);
         setnpTitle(track.name);
         setIsPlaying(true);
+        setNewAudio(true);
     };
 
     const playButton = <div className="font-mono text-3xl hover:cursor-pointer" onClick={onClickPlayTrack}>▶</div>;

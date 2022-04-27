@@ -12,6 +12,8 @@ function SideMenu(props) {
         npTitle,
         isPlaying,
         setIsPlaying,
+        serverUrl,
+        setServerUrl,
     } = props;
     const [ showMenu, setShowMenu ] = useState(true);
     const [ showSidebar, setShowSidebar ] = useState(true);
@@ -47,6 +49,8 @@ function SideMenu(props) {
                 />
                 <MenuContent 
                     showSidebar={showSidebar}
+                    serverUrl={serverUrl}
+                    setServerUrl={setServerUrl}
                 />
             </div>
             <MenuHideButton 
@@ -77,7 +81,7 @@ function MenuHideButton(props) {
     return (
         <div 
             onClick={onClickToggleMenu}
-            className={`flex flex-col justify-center px-1 bg-gray-800 h-14 2xl:h-20 font-mono text-2xl text-slate-50 hover:cursor-pointer hover:text-amber-300 hover:bg-gray-900 ease-in-out duration-500 ${showMenu ? "translate-x-0 opacity-100" : "-translate-x-56 2xl:-translate-x-80 opacity-90"}`}>
+            className={`flex flex-col justify-center px-1 bg-gray-800 h-14 2xl:h-20 font-mono text-2xl text-slate-50 hover:cursor-pointer hover:text-amber-300 hover:bg-gray-900 transition ease-in-out duration-500 ${showMenu ? "translate-x-0 opacity-100" : "-translate-x-56 2xl:-translate-x-80 opacity-90"}`}>
             {showMenu ? "◀︎" : "▶︎"}
         </div>
     );

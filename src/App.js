@@ -17,12 +17,14 @@ function App() {
     const [ serverUrl, setServerUrl ] = useState(localStorage.getItem("serverUrl"));
     const [ tabTitle, setTabTitle ] = useState("musicthing");
     const [ sidebarOverlay, setSidebarOverlay ] = useState(false);
+    
     const [ artSource, setArtSource ] = useState(unknown_album);
     const [ npSource, setnpSource ] = useState("");
     const [ npArtist, setnpArtist ] = useState("Unknown Artist");
     const [ npAlbum, setnpAlbum ] = useState(null);
     const [ npTitle, setnpTitle ] = useState("Untitled");
-    const [ isPlaying, setIsPlaying ] = useState(false);
+    const [ isPlaying, setIsPlaying ] = useState(false);    
+    const [ newAudio, setNewAudio ] = useState(false);
 
     const [ onBigScreen, setOnBigScreen ] = useState(
         window.matchMedia("(min-width: 768px)").matches
@@ -44,18 +46,23 @@ function App() {
     }, []);
 
     const mainApp = serverUrl === null 
-        ? <Login setServerUrl={setServerUrl} /> 
+        ? <Login 
+            setServerUrl={setServerUrl} /> 
         : <Main 
             tabTitle={tabTitle}
             sidebarOverlay={sidebarOverlay}
+            onBigScreen={onBigScreen}
             artSource={artSource}
             npSource={npSource}
             npArtist={npArtist}
             npAlbum={npAlbum}
             npTitle={npTitle}
             isPlaying={isPlaying}
-            onBigScreen={onBigScreen}
             setIsPlaying={setIsPlaying}
+            newAudio={newAudio}
+            setNewAudio={setNewAudio}
+            serverUrl={serverUrl}
+            setServerUrl={setServerUrl}
         />;
 
     const albumDisplay = 
@@ -78,6 +85,7 @@ function App() {
             setnpAlbum={setnpAlbum}
             setnpTitle={setnpTitle}
             setIsPlaying={setIsPlaying}
+            setNewAudio={setNewAudio}
         />
 
     return(
@@ -95,14 +103,18 @@ function Main(props) {
     const { 
         tabTitle,
         sidebarOverlay,
+        onBigScreen,
         artSource,
         npSource,
         npArtist,
         npAlbum,
         npTitle,
         isPlaying,
-        onBigScreen,
         setIsPlaying,
+        newAudio,
+        setNewAudio,
+        serverUrl,
+        setServerUrl,
     } = props;
 
     // audio source
@@ -113,7 +125,8 @@ function Main(props) {
         audioRef.current.pause();
         audioRef.current = new Audio(npSource);
         audioRef.current.play();
-    }, [npSource]);
+        setNewAudio(false);
+    }, [npSource, newAudio]);
 
     // cleanup when component unmounted
     useEffect(() => {
@@ -147,6 +160,8 @@ function Main(props) {
                         npTitle={npTitle}
                         isPlaying={isPlaying}
                         setIsPlaying={setIsPlaying}
+                        serverUrl={serverUrl}
+                        setServerUrl={setServerUrl}
                     />
                     :
                     <BottomMenuMobile 
@@ -166,28 +181,5 @@ function Main(props) {
         </div>
     );
 }
-
-// const reload = () => {
-//     fetch(`${serverUrl}/api/reload`)
-//         .then((response) => response.text())
-//         .then(() => location.reload())
-//         .catch((error) => console.log(error));
-// }
-
-// const hard_reload = () => {
-//     fetch(`${serverUrl}/api/hard_reload`)
-//         .then((response) => response.text())
-//         .then(() => location.reload())
-//         .catch((error) => console.log(error));
-// }
-
-// const disconnect = () => {
-//     localStorage.removeItem('serverUrl');
-//     setServerUrl(null);
-//     location.reload();
-// }
-// {/* <button onClick={reload}>Reload Metadata DB</button>
-// <button onClick={hard_reload}>Hard-Reload Metadata DB</button> */}
-// {/* <button onClick={disconnect}>Disconnect from DB</button> */}
 
 export default App;

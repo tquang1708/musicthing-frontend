@@ -69,13 +69,13 @@ function MenuCornerImage(props) {
         <div onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}
             className="bg-gray-700 overflow-hidden z-40 w-14 h-14 2xl:w-20 2xl:h-20 hover:cursor-pointer">
             <div onClick={onClickToggleSidebar} 
-                className={`absolute flex justify-center items-center font-mono text-slate-50 drop-shadow z-10 transition ease-in-out duration-200 text-7xl w-14 h-14 2xl:text-9xl 2xl:w-20 2xl:h-20 ${!showButton && "opacity-0"}`}>
+                className={`absolute flex justify-center items-center font-mono text-black border-gray-800 drop-shadow z-10 transition ease-in-out duration-200 text-6xl border-6 w-14 h-14 2xl:text-8xl 2xl:border-8 2xl:w-20 2xl:h-20 ${!showButton && "opacity-0"}`}>
                 ☰
             </div>
             <img 
                 src={artSource} 
                 alt={`Front cover art for ${npTitle} by ${npArtist} from the album ${npAlbum ? npAlbum.title : "Unknown Album"}`} 
-                className={`object-contain w-14 h-14 2xl:w-20 2xl:h-20 transition ease-in-out duration-200 ${showButton && "blur-md"}`} >
+                className={`object-contain border-gray-800 border-6 2xl:border-8 w-14 h-14 2xl:w-20 2xl:h-20 transition ease-in-out duration-200 ${showButton && "blur-md"}`} >
             </img>
         </div>
     )
@@ -115,7 +115,7 @@ function MenuMiniControls(props) {
 function VolumeButton() {
     return (
         <button
-            className="justify-self-end pr-3 font-mono font-medium text-3xl text-slate-50 hover:text-amber-500 transition duration-300">
+            className="justify-self-end pr-3 font-mono font-medium text-3xl transition duration-300 text-slate-50 hover:text-amber-500">
             ?{/* 🕪 */}
         </button>
     );

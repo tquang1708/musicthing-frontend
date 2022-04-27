@@ -29,7 +29,13 @@ module.exports = {
         gridTemplateColumns: {
             'auto': 'repeat(auto-fill, 10rem)',
             'auto-mobile': 'repeat(auto-fill, 8rem)'
-        }
+        },
+        borderWidth: {
+            '6': '6px',
+        },
+        transitionDuration: {
+            '350': '350ms',
+          }
     },
   },
   plugins: [],
