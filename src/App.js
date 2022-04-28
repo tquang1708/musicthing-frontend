@@ -223,13 +223,13 @@ function Main(props) {
             setnpAlbum(implicitQueuePlaylist);
             setnpTitle(track.name);
             
-            setnpSource(`${serverUrl}/track/${track.path}`);
+            setnpSource(`${serverUrl}/api/track/${track.path}`);
             setIsPlaying(true);
 
             // preload next track if possible
             const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
             const nextTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
-            preLoadAudioRef.current = new Audio(`${serverUrl}/track/${nextTrack.path}`);
+            preLoadAudioRef.current = new Audio(`${serverUrl}/api/track/${nextTrack.path}`);
         }
     }, [implicitQueueDiscIndex, implicitQueueTrackIndex]);
 

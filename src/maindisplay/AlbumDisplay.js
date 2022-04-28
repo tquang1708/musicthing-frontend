@@ -58,7 +58,7 @@ function TilesGridDisplay(props) {
     const listItems = items.map((i) => 
         <div key={i.key} className="item">
             <Tile 
-                imgSource={i.art_path ? `${serverUrl}/art/${i.art_path}` : unknown_album}
+                imgSource={i.art_path ? `${serverUrl}/api/art/${i.art_path}` : unknown_album}
                 title={i.title}
                 noTitle={defaultTitle}
                 subtitle={i.subtitle}

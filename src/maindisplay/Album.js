@@ -98,7 +98,7 @@ function AlbumDisplay(props) {
     } = props;
 
     // calculating some information
-    const artSource = album.art_path ? `${serverUrl}/art/${album.art_path}` : unknown_album;
+    const artSource = album.art_path ? `${serverUrl}/api/art/${album.art_path}` : unknown_album;
     const discsTrackCount = album.discs.map((disc) => {return disc.tracks.length});
     const totalTrackCount = discsTrackCount.reduce((a,b) => a+b, 0);
     const discsTimeCount = album.discs.map((disc) => {
@@ -112,7 +112,7 @@ function AlbumDisplay(props) {
 
         setTabTitle(`${track.artist} - ${track.name} | musicthing`);
         setArtSource(artSource);
-        setnpSource(`${serverUrl}/track/${track.path}`);
+        setnpSource(`${serverUrl}/api/track/${track.path}`);
         setnpArtist(track.artist);
         setnpAlbum(album);
         setnpTitle(track.name);
@@ -294,14 +294,14 @@ function Disc(props) {
 
     const onEnterShowPlay = () => setShowPlayButton(true);
     const onLeaveHidePlay = () => setShowPlayButton(false);
-    const artSource = album.art_path ? `${serverUrl}/art/${album.art_path}` : unknown_album;
+    const artSource = album.art_path ? `${serverUrl}/api/art/${album.art_path}` : unknown_album;
     const onClickPlayDisc = () => {
         // first track
         const track = album.discs[discIndex].tracks[0];
 
         setTabTitle(`${track.artist} - ${track.name} | musicthing`);
         setArtSource(artSource);
-        setnpSource(`${serverUrl}/track/${track.path}`);
+        setnpSource(`${serverUrl}/api/track/${track.path}`);
         setnpArtist(track.artist);
         setnpAlbum(album);
         setnpTitle(track.name);
@@ -366,11 +366,11 @@ function Track(props) {
     };
     
     // get art source
-    const artSource = track.art_path ? `${serverUrl}/art/${track.art_path}` : unknown_album;
+    const artSource = track.art_path ? `${serverUrl}/api/art/${track.art_path}` : unknown_album;
     const onClickPlayTrack = () => {
         setTabTitle(`${track.artist} - ${track.name} | musicthing`);
         setArtSource(artSource);
-        setnpSource(`${serverUrl}/track/${track.path}`);
+        setnpSource(`${serverUrl}/api/track/${track.path}`);
         setnpArtist(track.artist);
         setnpAlbum(album);
         setnpTitle(track.name);
