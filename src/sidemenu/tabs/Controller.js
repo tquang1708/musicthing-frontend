@@ -1,4 +1,5 @@
 import React from "react";
+import secondsToTimeString from '../../helper/secondsToTimeString'
 
 function Controller(props) {
     const {
@@ -41,7 +42,7 @@ function Controller(props) {
                     onMouseUp={onScrubEnd}
                     onKeyUp={onScrubEnd}
                 />
-                {Math.floor(trackProgress)}s/{duration ? Math.floor(duration) : `${duration}`}s
+                {secondsToTimeString(Math.floor(trackProgress))}/{duration ? secondsToTimeString(Math.floor(duration)) : `${duration}`}
             </div>
         </div>
     );

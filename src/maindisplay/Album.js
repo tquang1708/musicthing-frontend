@@ -41,7 +41,7 @@ function Album(props) {
     }, [id]);
 
     const onClickGoBack = () => {
-        navigate(backLinkTo ? backLinkTo : "/album");
+        navigate(backLinkTo ? backLinkTo : `/album1234`);
     };
 
     const display = album ? 
@@ -106,6 +106,24 @@ function AlbumDisplay(props) {
     });
     const totalSecondsCount = discsTimeCount.reduce((a,b) => a+b, 0);
 
+    const onClickPlayAlbum = () => {
+        // first track
+        const track = album.discs[0].tracks[0];
+
+        setTabTitle(`${track.artist} - ${track.name} | musicthing`);
+        setArtSource(artSource);
+        setnpSource(`${serverUrl}/track/${track.path}`);
+        setnpArtist(track.artist);
+        setnpAlbum(album);
+        setnpTitle(track.name);
+        setIsPlaying(true);
+        setNewAudio(true);
+
+        setImplicitQueuePlaylist(album);
+        setImplicitQueueDiscIndex(0);
+        setImplicitQueueTrackIndex(0);
+    };
+
     return (
         <div className="flex flex-col 2xl:flex-row md:p-6">
             <div className="flex flex-col md:flex-row 2xl:flex-col 2xl:w-80 2xl:min-w-80 2xl:sticky 2xl:top-0 2xl:self-start">
@@ -115,8 +133,14 @@ function AlbumDisplay(props) {
                     className="bg-gray-700 object-contain md:w-40 md:h-40 2xl:w-80 2xl:h-80" >
                 </img>
                 <div className="flex flex-col-reverse pt-3 md:pt-0">
-                    <div className="font-sans font-light text-base md:text-xl pl-3 text-slate-50 break-words">
-                        {`${totalTrackCount} Tracks - ${secondsToTimeString(totalSecondsCount)}`}
+                    <div className="flex flex-row items-center font-sans font-light text-base md:text-xl pl-3 text-slate-50 break-words">
+                        <div onClick={onClickPlayAlbum} 
+                            className="font-mono select-none text-3xl md:transition md:duration-300 hover:md:text-amber-500 hover:cursor-pointer">
+                            ▶
+                        </div>
+                        <div>
+                            &nbsp;{`${totalTrackCount} Tracks - ${secondsToTimeString(totalSecondsCount)}`}
+                        </div>
                     </div>
                     <div className="font-sans font-sem text-xl md:text-3xl pl-3 pb-1 md:pb-3 text-slate-50 break-words">
                         {album.album_artist_name}
@@ -230,6 +254,7 @@ function Disc(props) {
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
     } = props;
+    const [ showPlayButton, setShowPlayButton ] = useState(false);
 
     // generate tracks
     let discContent = disc.disc;
@@ -257,18 +282,43 @@ function Disc(props) {
         />
     );
 
+
+    const onEnterShowPlay = () => setShowPlayButton(true);
+    const onLeaveHidePlay = () => setShowPlayButton(false);
+    const artSource = album.art_path ? `${serverUrl}/art/${album.art_path}` : unknown_album;
+    const onClickPlayDisc = () => {
+        // first track
+        const track = album.discs[discIndex].tracks[0];
+
+        setTabTitle(`${track.artist} - ${track.name} | musicthing`);
+        setArtSource(artSource);
+        setnpSource(`${serverUrl}/track/${track.path}`);
+        setnpArtist(track.artist);
+        setnpAlbum(album);
+        setnpTitle(track.name);
+        setIsPlaying(true);
+        setNewAudio(true);
+
+        setImplicitQueuePlaylist(album);
+        setImplicitQueueDiscIndex(0);
+        setImplicitQueueTrackIndex(0);
+    }
+
     return (
         <div className="flex flex-col">
             {!lengthOne && 
-                <div className="flex flex-row text-slate-50 items-baseline">
-                    <div className="font-mono text-xl">
-                        ⦿
+                <div onMouseEnter={onEnterShowPlay} onMouseLeave={onLeaveHidePlay} className="flex flex-row text-slate-50 items-end">
+                    <div onClick={onClickPlayDisc}
+                        className="font-mono select-none text-2xl w-2.5 md:transition md:duration-300 hover:md:text-amber-500 hover:md:cursor-pointer">
+                        {showPlayButton && onBigScreen ? "▶" : "⦿"}
                     </div>
-                    <div className="font-sans font-semibold text-2xl">
-                        &nbsp;&nbsp;{`Disc ${discContent.number}`}
-                    </div>
-                    <div className="font-light">
-                        &nbsp;&nbsp;{`${disc.trackCount} Tracks - ${secondsToTimeString(disc.lengthSecondsCount)}`}
+                    <div className="flex flex-row items-baseline">
+                        <div className="font-sans font-medium text-3xl">
+                            &nbsp;&nbsp;{`Disc ${discContent.number}`}
+                        </div>
+                        <div className="font-light text-lg">
+                            &nbsp;&nbsp;{`${disc.trackCount} Tracks - ${secondsToTimeString(disc.lengthSecondsCount)}`}
+                        </div>
                     </div>
                 </div>
             }
@@ -307,15 +357,7 @@ function Track(props) {
     };
     
     // get art source
-    let artSource;
-    if (track.art_path) {
-        artSource = `${serverUrl}/art/${track.art_path}`;
-    } else if (album.art_path) {
-        artSource = `${serverUrl}/art/${album.art_path}`;
-    } else {
-        artSource = unknown_album;
-    }
-
+    const artSource = track.art_path ? `${serverUrl}/art/${track.art_path}` : unknown_album;
     const onClickPlayTrack = () => {
         setTabTitle(`${track.artist} - ${track.name} | musicthing`);
         setArtSource(artSource);
@@ -332,8 +374,8 @@ function Track(props) {
         setImplicitQueueTrackIndex(trackIndex);
     };
 
-    const playButton = <div className="font-mono text-3xl hover:cursor-pointer" onClick={onClickPlayTrack}>▶</div>;
-    const settingButton = <div className="font-mono text-3xl hover:cursor-pointer">…</div>;
+    const playButton = <div className="font-mono select-none text-3xl hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700" onClick={onClickPlayTrack}>▶</div>;
+    const settingButton = <div className="font-mono select-none text-3xl hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700">…</div>;
     let rightButton;
     if (onBigScreen && !showButton) {
         rightButton = <div>{secondsToTimeString(track.length_seconds)}</div>;

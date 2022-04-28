@@ -162,8 +162,14 @@ function Main(props) {
             if (audioRef.current.ended) {
                 // update index
                 const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
-                setImplicitQueueDiscIndex(newDiscIndex);
-                setImplicitQueueTrackIndex(newTrackIndex);
+
+                // if index did not change then set playing to paused and clear interval
+                if (newDiscIndex === implicitQueueDiscIndex && newTrackIndex === implicitQueueTrackIndex) {
+                    setIsPlaying(false);
+                } else {
+                    setImplicitQueueDiscIndex(newDiscIndex);
+                    setImplicitQueueTrackIndex(newTrackIndex);
+                }
             } else {
                 // else keep track of track progress each interval
                 setTrackProgress(audioRef.current.currentTime);

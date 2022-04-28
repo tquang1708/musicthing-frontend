@@ -8,6 +8,7 @@ module.exports = {
             '1': '0.5rem',
             '1.5': '0.75rem',
             '2': '1rem',
+            '2.5': '1.25rem',
             '3': '1.5rem',
             '4': '2rem',
             '5': '2.5rem',
@@ -38,6 +39,9 @@ module.exports = {
         },
         minWidth: {
             '80': '40rem',
+        },
+        fontSize: {
+            '1.5xl': '1.375rem',
         }
     },
   },
