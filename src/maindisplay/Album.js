@@ -64,7 +64,7 @@ function Album(props) {
         : 
         <div
             className="p-4 text-slate-50 text-3xl 2xl:text-5xl font-semibold self-end">
-            Album can&apos;t be displayed. Maybe the ID is Invalid?
+            Album can&apos;t be displayed. Currently fetching album&apos;s content, or the ID is Invalid.
         </div>
 
     return (
@@ -132,8 +132,8 @@ function AlbumDisplay(props) {
                     alt={`Front cover art for album ${album.name} by ${album.album_artist_name}`} 
                     className="bg-gray-700 object-contain md:w-40 md:h-40 2xl:w-80 2xl:h-80" >
                 </img>
-                <div className="flex flex-col-reverse pt-3 md:pt-0">
-                    <div className="flex flex-row items-center font-sans font-light text-base md:text-xl pl-3 text-slate-50 break-words">
+                <div className="flex flex-col-reverse pt-3 grow md:pt-0">
+                    <div className="flex flex-row items-center font-sans font-light text-base md:text-xl pl-3 2xl:pl-0 text-slate-50 break-words">
                         <div onClick={onClickPlayAlbum} 
                             className="font-mono select-none text-3xl md:transition md:duration-300 hover:md:text-amber-500 hover:cursor-pointer">
                             ▶
@@ -142,11 +142,20 @@ function AlbumDisplay(props) {
                             &nbsp;{`${totalTrackCount} Tracks - ${secondsToTimeString(totalSecondsCount)}`}
                         </div>
                     </div>
-                    <div className="font-sans font-sem text-xl md:text-3xl pl-3 pb-1 md:pb-3 text-slate-50 break-words">
+                    <div className="font-sans font-sem text-xl md:text-3xl pl-3 2xl:pl-0 pb-1 md:pb-3 text-slate-50 break-words">
                         {album.album_artist_name}
                     </div>
-                    <div className="font-sans font-bold text-3xl md:text-5xl pl-3 pb-1 md:pb-3 2xl:pt-3 text-slate-50 break-words">
-                        {album.name}
+                    <div className="flex flex-row font-sans font-bold text-3xl md:text-5xl pl-3 2xl:pl-0 pb-1 md:pb-3 2xl:pt-3 text-slate-50 break-words">
+                        {/* {album.name} */}
+                        <div className="grow">
+                            {album.name}
+                        </div>
+                        <div className="font-mono select-none transition duration-300 pt-1 pr-3 2xl:pr-0 md:hidden 2xl:block 2xl:hover:text-amber-500 hover:cursor-pointer">
+                            ⋮
+                        </div>
+                    </div>
+                    <div className="font-mono font-bold text-5xl text-slate-50 grow hidden md:block 2xl:hidden self-end select-none transition duration-300 hover:text-amber-500 hover:cursor-pointer">
+                        ⋮
                     </div>
                 </div>
             </div>
@@ -307,13 +316,13 @@ function Disc(props) {
     return (
         <div className="flex flex-col">
             {!lengthOne && 
-                <div onMouseEnter={onEnterShowPlay} onMouseLeave={onLeaveHidePlay} className="flex flex-row text-slate-50 items-end">
-                    <div onClick={onClickPlayDisc}
+                <div className="flex flex-row text-slate-50 items-end">
+                    <div onClick={onClickPlayDisc} onMouseEnter={onEnterShowPlay} onMouseLeave={onLeaveHidePlay}
                         className="font-mono select-none text-2xl w-2.5 md:transition md:duration-300 hover:md:text-amber-500 hover:md:cursor-pointer">
                         {showPlayButton && onBigScreen ? "▶" : "⦿"}
                     </div>
                     <div className="flex flex-row items-baseline">
-                        <div className="font-sans font-medium text-3xl">
+                        <div onMouseEnter={onEnterShowPlay} onMouseLeave={onLeaveHidePlay} className="font-sans font-medium text-3xl">
                             &nbsp;&nbsp;{`Disc ${discContent.number}`}
                         </div>
                         <div className="font-light text-lg">
