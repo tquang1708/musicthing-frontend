@@ -20,6 +20,8 @@ function SideMenu(props) {
         startInterval,
         trackProgress,
         setTrackProgress,
+        explicitQueue,
+        setExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -80,6 +82,8 @@ function SideMenu(props) {
                     setTrackProgress={setTrackProgress}
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
+                    explicitQueue={explicitQueue}
+                    setExplicitQueue={setExplicitQueue}
                     implicitQueuePlaylist={implicitQueuePlaylist}
                     implicitQueueDiscIndex={implicitQueueDiscIndex}
                     implicitQueueTrackIndex={implicitQueueTrackIndex}

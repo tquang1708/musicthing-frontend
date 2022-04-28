@@ -30,6 +30,7 @@ function App() {
     const [ isPlaying, setIsPlaying ] = useState(false);    
     const [ newAudio, setNewAudio ] = useState(false);
 
+    const [ explicitQueue , setExplicitQueue ] = useState([]);
     const [ implicitQueuePlaylist, setImplicitQueuePlaylist ] = useState(null);
     const [ implicitQueueDiscIndex, setImplicitQueueDiscIndex ] = useState(-1);
     const [ implicitQueueTrackIndex, setImplicitQueueTrackIndex ] = useState(-1);
@@ -77,6 +78,8 @@ function App() {
             setNewAudio={setNewAudio}
             serverUrl={serverUrl}
             setServerUrl={setServerUrl}
+            explicitQueue={explicitQueue}
+            setExplicitQueue={setExplicitQueue}
             implicitQueuePlaylist={implicitQueuePlaylist}
             implicitQueueDiscIndex={implicitQueueDiscIndex}
             implicitQueueTrackIndex={implicitQueueTrackIndex}
@@ -104,6 +107,8 @@ function App() {
             setnpTitle={setnpTitle}
             setIsPlaying={setIsPlaying}
             setNewAudio={setNewAudio}
+            explicitQueue={explicitQueue}
+            setExplicitQueue={setExplicitQueue}
             setImplicitQueuePlaylist={setImplicitQueuePlaylist}
             setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
             setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
@@ -143,6 +148,8 @@ function Main(props) {
         setNewAudio,
         serverUrl,
         setServerUrl,
+        explicitQueue,
+        setExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -162,36 +169,35 @@ function Main(props) {
         clearInterval(intervalRef.current);
 
         intervalRef.current = setInterval(() => {
-            if (audioRef.current.ended) {
-                // update index
-                const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
-
-                // if index did not change then set playing to paused and clear interval
-                if (newDiscIndex === implicitQueueDiscIndex && newTrackIndex === implicitQueueTrackIndex) {
-                    setIsPlaying(false);
-                } else {
-                    setImplicitQueueDiscIndex(newDiscIndex);
-                    setImplicitQueueTrackIndex(newTrackIndex);
-                }
-            } else {
-                // else keep track of track progress each interval
-                setTrackProgress(audioRef.current.currentTime);
-            }
-        }, 500);
+            setTrackProgress(audioRef.current.currentTime);
+        }, 1000);
     }
 
     // handle source change
     useEffect(() => {
         audioRef.current.pause();
         audioRef.current = new Audio(npSource);
+        audioRef.current.load();
         audioRef.current.play();
+
         startInterval();
         setNewAudio(false);
-
-        // preload next audio afterwards
-        preLoadAudioRef.current.play();
-        preLoadAudioRef.current.pause();
+        setIsPlaying(true);
     }, [npSource, newAudio]);
+
+    // move to next track
+    useEffect(() => {
+        // update index
+        const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
+
+        // if index did not change then set playing to paused and clear interval
+        if (newDiscIndex === implicitQueueDiscIndex && newTrackIndex === implicitQueueTrackIndex) {
+            setIsPlaying(false);
+        } else {
+            setImplicitQueueDiscIndex(newDiscIndex);
+            setImplicitQueueTrackIndex(newTrackIndex);
+        }
+    }, [audioRef.current.ended]);
 
     // cleanup when component unmounted
     useEffect(() => {
@@ -217,19 +223,22 @@ function Main(props) {
         if (implicitQueuePlaylist) {
             const track = implicitQueuePlaylist.discs[implicitQueueDiscIndex].tracks[implicitQueueTrackIndex];
 
+            // update source to trigger useeffect
+            setnpSource(`${serverUrl}/api/track/${track.path}`);
+
             setTabTitle(`${track.artist} - ${track.name} | musicthing`);
             setArtSource(artSource);
             setnpArtist(track.artist);
             setnpAlbum(implicitQueuePlaylist);
             setnpTitle(track.name);
             
-            setnpSource(`${serverUrl}/api/track/${track.path}`);
-            setIsPlaying(true);
-
             // preload next track if possible
             const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
-            const nextTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
-            preLoadAudioRef.current = new Audio(`${serverUrl}/api/track/${nextTrack.path}`);
+            if (newDiscIndex === implicitQueueDiscIndex && newTrackIndex === implicitQueueTrackIndex) {
+                const nextTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
+                preLoadAudioRef.current = new Audio(`${serverUrl}/api/track/${nextTrack.path}`);
+                preLoadAudioRef.current.load();
+            }
         }
     }, [implicitQueueDiscIndex, implicitQueueTrackIndex]);
 
@@ -259,6 +268,8 @@ function Main(props) {
                         startInterval={startInterval}
                         serverUrl={serverUrl}
                         setServerUrl={setServerUrl}
+                        explicitQueue={explicitQueue}
+                        setExplicitQueue={setExplicitQueue}
                         implicitQueuePlaylist={implicitQueuePlaylist}
                         implicitQueueDiscIndex={implicitQueueDiscIndex}
                         implicitQueueTrackIndex={implicitQueueTrackIndex}

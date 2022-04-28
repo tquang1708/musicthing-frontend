@@ -14,9 +14,10 @@ function Album(props) {
         setnpArtist,
         setnpAlbum,
         setnpTitle,
-        setIsPlaying,
         setSidebarOverlay,
         setNewAudio,
+        explicitQueue,
+        setExplicitQueue,
         setImplicitQueuePlaylist,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
@@ -55,8 +56,9 @@ function Album(props) {
             setnpArtist={setnpArtist}
             setnpAlbum={setnpAlbum}
             setnpTitle={setnpTitle}
-            setIsPlaying={setIsPlaying}
             setNewAudio={setNewAudio}
+            explicitQueue={explicitQueue}
+            setExplicitQueue={setExplicitQueue}
             setImplicitQueuePlaylist={setImplicitQueuePlaylist}
             setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
             setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
@@ -90,8 +92,9 @@ function AlbumDisplay(props) {
         setnpArtist,
         setnpAlbum,
         setnpTitle,
-        setIsPlaying,
         setNewAudio,
+        explicitQueue,
+        setExplicitQueue,
         setImplicitQueuePlaylist,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
@@ -116,7 +119,6 @@ function AlbumDisplay(props) {
         setnpArtist(track.artist);
         setnpAlbum(album);
         setnpTitle(track.name);
-        setIsPlaying(true);
         setNewAudio(true);
 
         setImplicitQueuePlaylist(album);
@@ -126,11 +128,11 @@ function AlbumDisplay(props) {
 
     return (
         <div className="flex flex-col 2xl:flex-row md:p-6">
-            <div className="flex flex-col md:flex-row 2xl:flex-col 2xl:w-80 2xl:min-w-80 2xl:sticky 2xl:top-0 2xl:self-start">
+            <div className="flex flex-col md:flex-row 2xl:flex-col 2xl:w-81 2xl:min-w-81 2xl:sticky 2xl:top-0 2xl:self-start">
                 <img 
                     src={artSource} 
                     alt={`Front cover art for album ${album.name} by ${album.album_artist_name}`} 
-                    className="bg-gray-700 object-contain md:w-40 md:h-40 2xl:w-80 2xl:h-80" >
+                    className="bg-gray-700 object-contain md:w-40 md:h-40 2xl:w-81 2xl:h-81" >
                 </img>
                 <div className="flex flex-col-reverse pt-3 grow md:pt-0">
                     <div className="flex flex-row items-center font-sans font-light text-base md:text-xl pl-3 2xl:pl-0 text-slate-50 break-words">
@@ -171,8 +173,9 @@ function AlbumDisplay(props) {
                 setnpArtist={setnpArtist}
                 setnpAlbum={setnpAlbum}
                 setnpTitle={setnpTitle}
-                setIsPlaying={setIsPlaying}
                 setNewAudio={setNewAudio}
+                explicitQueue={explicitQueue}
+                setExplicitQueue={setExplicitQueue}
                 setImplicitQueuePlaylist={setImplicitQueuePlaylist}
                 setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                 setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
@@ -195,8 +198,9 @@ function TrackListing(props) {
         setnpArtist,
         setnpAlbum,
         setnpTitle,
-        setIsPlaying,
         setNewAudio,
+        explicitQueue,
+        setExplicitQueue,
         setImplicitQueuePlaylist,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
@@ -228,8 +232,9 @@ function TrackListing(props) {
                 setnpArtist={setnpArtist}
                 setnpAlbum={setnpAlbum}
                 setnpTitle={setnpTitle}
-                setIsPlaying={setIsPlaying}
                 setNewAudio={setNewAudio}
+                explicitQueue={explicitQueue}
+                setExplicitQueue={setExplicitQueue}
                 setImplicitQueuePlaylist={setImplicitQueuePlaylist}
                 setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                 setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
@@ -257,8 +262,9 @@ function Disc(props) {
         setnpArtist,
         setnpAlbum,
         setnpTitle,
-        setIsPlaying,
         setNewAudio,
+        explicitQueue,
+        setExplicitQueue,
         setImplicitQueuePlaylist,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
@@ -283,8 +289,9 @@ function Disc(props) {
             setnpArtist={setnpArtist}
             setnpAlbum={setnpAlbum}
             setnpTitle={setnpTitle}
-            setIsPlaying={setIsPlaying}
             setNewAudio={setNewAudio}
+            explicitQueue={explicitQueue}
+            setExplicitQueue={setExplicitQueue}
             setImplicitQueuePlaylist={setImplicitQueuePlaylist}
             setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
             setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
@@ -305,7 +312,6 @@ function Disc(props) {
         setnpArtist(track.artist);
         setnpAlbum(album);
         setnpTitle(track.name);
-        setIsPlaying(true);
         setNewAudio(true);
 
         setImplicitQueuePlaylist(album);
@@ -350,8 +356,9 @@ function Track(props) {
         setnpArtist,
         setnpAlbum,
         setnpTitle,
-        setIsPlaying,
         setNewAudio,
+        explicitQueue,
+        setExplicitQueue,
         setImplicitQueuePlaylist,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
@@ -374,7 +381,6 @@ function Track(props) {
         setnpArtist(track.artist);
         setnpAlbum(album);
         setnpTitle(track.name);
-        setIsPlaying(true);
         setNewAudio(true);
 
         // update queue
@@ -382,9 +388,23 @@ function Track(props) {
         setImplicitQueueDiscIndex(discIndex);
         setImplicitQueueTrackIndex(trackIndex);
     };
+    const onClickQueueTrack = () => {
+        // update explicit queue
+        setExplicitQueue([...explicitQueue, track]);
+    }
 
-    const playButton = <div className="font-mono select-none text-3xl hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700" onClick={onClickPlayTrack}>▶</div>;
-    const settingButton = <div className="font-mono select-none text-3xl hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700">…</div>;
+    const playButton = 
+    <div 
+        className="font-mono select-none text-3xl hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700" 
+        onClick={onClickPlayTrack}>
+        ▶
+    </div>;
+    const settingButton = 
+    <div 
+        className="font-mono select-none text-3xl hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700"
+        onClick={onClickQueueTrack}>
+        …
+    </div>;
     let rightButton;
     if (onBigScreen && !showButton) {
         rightButton = <div>{secondsToTimeString(track.length_seconds)}</div>;

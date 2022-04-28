@@ -42,10 +42,10 @@ function Setting(props) {
     }
 
     return (
-        <div className="flex flex-col gap-2 m-2 text-base 2xl:text-lg font-semibold text-slate-50">
+        <div className="flex flex-col gap-2 m-2 select-none text-base 2xl:text-lg font-semibold text-slate-50">
             <SettingButton content="Connect to Last.fm" onClickFunc={lastfm} />
             <div></div>
-            <div>Administrative</div>
+            <div className="text-neutral-900">Administrative</div>
             <SettingButton content="Reload Metadata DB" dangerous={true} onClickFunc={reload} />
             <SettingButton content="Hard-Reload Metadata DB" dangerous={true} onClickFunc={hard_reload} />
             <SettingButton content="Disconnect from DB" dangerous={true} onClickFunc={disconnect} />

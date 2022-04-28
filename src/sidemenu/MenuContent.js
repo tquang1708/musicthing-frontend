@@ -14,6 +14,8 @@ function MenuContent(props) {
         setTrackProgress,
         isPlaying,
         setIsPlaying,
+        explicitQueue,
+        setExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -40,6 +42,8 @@ function MenuContent(props) {
                 setTrackProgress={setTrackProgress}
                 isPlaying={isPlaying}
                 setIsPlaying={setIsPlaying}
+                explicitQueue={explicitQueue}
+                setExplicitQueue={setExplicitQueue}
                 implicitQueuePlaylist={implicitQueuePlaylist}
                 implicitQueueDiscIndex={implicitQueueDiscIndex}
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
@@ -95,6 +99,8 @@ function MenuTabContent(props) {
         setTrackProgress,
         isPlaying,
         setIsPlaying,
+        explicitQueue,
+        setExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -119,6 +125,8 @@ function MenuTabContent(props) {
         />,
         <Queue 
             key="tab queue" 
+            explicitQueue={explicitQueue}
+            setExplicitQueue={setExplicitQueue}
             implicitQueuePlaylist={implicitQueuePlaylist}
             implicitQueueDiscIndex={implicitQueueDiscIndex}
             implicitQueueTrackIndex={implicitQueueTrackIndex}

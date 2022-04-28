@@ -3,6 +3,8 @@ import secondsToTimeString from "../../helper/secondsToTimeString";
 
 export default function Queue(props) {
     const {
+        explicitQueue,
+        //setExplicitQueue
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -10,11 +12,11 @@ export default function Queue(props) {
         // setImplicitQueueTrackIndex,
     } = props;
 
-    let upcomingTracks;
+    let implicitQueueItems;
     if (implicitQueuePlaylist) {
         const discs = implicitQueuePlaylist.discs;
 
-        upcomingTracks = discs.map((disc, i) => {
+        implicitQueueItems = discs.map((disc, i) => {
             if (i >= implicitQueueDiscIndex) {
                 // current disc with track
                 return disc.tracks.map(((track, j) => {
@@ -31,12 +33,23 @@ export default function Queue(props) {
             }
         });
     } else {
-        upcomingTracks = [];
+        implicitQueueItems = [];
     }
+
+    // explicit queue is reversed
+    const explicitQueueItems = explicitQueue.map((track) => 
+        <div key={`explicit queue ${track.id}`}>
+            {track.number}. {track.artist} - {track.name} ({secondsToTimeString(track.length_seconds)})
+        </div>
+    ).reverse();
+
+    console.log(explicitQueue);
+    console.log(explicitQueueItems);
 
     return (
         <div className="bg-gray-500">
-            {upcomingTracks}
+            {explicitQueueItems}
+            {implicitQueueItems}
         </div>
     );
 }

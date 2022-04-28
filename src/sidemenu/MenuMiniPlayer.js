@@ -131,11 +131,11 @@ function MenuMiniControls(props) {
             <div className="font-sans font-bold text-slate-50 truncate text-xl pt-0.5 2xl:text-2xl 2xl:pt-1">
                 {npTitle}
             </div>
-            <div className="font-sans font-normal text-slate-50 truncate text-sm 2xl:text-lg">
+            <div className="font-sans text-slate-50 truncate text-sm 2xl:text-lg">
                     {npArtist}
             </div>
             <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} 
-                className="font-sans font-medium text-slate-50 text-base 2xl:text-xl hover:underline hover:decoration-solid">
+                className="font-sans text-slate-50 truncate text-base 2xl:text-xl hover:underline hover:decoration-solid">
                 {npAlbum ? npAlbum.name : "Unknown Album"}
             </Link>
             <div className="grid grid-cols-3 justify-center items-center grow font-mono font-medium text-3xl select-none">

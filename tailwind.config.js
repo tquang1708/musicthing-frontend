@@ -25,6 +25,7 @@ module.exports = {
             '60': '30rem',
             '70': '35rem',
             '80': '40rem',
+            '81': '40.75rem',
             '100': '50rem',
         },
         gridTemplateColumns: {
@@ -39,6 +40,7 @@ module.exports = {
         },
         minWidth: {
             '80': '40rem',
+            '81': '40.75rem',
         },
         fontSize: {
             '1.5xl': '1.375rem',
