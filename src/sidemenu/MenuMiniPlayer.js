@@ -96,7 +96,7 @@ function MenuCornerImage(props) {
         <div onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}
             className="bg-gray-700 overflow-hidden z-40 w-14 h-14 2xl:w-20 2xl:h-20 hover:cursor-pointer">
             <div onClick={onClickToggleSidebar} 
-                className={`absolute flex justify-center items-center font-mono text-black border-gray-800 drop-shadow z-10 transition ease-in-out duration-200 text-6xl border-6 w-14 h-14 2xl:text-8xl 2xl:border-8 2xl:w-20 2xl:h-20 ${!showButton && "opacity-0"}`}>
+                className={`absolute flex justify-center items-center select-none font-mono text-black border-gray-800 drop-shadow z-10 transition ease-in-out duration-200 text-6xl border-6 w-14 h-14 2xl:text-8xl 2xl:border-8 2xl:w-20 2xl:h-20 ${!showButton && "opacity-0"}`}>
                 ☰
             </div>
             <img 

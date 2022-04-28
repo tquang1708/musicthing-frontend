@@ -11,6 +11,7 @@ import BottomMenuMobile from './sidemenu/BottomMenuMobile';
 import AlbumDisplay from './maindisplay/AlbumDisplay';
 import Album from './maindisplay/Album';
 
+import incrementQueueIndex from './helper/incrementQueueIndex';
 import unknown_album from './unknown_album.svg';
 
 function App() {
@@ -54,15 +55,18 @@ function App() {
             setServerUrl={setServerUrl} /> 
         : <Main 
             tabTitle={tabTitle}
+            setTabTitle={setTabTitle}
             sidebarOverlay={sidebarOverlay}
             onBigScreen={onBigScreen}
             artSource={artSource}
+            setArtSource={setArtSource}
             npSource={npSource}
             npArtist={npArtist}
             npAlbum={npAlbum}
             npTitle={npTitle}
             setnpSource={setnpSource}
             setnpArtist={setnpArtist}
+            setnpAlbum={setnpAlbum}
             setnpTitle={setnpTitle}
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
@@ -117,15 +121,18 @@ function App() {
 function Main(props) {
     const { 
         tabTitle,
+        setTabTitle,
         sidebarOverlay,
         onBigScreen,
         artSource,
+        setArtSource,
         npSource,
         npArtist,
         npAlbum,
         npTitle,
         setnpSource,
         setnpArtist,
+        setnpAlbum,
         setnpTitle,
         isPlaying,
         setIsPlaying,
@@ -139,15 +146,37 @@ function Main(props) {
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
     } = props;
+    const [ trackProgress, setTrackProgress ] = useState(0);
 
-    // audio source
+    // audio source and interval reference
     const audioRef = useRef(new Audio(npSource));
+    const preLoadAudioRef = useRef(new Audio(npSource));
+    const intervalRef = useRef();
+
+    // start interval function
+    const startInterval = () => {
+        // clear previous interval
+        clearInterval(intervalRef.current);
+
+        intervalRef.current = setInterval(() => {
+            if (audioRef.current.ended) {
+                // update index
+                const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
+                setImplicitQueueDiscIndex(newDiscIndex);
+                setImplicitQueueTrackIndex(newTrackIndex);
+            } else {
+                // else keep track of track progress each interval
+                setTrackProgress(audioRef.current.currentTime);
+            }
+        }, 500);
+    }
 
     // handle source change
     useEffect(() => {
         audioRef.current.pause();
         audioRef.current = new Audio(npSource);
         audioRef.current.play();
+        startInterval();
         setNewAudio(false);
     }, [npSource, newAudio]);
 
@@ -155,6 +184,7 @@ function Main(props) {
     useEffect(() => {
         return () => {
             audioRef.current.pause();
+            clearInterval(intervalRef.current);
         }
     }, []);
 
@@ -166,6 +196,29 @@ function Main(props) {
             audioRef.current.pause();
         }
     }, [isPlaying]);
+
+    // handle queue indices change to play current track and preload next track
+    // we know that queue indices are always valid from how they are set with prev/next buttons
+    useEffect(() => {
+        if (implicitQueuePlaylist) {
+            const track = implicitQueuePlaylist.discs[implicitQueueDiscIndex].tracks[implicitQueueTrackIndex];
+
+            setTabTitle(`${track.artist} - ${track.name} | musicthing`);
+            setArtSource(artSource);
+            setnpArtist(track.artist);
+            setnpAlbum(implicitQueuePlaylist);
+            setnpTitle(track.name);
+            
+            setnpSource(`${serverUrl}/track/${track.path}`);
+            setIsPlaying(true);
+
+            // preload next track if possible
+            const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
+            const nextTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
+            preLoadAudioRef.current = new Audio(`${serverUrl}/track/${nextTrack.path}`);
+            preLoadAudioRef.current.load();
+        }
+    }, [implicitQueueDiscIndex, implicitQueueTrackIndex]);
 
     return (
         <div className="bg-gray-600">
@@ -186,6 +239,11 @@ function Main(props) {
                         setnpTitle={setnpTitle}
                         isPlaying={isPlaying}
                         setIsPlaying={setIsPlaying}
+                        trackProgress={trackProgress}
+                        setTrackProgress={setTrackProgress}
+                        audioRef={audioRef}
+                        intervalRef={intervalRef}
+                        startInterval={startInterval}
                         serverUrl={serverUrl}
                         setServerUrl={setServerUrl}
                         implicitQueuePlaylist={implicitQueuePlaylist}

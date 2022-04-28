@@ -1,4 +1,5 @@
 import React from "react";
+import secondsToTimeString from "../../helper/secondsToTimeString";
 
 export default function Queue(props) {
     const {
@@ -22,7 +23,7 @@ export default function Queue(props) {
                             key={`implicit queue ${implicitQueuePlaylist.id} ${track.number} ${track.artist} ${track.name}}`}
                             className="flex flex-col">
                             <div>
-                                {track.number}. {track.artist} - {track.name}
+                                {track.number}. {track.artist} - {track.name} ({secondsToTimeString(track.length_seconds)})
                             </div>
                         </div>
                     }
@@ -30,7 +31,7 @@ export default function Queue(props) {
             }
         });
     } else {
-        upcomingTracks = null;
+        upcomingTracks = [];
     }
 
     return (

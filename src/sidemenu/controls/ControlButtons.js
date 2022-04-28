@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import incrementQueueIndex from '../../helper/incrementQueueIndex';
 
 function ControlButtons(props) {
     const {
@@ -24,6 +25,7 @@ function ControlButtons(props) {
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
                 setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                 setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
+                setIsPlaying={setIsPlaying}
                 setnpSource={setnpSource}
                 setnpArtist={setnpArtist}
                 setnpTitle={setnpTitle}
@@ -38,6 +40,7 @@ function ControlButtons(props) {
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
                 setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                 setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
+                setIsPlaying={setIsPlaying}
                 setnpSource={setnpSource}
                 setnpArtist={setnpArtist}
                 setnpTitle={setnpTitle}
@@ -48,15 +51,11 @@ function ControlButtons(props) {
 
 function PrevButton(props) {
     const {
-        serverUrl,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
-        setnpSource,
-        setnpArtist,
-        setnpTitle,
     } = props;
     const [ isFirstTrack, setIsFirstTrack ] = useState(true);
 
@@ -70,27 +69,17 @@ function PrevButton(props) {
 
     const onClickPrevTrack = () => {
         if (implicitQueuePlaylist) {
-            let newTrack;
             const discs = implicitQueuePlaylist.discs;
     
             if (implicitQueueTrackIndex > 0) {
-                newTrack = implicitQueuePlaylist.discs[implicitQueueDiscIndex].tracks[implicitQueueTrackIndex - 1];
                 setImplicitQueueTrackIndex(implicitQueueTrackIndex - 1);
             } else {
                 if (implicitQueueDiscIndex > 0) {
                     const prevDiscTracks = discs[implicitQueueDiscIndex - 1].tracks;
-                    newTrack = prevDiscTracks[prevDiscTracks.length - 1];
 
                     setImplicitQueueDiscIndex(implicitQueueDiscIndex - 1);
                     setImplicitQueueTrackIndex(prevDiscTracks.length - 1);
                 }
-            }
-
-            // no need to set new album since we're assuming we're still playing off the implicit playlist
-            if (newTrack) {
-                setnpSource(`${serverUrl}/track/${newTrack.path}`);
-                setnpArtist(`${newTrack.artist}`);
-                setnpTitle(`${newTrack.name}`);
             }
         }
         
@@ -125,15 +114,11 @@ function PlayPauseButton(props) {
 
 function NextButton(props) {
     const {
-        serverUrl,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
-        setnpSource,
-        setnpArtist,
-        setnpTitle,
     } = props;
     const [ isLastTrack, setIsLastTrack ] = useState(true);
 
@@ -148,30 +133,9 @@ function NextButton(props) {
     }, [implicitQueueTrackIndex, implicitQueueDiscIndex]);
 
     const onClickNextTrack = () => {
-        if (implicitQueuePlaylist) {
-            let newTrack = null;
-            const discs = implicitQueuePlaylist.discs;
-            const currDiscTracks = discs[implicitQueueDiscIndex].tracks;
-    
-            if (implicitQueueTrackIndex < currDiscTracks.length - 1) {
-                newTrack = currDiscTracks[implicitQueueTrackIndex + 1];
-                setImplicitQueueTrackIndex(implicitQueueTrackIndex + 1);
-            } else {
-                if (implicitQueueDiscIndex < discs.length - 1) {
-                    const nextDiscTracks = discs[implicitQueueDiscIndex + 1].tracks;
-                    newTrack = nextDiscTracks[0];
-
-                    setImplicitQueueDiscIndex(implicitQueueDiscIndex + 1);
-                    setImplicitQueueTrackIndex(0);
-                }
-            }
-
-            if (newTrack) {
-                setnpSource(`${serverUrl}/track/${newTrack.path}`);
-                setnpArtist(`${newTrack.artist}`);
-                setnpTitle(`${newTrack.name}`);
-            }
-        }
+        const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
+        setImplicitQueueDiscIndex(newDiscIndex);
+        setImplicitQueueTrackIndex(newTrackIndex);
     }
 
     return (

@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import tab_images from './tabs/tabimages/tabImages.js'
+import Controller from './tabs/Controller.js';
 import Queue from "./tabs/Queue";
 import Setting from "./tabs/Setting";
 
 function MenuContent(props) {
     const {
         showSidebar,
-        serverUrl,
-        setServerUrl,
+        audioRef,
+        intervalRef,
+        startInterval,
+        trackProgress,
+        setTrackProgress,
+        isPlaying,
+        setIsPlaying,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
+        serverUrl,
+        setServerUrl,
     } = props;
     const [ selectedTab, setSelectedTab ] = useState(0);
     const [ showSettingMessage, setShowSettingMessage ] = useState(false);
@@ -25,15 +33,22 @@ function MenuContent(props) {
             />
             <MenuTabContent 
                 selectedTab={selectedTab}
-                serverUrl={serverUrl}
-                setServerUrl={setServerUrl}
-                showSettingMessage={showSettingMessage}
-                setShowSettingMessage={setShowSettingMessage}
+                audioRef={audioRef}
+                intervalRef={intervalRef}
+                startInterval={startInterval}
+                trackProgress={trackProgress}
+                setTrackProgress={setTrackProgress}
+                isPlaying={isPlaying}
+                setIsPlaying={setIsPlaying}
                 implicitQueuePlaylist={implicitQueuePlaylist}
                 implicitQueueDiscIndex={implicitQueueDiscIndex}
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
                 setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                 setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
+                serverUrl={serverUrl}
+                setServerUrl={setServerUrl}
+                showSettingMessage={showSettingMessage}
+                setShowSettingMessage={setShowSettingMessage}
             />
         </div>
     );
@@ -73,18 +88,35 @@ function MenuTabItems(props) {
 function MenuTabContent(props) {
     const {
         selectedTab,
-        serverUrl,
-        setServerUrl,
-        showSettingMessage,
-        setShowSettingMessage,
+        audioRef,
+        intervalRef,
+        startInterval,
+        trackProgress,
+        setTrackProgress,
+        isPlaying,
+        setIsPlaying,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
+        serverUrl,
+        setServerUrl,
+        showSettingMessage,
+        setShowSettingMessage,
     } = props;
 
     const tab_contents = [
+        <Controller 
+            key="tab controller"
+            audioRef={audioRef}
+            intervalRef={intervalRef}
+            startInterval={startInterval}
+            trackProgress={trackProgress}
+            setTrackProgress={setTrackProgress}
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
+        />,
         <Queue 
             key="tab queue" 
             implicitQueuePlaylist={implicitQueuePlaylist}

@@ -37,6 +37,7 @@ function Album(props) {
             .then((response) => response.json())
             .then((data) => setAlbum(data))
             .catch((error) => console.log(error));
+        window.scroll(0,0);
     }, [id]);
 
     const onClickGoBack = () => {
@@ -67,10 +68,10 @@ function Album(props) {
         </div>
 
     return (
-        <div className="grow flex flex-col">
+        <div className="flex flex-col">
             {onBigScreen && <div
                 onClick={onClickGoBack} 
-                className="self-end flex justify-center items-center w-14 h-14 text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono text-slate-50 transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-z00">
+                className="self-end flex justify-center items-center w-14 h-14 select-none text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono text-slate-50 transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-500">
                 X
             </div>}
             {display}
@@ -107,7 +108,7 @@ function AlbumDisplay(props) {
 
     return (
         <div className="flex flex-col 2xl:flex-row md:p-6">
-            <div className="flex flex-col md:flex-row 2xl:flex-col 2xl:w-80 2xl:sticky 2xl:top-0 2xl:self-start">
+            <div className="flex flex-col md:flex-row 2xl:flex-col 2xl:w-80 2xl:min-w-80 2xl:sticky 2xl:top-0 2xl:self-start">
                 <img 
                     src={artSource} 
                     alt={`Front cover art for album ${album.name} by ${album.album_artist_name}`} 
@@ -204,7 +205,7 @@ function TrackListing(props) {
     );
 
     return (
-        <div className="p-2 grow md:pt-2 md:p-4">
+        <div className="p-2 grow min-w-0 md:pt-2 md:p-4">
             {discs}
         </div>
     );
