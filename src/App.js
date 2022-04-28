@@ -193,6 +193,7 @@ function Main(props) {
     useEffect(() => {
         return () => {
             audioRef.current.pause();
+            preLoadAudioRef.current.pause();
             clearInterval(intervalRef.current);
         }
     }, []);
