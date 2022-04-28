@@ -84,7 +84,6 @@ function App() {
     const albumDisplay = 
         <AlbumDisplay 
             serverUrl={serverUrl}
-            displayType="tiles"
             setSidebarOverlay={setSidebarOverlay}
         />
 
