@@ -70,7 +70,7 @@ function Album(props) {
         <div className="grow flex flex-col">
             {onBigScreen && <div
                 onClick={onClickGoBack} 
-                className="self-end flex justify-center items-center w-14 h-14 text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono text-slate-50 transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-300">
+                className="self-end flex justify-center items-center w-14 h-14 text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono text-slate-50 transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-z00">
                 X
             </div>}
             {display}

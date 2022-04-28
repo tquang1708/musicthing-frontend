@@ -27,8 +27,8 @@ function App() {
     const [ newAudio, setNewAudio ] = useState(false);
 
     const [ implicitQueuePlaylist, setImplicitQueuePlaylist ] = useState(null);
-    const [ implicitQueueDiscIndex, setImplicitQueueDiscIndex ] = useState(0);
-    const [ implicitQueueTrackIndex, setImplicitQueueTrackIndex ] = useState(0);
+    const [ implicitQueueDiscIndex, setImplicitQueueDiscIndex ] = useState(-1);
+    const [ implicitQueueTrackIndex, setImplicitQueueTrackIndex ] = useState(-1);
 
     const [ onBigScreen, setOnBigScreen ] = useState(
         window.matchMedia("(min-width: 768px)").matches

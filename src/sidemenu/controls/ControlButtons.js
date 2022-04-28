@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 function ControlButtons(props) {
     const {
@@ -58,6 +58,15 @@ function PrevButton(props) {
         setnpArtist,
         setnpTitle,
     } = props;
+    const [ isFirstTrack, setIsFirstTrack ] = useState(true);
+
+    useEffect(() => {
+        if (implicitQueueTrackIndex <= 0 && implicitQueueDiscIndex <= 0) {
+            setIsFirstTrack(true);
+        } else {
+            setIsFirstTrack(false);
+        }
+    }, [implicitQueueTrackIndex, implicitQueueDiscIndex]);
 
     const onClickPrevTrack = () => {
         if (implicitQueuePlaylist) {
@@ -89,7 +98,7 @@ function PrevButton(props) {
 
     return (
         <div onClick={onClickPrevTrack}
-            className="transition duration-300 hover:text-amber-500 hover:cursor-pointer">
+            className={`transition duration-300 ${isFirstTrack ? "text-gray-500 hover:cursor-default" : "text-slate-50 hover:cursor-pointer hover:text-amber-500"}`}>
             ⏮
         </div>
     );
@@ -126,6 +135,17 @@ function NextButton(props) {
         setnpArtist,
         setnpTitle,
     } = props;
+    const [ isLastTrack, setIsLastTrack ] = useState(true);
+
+    useEffect(() => {
+        if (implicitQueuePlaylist) {
+            if (implicitQueueDiscIndex === implicitQueuePlaylist.discs.length - 1 && implicitQueueTrackIndex === implicitQueuePlaylist.discs[implicitQueueDiscIndex].tracks.length - 1) {
+                setIsLastTrack(true);
+            } else {
+                setIsLastTrack(false);
+            }
+        }
+    }, [implicitQueueTrackIndex, implicitQueueDiscIndex]);
 
     const onClickNextTrack = () => {
         if (implicitQueuePlaylist) {
@@ -156,7 +176,7 @@ function NextButton(props) {
 
     return (
         <div onClick={onClickNextTrack}
-            className="transition duration-300 hover:text-amber-500 hover:cursor-pointer">
+            className={`transition duration-300 ${isLastTrack ? "text-gray-500 hover:cursor-default" : "text-slate-50 hover:cursor-pointer hover:text-amber-500"}`}>
             ⏭
         </div>
     );

@@ -137,7 +137,7 @@ function MenuMiniControls(props) {
                 </div>
                 <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} className="hover:underline hover:decoration-solid">{npAlbum ? npAlbum.name : "Unknown Album"}</Link>
             </div>
-            <div className="grid grid-cols-3 justify-center items-center grow font-mono font-medium text-3xl text-slate-50">
+            <div className="grid grid-cols-3 justify-center items-center grow font-mono font-medium text-3xl select-none">
                 <p></p>
                 <ControlButtons
                     serverUrl={serverUrl}
@@ -161,7 +161,7 @@ function MenuMiniControls(props) {
 function VolumeButton() {
     return (
         <div
-            className="justify-self-end pr-3 transition duration-300 hover:text-amber-500 hover:cursor-pointer">
+            className="justify-self-end pr-3 transition duration-300 text-slate-50 hover:text-amber-500 hover:cursor-pointer">
             ?{/* 🕪 */}
         </div>
     );
