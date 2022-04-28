@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function Setting(props) {
+function Setting(props) {
     const {
         serverUrl,
         setServerUrl,
@@ -8,6 +8,10 @@ export default function Setting(props) {
         setShowSettingMessage,
     } = props;
     const [ reloadRunning, setReloadRunning ] = useState(false);
+
+    const lastfm = () => {
+        console.log("LAST");
+    }
 
     const reload = () => {
         fetch(`${serverUrl}/api/reload`)
@@ -39,21 +43,10 @@ export default function Setting(props) {
 
     return (
         <div className="flex flex-col gap-2 m-2 text-base 2xl:text-lg font-semibold text-slate-50">
-            <div 
-                onClick={reload}
-                className="pl-3 bg-gray-800 rounded-md transition duration-300 hover:cursor-pointer hover:bg-amber-700" >
-                Reload Metadata DB
-            </div>
-            <div 
-                onClick={hard_reload}
-                className="pl-3 bg-gray-800 rounded-md transition duration-300 hover:cursor-pointer hover:bg-amber-700" >
-                Hard-Reload Metadata DB
-            </div>
-            <div 
-                onClick={disconnect}
-                className="pl-3 bg-gray-800 rounded-md transition duration-300 hover:cursor-pointer hover:bg-amber-700" >
-                Disconnect from DB
-            </div>
+            <SettingButton content="Connect to Last.fm" onClickFunc={lastfm} />
+            <SettingButton content="Reload Metadata DB" onClickFunc={reload} />
+            <SettingButton content="Hard-Reload Metadata DB" onClickFunc={hard_reload} />
+            <SettingButton content="Disconnect from DB" onClickFunc={disconnect} />
             {showSettingMessage && 
                 (reloadRunning ? 
                     <div>
@@ -68,3 +61,20 @@ export default function Setting(props) {
         </div>
     );
 }
+
+function SettingButton(props) {
+    const {
+        content,
+        onClickFunc,
+    } = props;
+
+    return (
+        <div 
+            onClick={onClickFunc}
+            className="pl-3 bg-gray-800 rounded-md transition duration-300 hover:cursor-pointer hover:bg-amber-700" >
+            {content}
+        </div>
+    );
+}
+
+export default Setting;

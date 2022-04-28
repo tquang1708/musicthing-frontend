@@ -5,7 +5,10 @@ import {
     Route,
     Outlet,
 } from 'react-router-dom';
+
 import Login from './Login';
+import NotFound from './NotFound';
+
 import SideMenu from './sidemenu/SideMenu';
 import BottomMenuMobile from './sidemenu/BottomMenuMobile';
 import AlbumDisplay from './maindisplay/AlbumDisplay';
@@ -108,6 +111,7 @@ function App() {
 
     return(
         <Routes>
+            <Route path='*' element={<NotFound />} />
             <Route path="/" element={mainApp}>
                 <Route index element={albumDisplay} />
                 <Route path="album" element={albumDisplay} />
