@@ -127,15 +127,15 @@ function MenuMiniControls(props) {
     } = props;
 
     return(
-        <div className="flex flex-col bg-gray-700 z-40 w-42 h-14 pl-1 gap-y-0.5 2xl:w-60 2xl:h-20 2xl:pl-2 2xl:gap-y-2">
-            <div className="font-sans font-bold text-slate-50 truncate text-xl pt-0.5 2xl:text-3xl 2xl:pt-1">
+        <div className="flex flex-col bg-gray-700 z-40 w-42 h-14 pl-1 gap-y-0.5 2xl:w-60 2xl:h-20 2xl:pl-2 2xl:gap-y-1">
+            <div className="font-sans font-bold text-slate-50 truncate text-lg pt-0.5 2xl:text-3xl 2xl:pt-1">
                 {npTitle}
             </div>
-            <div className="flex flex-row font-sans font-sem text-slate-50 truncate text-base 2xl:text-xl">
-                <div>
-                    {npArtist} -&nbsp;
+            <div className="flex flex-col font-sans font-sem text-slate-50 truncate">
+                <div className="text-xs 2xl:text-base">
+                    {npArtist}
                 </div>
-                <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} className="hover:underline hover:decoration-solid">{npAlbum ? npAlbum.name : "Unknown Album"}</Link>
+                <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} className="text-sm 2xl:text-lg hover:underline hover:decoration-solid">{npAlbum ? npAlbum.name : "Unknown Album"}</Link>
             </div>
             <div className="grid grid-cols-3 justify-center items-center grow font-mono font-medium text-3xl select-none">
                 <p></p>

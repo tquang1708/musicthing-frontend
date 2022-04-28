@@ -183,6 +183,10 @@ function Main(props) {
         audioRef.current.play();
         startInterval();
         setNewAudio(false);
+
+        // preload next audio afterwards
+        preLoadAudioRef.current.play();
+        preLoadAudioRef.current.pause();
     }, [npSource, newAudio]);
 
     // cleanup when component unmounted
@@ -221,7 +225,6 @@ function Main(props) {
             const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
             const nextTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
             preLoadAudioRef.current = new Audio(`${serverUrl}/track/${nextTrack.path}`);
-            preLoadAudioRef.current.load();
         }
     }, [implicitQueueDiscIndex, implicitQueueTrackIndex]);
 

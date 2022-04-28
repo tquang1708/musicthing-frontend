@@ -22,3 +22,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 log.txt
+
+# deploy
+.firebase
+.github
+.firebaserc
+firebase.json
+*.cache
