@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import PlayPauseButton from './controls/PlayPauseButton';
+import { ControlButtons } from './controls/ControlButtons';
 
 function MenuMiniPlayer(props) {
     const {
+        serverUrl,
         artSource,
         npArtist,
         npAlbum,
         npTitle,
+        setnpSource,
+        setnpArtist,
+        setnpTitle,
         showSidebar,
         setShowSidebar,
+        implicitQueuePlaylist,
+        implicitQueueDiscIndex,
+        implicitQueueTrackIndex,
+        setImplicitQueueDiscIndex,
+        setImplicitQueueTrackIndex,
         isPlaying,
         setIsPlaying,
         setDivHeight,
@@ -31,9 +40,18 @@ function MenuMiniPlayer(props) {
                 setDivWidth={setDivWidth}
             />
             <MenuMiniControls 
+                serverUrl={serverUrl}
                 npArtist={npArtist}
                 npAlbum={npAlbum}
                 npTitle={npTitle}
+                setnpSource={setnpSource}
+                setnpArtist={setnpArtist}
+                setnpTitle={setnpTitle}
+                implicitQueuePlaylist={implicitQueuePlaylist}
+                implicitQueueDiscIndex={implicitQueueDiscIndex}
+                implicitQueueTrackIndex={implicitQueueTrackIndex}
+                setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+                setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                 isPlaying={isPlaying}
                 setIsPlaying={setIsPlaying}
             />
@@ -92,9 +110,18 @@ function MenuCornerImage(props) {
 
 function MenuMiniControls(props) {
     const {
+        serverUrl,
         npArtist,
         npAlbum,
         npTitle,
+        setnpSource,
+        setnpArtist,
+        setnpTitle,
+        implicitQueuePlaylist,
+        implicitQueueDiscIndex,
+        implicitQueueTrackIndex,
+        setImplicitQueueDiscIndex,
+        setImplicitQueueTrackIndex,
         isPlaying,
         setIsPlaying,
     } = props;
@@ -110,11 +137,21 @@ function MenuMiniControls(props) {
                 </div>
                 <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} className="hover:underline hover:decoration-solid">{npAlbum ? npAlbum.name : "Unknown Album"}</Link>
             </div>
-            <div className="grid grid-cols-3 justify-center grow">
+            <div className="grid grid-cols-3 justify-center items-center grow font-mono font-medium text-3xl text-slate-50">
                 <p></p>
-                <PlayPauseButton 
+                <ControlButtons
+                    serverUrl={serverUrl}
+                    implicitQueuePlaylist={implicitQueuePlaylist}
+                    implicitQueueDiscIndex={implicitQueueDiscIndex}
+                    implicitQueueTrackIndex={implicitQueueTrackIndex}
+                    setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+                    setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                     isPlaying={isPlaying}
-                    setIsPlaying={setIsPlaying} />
+                    setIsPlaying={setIsPlaying}
+                    setnpSource={setnpSource}
+                    setnpArtist={setnpArtist}
+                    setnpTitle={setnpTitle}
+                />
                 <VolumeButton />
             </div>
         </div>
@@ -123,10 +160,10 @@ function MenuMiniControls(props) {
 
 function VolumeButton() {
     return (
-        <button
-            className="justify-self-end pr-3 font-mono font-medium text-3xl transition duration-300 text-slate-50 hover:text-amber-500">
+        <div
+            className="justify-self-end pr-3 transition duration-300 hover:text-amber-500 hover:cursor-pointer">
             ?{/* 🕪 */}
-        </button>
+        </div>
     );
 }
 

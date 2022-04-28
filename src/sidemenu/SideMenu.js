@@ -10,8 +10,9 @@ function SideMenu(props) {
         npArtist,
         npAlbum,
         npTitle,
-        isPlaying,
-        setIsPlaying,
+        setnpSource,
+        setnpArtist,
+        setnpTitle,
         serverUrl,
         setServerUrl,
         implicitQueuePlaylist,
@@ -19,6 +20,8 @@ function SideMenu(props) {
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
+        isPlaying,
+        setIsPlaying,
     } = props;
     const [ showMenu, setShowMenu ] = useState(true);
     const [ showSidebar, setShowSidebar ] = useState(true);
@@ -42,12 +45,21 @@ function SideMenu(props) {
                 onTransitionEnd={onTransitionEndHideDiv} 
                 className={`flex flex-col transition ease-in-out duration-500 ${divHeight} ${showMenu ? "translate-x-0" : "-translate-x-full"}`}>
                 <MenuMiniPlayer
+                    serverUrl={serverUrl}
                     artSource={artSource}
                     npArtist={npArtist}
                     npAlbum={npAlbum}
                     npTitle={npTitle}
+                    setnpSource={setnpSource}
+                    setnpArtist={setnpArtist}
+                    setnpTitle={setnpTitle}
                     showSidebar={showSidebar}
                     setShowSidebar={setShowSidebar}
+                    implicitQueuePlaylist={implicitQueuePlaylist}
+                    implicitQueueDiscIndex={implicitQueueDiscIndex}
+                    implicitQueueTrackIndex={implicitQueueTrackIndex}
+                    setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+                    setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
                     setDivHeight={setDivHeight}

@@ -61,6 +61,9 @@ function App() {
             npArtist={npArtist}
             npAlbum={npAlbum}
             npTitle={npTitle}
+            setnpSource={setnpSource}
+            setnpArtist={setnpArtist}
+            setnpTitle={setnpTitle}
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
             newAudio={newAudio}
@@ -121,6 +124,9 @@ function Main(props) {
         npArtist,
         npAlbum,
         npTitle,
+        setnpSource,
+        setnpArtist,
+        setnpTitle,
         isPlaying,
         setIsPlaying,
         newAudio,
@@ -175,6 +181,9 @@ function Main(props) {
                         npArtist={npArtist}
                         npAlbum={npAlbum}
                         npTitle={npTitle}
+                        setnpSource={setnpSource}
+                        setnpArtist={setnpArtist}
+                        setnpTitle={setnpTitle}
                         isPlaying={isPlaying}
                         setIsPlaying={setIsPlaying}
                         serverUrl={serverUrl}

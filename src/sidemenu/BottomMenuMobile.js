@@ -1,5 +1,5 @@
 import React from 'react';
-import PlayPauseButton from './controls/PlayPauseButton';
+import { PlayPauseButton } from './controls/ControlButtons';
 
 function BottomMenuMobile(props) {
     const {
