@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import tab_images from './tabs/tabimages/tabImages.js'
 import Controller from './tabs/Controller.js';
 import Queue from "./tabs/Queue";
@@ -7,7 +7,6 @@ import Setting from "./tabs/Setting";
 function MenuContent(props) {
     const {
         showSidebar,
-        setControllerTabSelected,
         npTrack,
         npAlbum,
         audioRef,
@@ -45,7 +44,6 @@ function MenuContent(props) {
             />
             <MenuTabContent 
                 selectedTab={selectedTab}
-                setControllerTabSelected={setControllerTabSelected}
                 npTrack={npTrack}
                 npAlbum={npAlbum}
                 audioRef={audioRef}
@@ -115,7 +113,6 @@ function MenuTabItems(props) {
 function MenuTabContent(props) {
     const {
         selectedTab,
-        setControllerTabSelected,
         npTrack,
         npAlbum,
         audioRef,
@@ -143,11 +140,6 @@ function MenuTabContent(props) {
         setnpAlbum,
         setTabTitle,
     } = props;
-
-    // hide controllers if selected tab is controller
-    useEffect(() => {
-        setControllerTabSelected(selectedTab === 0);
-    }, [selectedTab]);
 
     const tab_contents = [
         <Controller 

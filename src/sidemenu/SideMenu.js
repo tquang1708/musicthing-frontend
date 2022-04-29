@@ -33,7 +33,6 @@ function SideMenu(props) {
     } = props;
     const [ showMenu, setShowMenu ] = useState(true);
     const [ showSidebar, setShowSidebar ] = useState(true);
-    const [ controllerTabSelected, setControllerTabSelected ] = useState(false);
     const [ divHeight, setDivHeight ] = useState("h-screen");
     const [ divWidth, setDivWidth ] = useState("w-auto");
 
@@ -71,7 +70,6 @@ function SideMenu(props) {
                     implicitQueueTrackIndex={implicitQueueTrackIndex}
                     setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                     setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
-                    controllerTabSelected={controllerTabSelected}
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
                     setNewTrack={setNewTrack}
@@ -81,7 +79,6 @@ function SideMenu(props) {
                 />
                 <MenuContent 
                     showSidebar={showSidebar}
-                    setControllerTabSelected={setControllerTabSelected}
                     npTrack={npTrack}
                     npAlbum={npAlbum}
                     audioRef={audioRef}
