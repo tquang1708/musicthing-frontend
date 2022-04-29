@@ -34,6 +34,7 @@ module.exports = {
         },
         borderWidth: {
             '6': '6px',
+            '8': '8px',
         },
         transitionDuration: {
             '350': '350ms',

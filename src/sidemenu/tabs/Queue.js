@@ -9,6 +9,7 @@ export default function Queue(props) {
         serverUrl,
         explicitQueue,
         setExplicitQueue,
+        inExplicitQueue,
         setInExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
@@ -47,7 +48,7 @@ export default function Queue(props) {
                     if ((i == implicitQueueDiscIndex && j > implicitQueueTrackIndex) || i > implicitQueueDiscIndex) {
                         return (
                             <QueueItem
-                                key={`implicit queue item ${track.id}`} 
+                                key={`implicit queue item ${track.id} ${j}`} 
                                 serverUrl={serverUrl}
                                 track={track}
                                 onClickSkipFunc={() => onClickSkipToImplicitQueueTrack(i, j)}
@@ -85,7 +86,7 @@ export default function Queue(props) {
         const [ track, album ] = item;
         return (
             <QueueItem
-                key={`explicit queue item ${track.id}`} 
+                key={`explicit queue item ${track.id} ${i}`} 
                 serverUrl={serverUrl}
                 index={explicitQueueLength - i}
                 track={track}
@@ -94,47 +95,46 @@ export default function Queue(props) {
                 onClickRemoveFunc={() => onClickRemoveFromExplicitQueue(i)}
             />
         );
-        // <div key={`explicit queue ${track.id} ${i}`}
-        //     className="flex flex-row justify-left items-center gap-1.5 pl-0.5">
-        //     <div
-        //         onClick={() => onClickSkipToExplicitQueueTrack(i)}
-        //         className="select-none text-xl hover:text-amber-500 hover:cursor-pointer">
-        //         ▶
-        //     </div>
-        //     <div>
-        //         {explicitQueueLength - i}. {track.artist} - {track.name} - {album.name} ({secondsToTimeString(track.length_seconds)})
-        //     </div>
-        //     <div
-        //         onClick={() => onClickRemoveFromExplicitQueue(i)}
-        //         className="select-none text-5xl ml-auto hover:text-amber-500 hover:cursor-pointer">
-        //         -
-        //     </div>
-        // </div>
     }).reverse();
+
+    // creating display based on
+    let display;
+    if (implicitQueueItems.length === 0 && explicitQueueItems.length === 0) {
+        // nothing in either queue
+        display = <div className="m-2 select-none text-base 2xl:text-lg font-semibold text-slate-50">Queue is Empty. Add something to get started!</div>;
+    } else {
+        display =
+            <div>
+                {explicitQueue.length > 0 && 
+                    <div className="flex flex-row justify-between px-0.5 pb-[2px]">
+                        <div>
+                            Current Queue
+                        </div>
+                        <div
+                            onClick={onClickClearExplicitQueue} 
+                            className="select-none hover:cursor-pointer hover:underline">
+                            Clear All
+                        </div>
+                    </div>}
+                {explicitQueueItems}
+                {implicitQueuePlaylist && (inExplicitQueue || explicitQueueLength > 0) && 
+                    <div className="flex flex-row flex-nowrap justify-start px-0.5 pb-[2px]">
+                        <div className="shrink-0">
+                            Continue From&nbsp;
+                        </div>
+                        <Link to={implicitQueuePlaylist ? `/album/${implicitQueuePlaylist.id}` : `/`}
+                            className="font-sans truncate hover:underline hover:decoration-solid">
+                            {implicitQueuePlaylist ? implicitQueuePlaylist.name : ""}
+                        </Link>
+                    </div>
+                }
+                {implicitQueueItems}
+            </div>
+    }
 
     return (
         <div className="bg-gray-500">
-            <div className="flex flex-row justify-between">
-                <div>
-                    Explicit Queue
-                </div>
-                {explicitQueue.length > 0 && <div
-                    onClick={onClickClearExplicitQueue} 
-                    className="select-none hover:cursor-pointer hover:underline">
-                    Clear All
-                </div>}
-            </div>
-            {explicitQueueItems}
-            {implicitQueuePlaylist && <div className="flex flex-row flex-nowrap justify-start">
-                <div className="shrink-0">
-                    Continue From &nbsp;
-                </div>
-                <Link to={implicitQueuePlaylist ? `/album/${implicitQueuePlaylist.id}` : `/`}
-                    className="font-sans truncate hover:underline hover:decoration-solid">
-                    {implicitQueuePlaylist ? implicitQueuePlaylist.name : ""}
-                </Link>
-            </div>}
-            {implicitQueueItems}
+            {display}
         </div>
     );
 }
@@ -170,7 +170,7 @@ function QueueItem(props) {
 
     return (                       
         <div onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}
-            className={`flex flex-row items-center gap-1.5 px-1 text-slate-50 transition duration-200 ease-in-out ${changeBackground ? "bg-amber-700" : (changeBackgroundRemove ? "bg-red-500" : "bg-gray-700 hover:bg-gray-500")}`}>
+            className={`flex flex-row items-center gap-1.5 px-1 py-[2px] transition duration-200 ease-in-out hover:text-slate-50 ${changeBackground ? "bg-amber-700" : (changeBackgroundRemove ? "bg-red-500" : "bg-gray-500 hover:bg-gray-700")}`}>
             <div onClick={onClickSkipFunc} onMouseEnter={onEnterChangeBackground} onMouseLeave={onLeaveRestoreBackground}
                 className={`w-3 select-none ${showButton ? "text-xl" : "text-lg"} shrink-0 hover:text-gray-700 hover:cursor-pointer`}>
                 {showButton ? "▶" : (index ? index : track.number)}
@@ -178,7 +178,7 @@ function QueueItem(props) {
             <img 
                 alt={`Cover image of track ${track.name} from the implicit queue`} 
                 src={track.art_path ? `${serverUrl}/api/art/${track.art_path}` : unknown_album}
-                className={`w-8 h-8 object-contain shrink-0 transition duration-200 ease-in-out ${changeBackground ? "bg-amber-700" : "bg-gray-500"}`}>    
+                className={`w-8 h-8 object-contain shrink-0 transition duration-200 ease-in-out ${showButton ? (changeBackground ? "bg-amber-700" : (changeBackgroundRemove ? "bg-red-500" : "bg-gray-700")) : "bg-gray-500"}`}>    
             </img>
             <div className="flex flex-col shrink min-w-0 whitespace-nowrap">
                 <div className="font-bold overflow-hidden text-ellipsis">

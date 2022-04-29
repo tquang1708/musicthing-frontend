@@ -88,6 +88,7 @@ function SideMenu(props) {
                     setIsPlaying={setIsPlaying}
                     explicitQueue={explicitQueue}
                     setExplicitQueue={setExplicitQueue}
+                    inExplicitQueue={inExplicitQueue}
                     setInExplicitQueue={setInExplicitQueue}
                     implicitQueuePlaylist={implicitQueuePlaylist}
                     implicitQueueDiscIndex={implicitQueueDiscIndex}
