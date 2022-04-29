@@ -30,22 +30,29 @@ function App() {
     const [ implicitQueueDiscIndex, setImplicitQueueDiscIndex ] = useState(-1);
     const [ implicitQueueTrackIndex, setImplicitQueueTrackIndex ] = useState(-1);
 
+    // detect mobile
+    // from https://stackoverflow.com/questions/54491645/media-query-syntax-for-reactjs
     const [ onBigScreen, setOnBigScreen ] = useState(
         window.matchMedia("(min-width: 768px)").matches
     );
-    // detect mobile
-    // from https://stackoverflow.com/questions/54491645/media-query-syntax-for-reactjs
+    const [ onBiggerScreen, setOnBiggerScreen ] = useState(
+        window.matchMedia("(min-width: 1536px)").matches
+    );
     useEffect(() => {
-        const setBigScreen = (e) => {
-            setOnBigScreen(e.matches);
-        };
+        const setBigScreen = (e) => setOnBigScreen(e.matches);
+        const setBiggerScreen = (e) => setOnBiggerScreen(e.matches);
 
         window
         .matchMedia("(min-width: 768px)")
         .addEventListener('change', setBigScreen);
+        
+        window
+        .matchMedia("(min-width: 1536px)")
+        .addEventListener('change', setBiggerScreen);
 
         return(() => {
             window.removeEventListener('change', setBigScreen);
+            window.removeEventListener('change', setBiggerScreen);
         });
     }, []);
 
@@ -84,6 +91,7 @@ function App() {
         <Album 
             serverUrl={serverUrl}
             onBigScreen={onBigScreen}
+            onBiggerScreen={onBiggerScreen}
             setTabTitle={setTabTitle}
             setSidebarOverlay={setSidebarOverlay}
             setnpAlbum={setnpAlbum}

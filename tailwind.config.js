@@ -45,6 +45,9 @@ module.exports = {
         },
         fontSize: {
             '1.5xl': '1.375rem',
+        },
+        colors: {
+            // 'gray-500': 'rgb(156 163 175)',
         }
     },
   },

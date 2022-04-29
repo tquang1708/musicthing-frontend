@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import tab_images from './tabs/tabimages/tabImages.js'
 import Controller from './tabs/Controller.js';
 import Queue from "./tabs/Queue";
@@ -7,6 +7,9 @@ import Setting from "./tabs/Setting";
 function MenuContent(props) {
     const {
         showSidebar,
+        setControllerTabSelected,
+        npTrack,
+        npAlbum,
         audioRef,
         intervalRef,
         startInterval,
@@ -42,6 +45,9 @@ function MenuContent(props) {
             />
             <MenuTabContent 
                 selectedTab={selectedTab}
+                setControllerTabSelected={setControllerTabSelected}
+                npTrack={npTrack}
+                npAlbum={npAlbum}
                 audioRef={audioRef}
                 intervalRef={intervalRef}
                 startInterval={startInterval}
@@ -85,15 +91,13 @@ function MenuTabItems(props) {
         }
     };
 
-    // border-l-6 2xl:border-l-8 border-b-6 2xl:border-b-8 
-    // ${i !== selectedTab ? "border-r-6 2xl:border-r-8" : "pr-[22px] 2xl:pr-[32px]"} 
     const images = tab_images.map((tab, i) => {
         return (
             <img
                 key={`tab image ${tab[0]}`} 
                 src={tab[1]}
                 onClick={() => onClickSetTab(i)}
-                className={`p-2 2xl:p-3 
+                className={`p-2 2xl:p-3 w-14 h-14 2xl:w-20 2xl:h-20
                     ${i === tab_images.length - 1 && "mt-auto"} 
                     ${i !== selectedTab ? "bg-gray-700" : "bg-gray-500"} 
                     transition duration-350 ease-in-out hover:cursor-pointer hover:bg-amber-700`}>
@@ -111,6 +115,9 @@ function MenuTabItems(props) {
 function MenuTabContent(props) {
     const {
         selectedTab,
+        setControllerTabSelected,
+        npTrack,
+        npAlbum,
         audioRef,
         intervalRef,
         startInterval,
@@ -137,9 +144,17 @@ function MenuTabContent(props) {
         setTabTitle,
     } = props;
 
+    // hide controllers if selected tab is controller
+    useEffect(() => {
+        setControllerTabSelected(selectedTab === 0);
+    }, [selectedTab]);
+
     const tab_contents = [
         <Controller 
             key="tab controller"
+            serverUrl={serverUrl}
+            npTrack={npTrack}
+            npAlbum={npAlbum}
             audioRef={audioRef}
             intervalRef={intervalRef}
             startInterval={startInterval}

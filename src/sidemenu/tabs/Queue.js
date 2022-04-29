@@ -170,7 +170,7 @@ function QueueItem(props) {
 
     return (                       
         <div onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}
-            className={`flex flex-row items-center gap-1.5 px-1 py-[2px] transition duration-200 ease-in-out hover:text-slate-50 ${changeBackground ? "bg-amber-700" : (changeBackgroundRemove ? "bg-red-500" : "bg-gray-500 hover:bg-gray-700")}`}>
+            className={`flex flex-row items-center gap-1.5 px-1 py-[2px] transition duration-200 ease-in-out text-black hover:text-slate-50 ${changeBackground ? "bg-amber-700" : (changeBackgroundRemove ? "bg-red-500" : "bg-gray-500 hover:bg-gray-700")}`}>
             <div onClick={onClickSkipFunc} onMouseEnter={onEnterChangeBackground} onMouseLeave={onLeaveRestoreBackground}
                 className={`w-3 select-none ${showButton ? "text-xl" : "text-lg"} shrink-0 hover:text-gray-700 hover:cursor-pointer`}>
                 {showButton ? "▶" : (index ? index : track.number)}

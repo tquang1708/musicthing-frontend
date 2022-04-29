@@ -23,6 +23,7 @@ function MenuMiniPlayer(props) {
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
+        controllerTabSelected,
         isPlaying,
         setIsPlaying,
         setNewTrack,
@@ -59,6 +60,8 @@ function MenuMiniPlayer(props) {
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
                 setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                 setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
+                controllerTabSelected={controllerTabSelected}
+                showSidebar={showSidebar}
                 isPlaying={isPlaying}
                 setIsPlaying={setIsPlaying}
                 setNewTrack={setNewTrack}
@@ -108,9 +111,9 @@ function MenuCornerImage(props) {
 
     return (
         <div onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}
-            className="bg-gray-700 overflow-hidden z-40 w-14 h-14 2xl:w-20 2xl:h-20 hover:cursor-pointer">
+            className="bg-gray-500 overflow-hidden z-40 w-14 h-14 2xl:w-20 2xl:h-20 hover:cursor-pointer">
             <div onClick={onClickToggleSidebar} 
-                className={`absolute flex justify-center items-center select-none font-mono text-black drop-shadow z-10 transition ease-in-out duration-200 text-6xl w-14 h-14 2xl:text-8xl 2xl:w-20 2xl:h-20 ${!showButton && "opacity-0"}`}>
+                className={`absolute flex justify-center items-center select-none font-mono text-black drop-shadow z-10 transition ease-in-out duration-200 text-7xl w-14 h-14 2xl:text-9xl 2xl:w-20 2xl:h-20 ${!showButton && "opacity-0"}`}>
                 ☰
             </div>
             <img 
@@ -139,6 +142,8 @@ function MenuMiniControls(props) {
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
+        controllerTabSelected,
+        showSidebar,
         isPlaying,
         setIsPlaying,
         setNewTrack,
@@ -151,18 +156,19 @@ function MenuMiniControls(props) {
     } = unwrapMetadata(serverUrl, npTrack, npAlbum);
 
     return(
-        <div className="flex flex-col bg-gray-700 z-40 w-42 h-14 pl-1 gap-y-0.5 2xl:w-60 2xl:h-20 2xl:pl-2">
-            <div className="font-sans font-bold text-slate-50 truncate text-xl pt-0.5 2xl:text-2xl 2xl:pt-1">
+        <div className={`flex flex-col z-40 w-42 h-14 pl-1 gap-y-0.5 2xl:w-60 2xl:h-20 2xl:pl-2 
+            transition ease-in-out duration-300 ${(controllerTabSelected && showSidebar) ? "bg-gray-500 text-black" : "bg-gray-700 text-slate-50"}`}>
+            <div className={`font-sans font-bold truncate text-xl pt-0.5 2xl:text-2xl 2xl:pt-1`}>
                 {title}
             </div>
-            <div className="font-sans text-slate-50 truncate text-sm 2xl:text-lg">
-                    {artist}
+            <div className={`font-sans truncate text-sm 2xl:text-lg`}>
+                {artist}
             </div>
             <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} 
-                className="font-sans text-slate-50 truncate text-base 2xl:text-xl hover:underline hover:decoration-solid">
+                className={`font-sans truncate text-base 2xl:text-xl hover:underline hover:decoration-solid`}>
                 {album}
             </Link>
-            <div className="grid grid-cols-3 justify-center items-center grow font-mono font-medium text-3xl select-none">
+            <div className={`grid grid-cols-3 justify-center items-center grow font-mono font-medium text-3xl select-none`}>
                 <p></p>
                 <ControlButtons
                     explicitQueue={explicitQueue}

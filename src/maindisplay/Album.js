@@ -9,6 +9,7 @@ function Album(props) {
     const {
         serverUrl,
         onBigScreen,
+        onBiggerScreen,
         setTabTitle,
         setSidebarOverlay,
         setnpAlbum,
@@ -49,6 +50,7 @@ function Album(props) {
             album={album}
             serverUrl={serverUrl}
             onBigScreen={onBigScreen}
+            onBiggerScreen={onBiggerScreen}
             setTabTitle={setTabTitle}
             setnpAlbum={setnpAlbum}
             npTrack={npTrack}
@@ -83,6 +85,7 @@ function AlbumDisplay(props) {
         album,
         serverUrl,
         onBigScreen,
+        onBiggerScreen,
         setTabTitle,
         setnpAlbum,
         npTrack,
@@ -183,7 +186,7 @@ function AlbumDisplay(props) {
             {showSettings && <SettingsBox 
                     context={`Album ${album.id} Settings`} 
                     buttonsContent={settingsButtonsContent}
-                    xOffset={xOffset}
+                    xOffset={onBiggerScreen ? xOffset + 160 : xOffset}
                     yOffset={yOffset}
                     setShowSettings={setShowSettings} />}
             <TrackListing 

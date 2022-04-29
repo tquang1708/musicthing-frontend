@@ -21,7 +21,7 @@ function ControlButtons(props) {
     } = props;
 
     return (
-        <div className="flex flex-row justify-between items-center">
+        <div className={`flex flex-row justify-between items-center`}>
             <PrevButton 
                 inExplicitQueue={inExplicitQueue}
                 setInExplicitQueue={setInExplicitQueue}
