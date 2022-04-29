@@ -43,7 +43,7 @@ function Setting(props) {
 
     return (
         <div className="flex flex-col gap-2 m-2 select-none text-base 2xl:text-lg font-semibold text-slate-50">
-            <SettingButton content="Connect to Last.fm" onClickFunc={lastfm} />
+            <SettingButton content="Connect to Last.fm (TBD)" onClickFunc={lastfm} />
             <div></div>
             <div className="text-neutral-900">Administrative</div>
             <SettingButton content="Reload Metadata DB" dangerous={true} onClickFunc={reload} />
@@ -74,7 +74,7 @@ function SettingButton(props) {
     return (
         <div 
             onClick={onClickFunc}
-            className={`pl-3 bg-gray-800 rounded-md transition duration-300 hover:cursor-pointer ${dangerous ? "hover:bg-red-500" : "hover:bg-amber-500"}`}>
+            className={`pl-3 bg-gray-800 rounded-md transition duration-300 hover:cursor-pointer ${dangerous ? "hover:bg-red-500" : "hover:bg-amber-700"}`}>
             {content}
         </div>
     );
