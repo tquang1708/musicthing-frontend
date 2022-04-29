@@ -140,6 +140,7 @@ function MenuTabContent(props) {
         />,
         <Queue 
             key="tab queue" 
+            serverUrl={serverUrl}
             explicitQueue={explicitQueue}
             setExplicitQueue={setExplicitQueue}
             setInExplicitQueue={setInExplicitQueue}

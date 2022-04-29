@@ -150,7 +150,7 @@ function AlbumDisplay(props) {
                     alt={`Front cover art for album ${album.name} by ${album.album_artist_name}`} 
                     className="bg-gray-700 object-contain md:w-40 md:h-40 2xl:w-81 2xl:h-81" >
                 </img>
-                <div className="flex flex-col-reverse pt-3 grow md:pt-0">
+                <div className="flex flex-col-reverse pt-3 grow min-w-0 md:pt-0">
                     <div className="flex flex-row items-center font-sans font-light text-base md:text-xl pl-3 2xl:pl-0 text-slate-50 break-words">
                         <div onClick={onClickPlayAlbum} 
                             className="font-mono select-none text-3xl md:transition md:duration-300 hover:md:text-amber-500 hover:cursor-pointer">
@@ -163,13 +163,13 @@ function AlbumDisplay(props) {
                     <div className="font-sans font-sem text-xl md:text-3xl pl-3 2xl:pl-0 pb-1 md:pb-3 text-slate-50 break-words">
                         {album.album_artist_name}
                     </div>
-                    <div className="flex flex-row font-sans font-bold text-3xl md:text-5xl pl-3 2xl:pl-0 pb-1 md:pb-3 2xl:pt-3 text-slate-50 break-words">
-                        <div className="grow">
+                    <div className="flex flex-row text-3xl md:text-5xl pl-3 2xl:pl-0 pb-1 md:pb-3 2xl:pt-3 text-slate-50">
+                        <div className="font-sans font-bold grow overflow-hidden break-words">
                             {album.name}
                         </div>
                         <div
                             onClick={onClickShowSettings} 
-                            className="font-mono select-none transition duration-300 pt-1 pr-3 2xl:pr-0 md:hidden 2xl:block 2xl:hover:text-amber-500 hover:cursor-pointer">
+                            className="font-mono font-bold select-none transition duration-300 pt-1 pr-3 2xl:pr-0 md:hidden 2xl:block 2xl:hover:text-amber-500 hover:cursor-pointer">
                             ⋮
                         </div>
                     </div>
@@ -402,12 +402,8 @@ function Track(props) {
     const [ xOffset, setxOffset ] = useState(0);
     const [ yOffset, setyOffset ] = useState(0);
 
-    const onEnterShowButton = () => {
-        setShowButton(true);
-    };
-    const onLeaveHideButton = () => {
-        setShowButton(false);
-    };
+    const onEnterShowButton = () => setShowButton(true);
+    const onLeaveHideButton = () => setShowButton(false);
 
     const onClickPlayTrack = () => {
         setTabTitle(`${track.artist} - ${track.name} | musicthing`);
@@ -477,20 +473,28 @@ function Track(props) {
 
     const currPlaying = npTrack ? npTrack.id === track.id : false;
     return (
-        <div className="flex flex-row text-slate-50 items-center">
+        <div 
+            className="flex flex-row text-slate-50 items-center">
             {!onBigScreen && playButton}
             <div className={`flex flex-row grow min-w-0 overflow-hidden items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 ${currPlaying ?  "bg-gray-300 text-slate-700" : "hover:bg-gray-300 hover:text-slate-700"}`}
                 onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}>
-                <div className="flex justify-center font-sans text-sm md:text-2xl font-semibold mx-2 w-2 md:w-3">
+                <div className="flex justify-center font-sans text-sm shrink-0 md:text-2xl font-semibold mx-2 w-2 md:w-3">
                     {onBigScreen && showButton ? 
                             playButton : 
                             <div>{track.number}</div>}
                 </div>
-                <div className="font-sans text-base md:text-2xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-                    {track.artist}
-                </div>
-                <div className="font-sans text-lg md:text-2xl font-light px-2 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {track.name}
+                <div
+                    title={`${track.artist} - ${track.name}`} 
+                    className="flex flex-row items-center font-sans whitespace-nowrap overflow-hidden text-ellipsis">
+                    <div 
+                        className="text-base md:text-2xl font-semibold shrink-0 text-ellipsis">
+                        {track.artist}
+                    </div>
+                    <div 
+                        title={`${track.artist} - ${track.name}`}
+                        className="text-lg md:text-2xl font-light px-2 overflow-hidden text-ellipsis">
+                        {track.name}
+                    </div>
                 </div>
                 <div className="ml-auto px-2">
                     {rightButton}
