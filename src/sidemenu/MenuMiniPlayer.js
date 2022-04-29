@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ControlButtons } from './controls/ControlButtons';
 
+import unwrapMetadata from '../misc/helper/unwrapMetadata';
+
 function MenuMiniPlayer(props) {
     const {
         serverUrl,
-        artSource,
-        npArtist,
+        setTabTitle,
         npAlbum,
-        npTitle,
-        setnpSource,
-        setnpArtist,
-        setnpTitle,
+        npTrack,
+        setnpTrack,
         showSidebar,
         setShowSidebar,
         implicitQueuePlaylist,
@@ -21,6 +20,8 @@ function MenuMiniPlayer(props) {
         setImplicitQueueTrackIndex,
         isPlaying,
         setIsPlaying,
+        setNewTrack,
+        setNextTrack,
         setDivHeight,
         showMenu,
         setDivWidth,
@@ -29,10 +30,9 @@ function MenuMiniPlayer(props) {
     return (
         <div className="flex flex-row">
             <MenuCornerImage 
-                artSource={artSource}
-                npArtist={npArtist}
+                serverUrl={serverUrl}
                 npAlbum={npAlbum}
-                npTitle={npTitle}
+                npTrack={npTrack}
                 showSidebar={showSidebar}
                 setShowSidebar={setShowSidebar}
                 setDivHeight={setDivHeight}
@@ -41,12 +41,10 @@ function MenuMiniPlayer(props) {
             />
             <MenuMiniControls 
                 serverUrl={serverUrl}
-                npArtist={npArtist}
+                setTabTitle={setTabTitle}
                 npAlbum={npAlbum}
-                npTitle={npTitle}
-                setnpSource={setnpSource}
-                setnpArtist={setnpArtist}
-                setnpTitle={setnpTitle}
+                npTrack={npTrack}
+                setnpTrack={setnpTrack}
                 implicitQueuePlaylist={implicitQueuePlaylist}
                 implicitQueueDiscIndex={implicitQueueDiscIndex}
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
@@ -54,6 +52,8 @@ function MenuMiniPlayer(props) {
                 setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                 isPlaying={isPlaying}
                 setIsPlaying={setIsPlaying}
+                setNewTrack={setNewTrack}
+                setNextTrack={setNextTrack}
             />
         </div>
     );
@@ -61,10 +61,9 @@ function MenuMiniPlayer(props) {
 
 function MenuCornerImage(props) {
     const {
-        artSource,
-        npArtist,
+        serverUrl,
         npAlbum,
-        npTitle,
+        npTrack,
         showSidebar,
         setShowSidebar,
         setDivHeight,
@@ -92,6 +91,13 @@ function MenuCornerImage(props) {
         }
     }, [showSidebar]);
 
+    const {
+        artSource,
+        title,
+        artist,
+        album,
+    } = unwrapMetadata(serverUrl, npTrack, npAlbum);
+
     return (
         <div onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}
             className="bg-gray-700 overflow-hidden z-40 w-14 h-14 2xl:w-20 2xl:h-20 hover:cursor-pointer">
@@ -101,7 +107,7 @@ function MenuCornerImage(props) {
             </div>
             <img 
                 src={artSource} 
-                alt={`Front cover art for ${npTitle} by ${npArtist} from the album ${npAlbum ? npAlbum.title : "Unknown Album"}`} 
+                alt={`Front cover art for ${title} by ${artist} from the album ${album}`} 
                 className={`object-contain border-gray-800 border-6 2xl:border-8 w-14 h-14 2xl:w-20 2xl:h-20 transition ease-in-out duration-200 ${showButton && "blur-md"}`} >
             </img>
         </div>
@@ -111,12 +117,10 @@ function MenuCornerImage(props) {
 function MenuMiniControls(props) {
     const {
         serverUrl,
-        npArtist,
+        setTabTitle,
         npAlbum,
-        npTitle,
-        setnpSource,
-        setnpArtist,
-        setnpTitle,
+        npTrack,
+        setnpTrack,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -124,24 +128,31 @@ function MenuMiniControls(props) {
         setImplicitQueueTrackIndex,
         isPlaying,
         setIsPlaying,
+        setNewTrack,
+        setNextTrack,
     } = props;
+
+    const {
+        title,
+        artist,
+        album,
+    } = unwrapMetadata(serverUrl, npTrack, npAlbum);
 
     return(
         <div className="flex flex-col bg-gray-700 z-40 w-42 h-14 pl-1 gap-y-0.5 2xl:w-60 2xl:h-20 2xl:pl-2">
             <div className="font-sans font-bold text-slate-50 truncate text-xl pt-0.5 2xl:text-2xl 2xl:pt-1">
-                {npTitle}
+                {title}
             </div>
             <div className="font-sans text-slate-50 truncate text-sm 2xl:text-lg">
-                    {npArtist}
+                    {artist}
             </div>
             <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} 
                 className="font-sans text-slate-50 truncate text-base 2xl:text-xl hover:underline hover:decoration-solid">
-                {npAlbum ? npAlbum.name : "Unknown Album"}
+                {album}
             </Link>
             <div className="grid grid-cols-3 justify-center items-center grow font-mono font-medium text-3xl select-none">
                 <p></p>
                 <ControlButtons
-                    serverUrl={serverUrl}
                     implicitQueuePlaylist={implicitQueuePlaylist}
                     implicitQueueDiscIndex={implicitQueueDiscIndex}
                     implicitQueueTrackIndex={implicitQueueTrackIndex}
@@ -149,9 +160,10 @@ function MenuMiniControls(props) {
                     setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
-                    setnpSource={setnpSource}
-                    setnpArtist={setnpArtist}
-                    setnpTitle={setnpTitle}
+                    setNewTrack={setNewTrack}
+                    setNextTrack={setNextTrack}
+                    setTabTitle={setTabTitle}
+                    setnpTrack={setnpTrack}
                 />
                 <VolumeButton />
             </div>

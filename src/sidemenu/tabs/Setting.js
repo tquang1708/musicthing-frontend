@@ -10,7 +10,7 @@ function Setting(props) {
     const [ reloadRunning, setReloadRunning ] = useState(false);
 
     const lastfm = () => {
-        console.log("LAST");
+        console.log("LAST!!!");
     }
 
     const reload = () => {

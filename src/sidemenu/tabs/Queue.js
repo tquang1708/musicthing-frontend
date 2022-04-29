@@ -1,5 +1,5 @@
 import React from "react";
-import secondsToTimeString from "../../helper/secondsToTimeString";
+import secondsToTimeString from "../../misc/helper/secondsToTimeString";
 
 export default function Queue(props) {
     const {
@@ -42,10 +42,7 @@ export default function Queue(props) {
             {track.number}. {track.artist} - {track.name} ({secondsToTimeString(track.length_seconds)})
         </div>
     ).reverse();
-
-    console.log(explicitQueue);
-    console.log(explicitQueueItems);
-
+    
     return (
         <div className="bg-gray-500">
             {explicitQueueItems}

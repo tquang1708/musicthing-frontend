@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import incrementQueueIndex from '../../helper/incrementQueueIndex';
+import { decrementQueueIndex, incrementQueueIndex } from '../../misc/helper/queueIndex';
 
 function ControlButtons(props) {
     const {
-        serverUrl,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -11,39 +10,36 @@ function ControlButtons(props) {
         setImplicitQueueTrackIndex,
         isPlaying,
         setIsPlaying,
-        setnpSource,
-        setnpArtist,
-        setnpTitle,
+        setNewTrack,
+        setNextTrack,
+        setTabTitle,
+        setnpTrack,
     } = props;
 
     return (
         <div className="flex flex-row justify-between items-center">
             <PrevButton 
-                serverUrl={serverUrl}
                 implicitQueuePlaylist={implicitQueuePlaylist}
                 implicitQueueDiscIndex={implicitQueueDiscIndex}
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
                 setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                 setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
-                setIsPlaying={setIsPlaying}
-                setnpSource={setnpSource}
-                setnpArtist={setnpArtist}
-                setnpTitle={setnpTitle}
+                setNewTrack={setNewTrack}
+                setTabTitle={setTabTitle}
+                setnpTrack={setnpTrack}
             />
             <PlayPauseButton 
                 isPlaying={isPlaying}
                 setIsPlaying={setIsPlaying} />
             <NextButton 
-                serverUrl={serverUrl}
                 implicitQueuePlaylist={implicitQueuePlaylist}
                 implicitQueueDiscIndex={implicitQueueDiscIndex}
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
                 setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                 setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
-                setIsPlaying={setIsPlaying}
-                setnpSource={setnpSource}
-                setnpArtist={setnpArtist}
-                setnpTitle={setnpTitle}
+                setNextTrack={setNextTrack}
+                setTabTitle={setTabTitle}
+                setnpTrack={setnpTrack}
             />
         </div>
     );
@@ -56,6 +52,9 @@ function PrevButton(props) {
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
+        setNewTrack,
+        setTabTitle,
+        setnpTrack,
     } = props;
     const [ isFirstTrack, setIsFirstTrack ] = useState(true);
 
@@ -68,21 +67,17 @@ function PrevButton(props) {
     }, [implicitQueueTrackIndex, implicitQueueDiscIndex]);
 
     const onClickPrevTrack = () => {
-        if (implicitQueuePlaylist) {
-            const discs = implicitQueuePlaylist.discs;
-    
-            if (implicitQueueTrackIndex > 0) {
-                setImplicitQueueTrackIndex(implicitQueueTrackIndex - 1);
-            } else {
-                if (implicitQueueDiscIndex > 0) {
-                    const prevDiscTracks = discs[implicitQueueDiscIndex - 1].tracks;
+        const [ newDiscIndex, newTrackIndex ] = decrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
+        if (newDiscIndex !== implicitQueueDiscIndex || newTrackIndex !== implicitQueueTrackIndex) {
+            setNewTrack(true);
 
-                    setImplicitQueueDiscIndex(implicitQueueDiscIndex - 1);
-                    setImplicitQueueTrackIndex(prevDiscTracks.length - 1);
-                }
-            }
+            const newnpTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
+            setnpTrack(newnpTrack);
+            setTabTitle(`${newnpTrack.artist} - ${newnpTrack.name} | musicthing`);
+
+            setImplicitQueueDiscIndex(newDiscIndex);
+            setImplicitQueueTrackIndex(newTrackIndex);
         }
-        
     }
 
     return (
@@ -119,6 +114,9 @@ function NextButton(props) {
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
+        setNextTrack,
+        setTabTitle,
+        setnpTrack,
     } = props;
     const [ isLastTrack, setIsLastTrack ] = useState(true);
 
@@ -134,8 +132,16 @@ function NextButton(props) {
 
     const onClickNextTrack = () => {
         const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
-        setImplicitQueueDiscIndex(newDiscIndex);
-        setImplicitQueueTrackIndex(newTrackIndex);
+        if (newDiscIndex !== implicitQueueDiscIndex || newTrackIndex !== implicitQueueTrackIndex) {
+            setNextTrack(true);
+
+            const nextnpTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
+            setnpTrack(nextnpTrack);
+            setTabTitle(`${nextnpTrack.artist} - ${nextnpTrack.name} | musicthing`);
+
+            setImplicitQueueDiscIndex(newDiscIndex);
+            setImplicitQueueTrackIndex(newTrackIndex);
+        }
     }
 
     return (

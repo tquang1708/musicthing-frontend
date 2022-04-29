@@ -7,7 +7,9 @@ import Setting from "./tabs/Setting";
 function MenuContent(props) {
     const {
         showSidebar,
-        audioRef,
+        audioRefFirst,
+        audioRefSecond,
+        currAudioRefIsFirst,
         intervalRef,
         startInterval,
         trackProgress,
@@ -35,7 +37,9 @@ function MenuContent(props) {
             />
             <MenuTabContent 
                 selectedTab={selectedTab}
-                audioRef={audioRef}
+                audioRefFirst={audioRefFirst}
+                audioRefSecond={audioRefSecond}
+                currAudioRefIsFirst={currAudioRefIsFirst}
                 intervalRef={intervalRef}
                 startInterval={startInterval}
                 trackProgress={trackProgress}
@@ -92,7 +96,9 @@ function MenuTabItems(props) {
 function MenuTabContent(props) {
     const {
         selectedTab,
-        audioRef,
+        audioRefFirst,
+        audioRefSecond,
+        currAudioRefIsFirst,
         intervalRef,
         startInterval,
         trackProgress,
@@ -115,7 +121,9 @@ function MenuTabContent(props) {
     const tab_contents = [
         <Controller 
             key="tab controller"
-            audioRef={audioRef}
+            audioRefFirst={audioRefFirst}
+            audioRefSecond={audioRefSecond}
+            currAudioRefIsFirst={currAudioRefIsFirst}
             intervalRef={intervalRef}
             startInterval={startInterval}
             trackProgress={trackProgress}

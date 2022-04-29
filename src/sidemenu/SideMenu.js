@@ -6,20 +6,23 @@ import MenuContent from './MenuContent';
 function SideMenu(props) {
     const {
         sidebarOverlay,
-        artSource,
-        npArtist,
+        setTabTitle,
         npAlbum,
-        npTitle,
-        setnpSource,
-        setnpArtist,
-        setnpTitle,
-        serverUrl,
-        setServerUrl,
-        audioRef,
-        intervalRef,
-        startInterval,
+        npTrack,
+        setnpTrack,
+        isPlaying,
+        setIsPlaying,
+        setNewTrack,
+        setNextTrack,
         trackProgress,
         setTrackProgress,
+        audioRefFirst,
+        audioRefSecond,
+        currAudioRefIsFirst,
+        intervalRef,
+        startInterval,
+        serverUrl,
+        setServerUrl,
         explicitQueue,
         setExplicitQueue,
         implicitQueuePlaylist,
@@ -27,8 +30,6 @@ function SideMenu(props) {
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
-        isPlaying,
-        setIsPlaying,
     } = props;
     const [ showMenu, setShowMenu ] = useState(true);
     const [ showSidebar, setShowSidebar ] = useState(true);
@@ -53,13 +54,10 @@ function SideMenu(props) {
                 className={`flex flex-col transition ease-in-out duration-500 ${divHeight} ${showMenu ? "translate-x-0" : "-translate-x-full"}`}>
                 <MenuMiniPlayer
                     serverUrl={serverUrl}
-                    artSource={artSource}
-                    npArtist={npArtist}
+                    setTabTitle={setTabTitle}
                     npAlbum={npAlbum}
-                    npTitle={npTitle}
-                    setnpSource={setnpSource}
-                    setnpArtist={setnpArtist}
-                    setnpTitle={setnpTitle}
+                    npTrack={npTrack}
+                    setnpTrack={setnpTrack}
                     showSidebar={showSidebar}
                     setShowSidebar={setShowSidebar}
                     implicitQueuePlaylist={implicitQueuePlaylist}
@@ -69,13 +67,17 @@ function SideMenu(props) {
                     setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
+                    setNewTrack={setNewTrack}
+                    setNextTrack={setNextTrack}
                     setDivHeight={setDivHeight}
                     showMenu={showMenu}
                     setDivWidth={setDivWidth}
                 />
                 <MenuContent 
                     showSidebar={showSidebar}
-                    audioRef={audioRef}
+                    audioRefFirst={audioRefFirst}
+                    audioRefSecond={audioRefSecond}
+                    currAudioRefIsFirst={currAudioRefIsFirst}
                     intervalRef={intervalRef}
                     startInterval={startInterval}
                     trackProgress={trackProgress}

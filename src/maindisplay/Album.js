@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import secondsToTimeString from '../helper/secondsToTimeString';
+
+import secondsToTimeString from '../misc/helper/secondsToTimeString';
 import unknown_album from '../unknown_album.svg';
 
 function Album(props) {
     const {
         serverUrl,
-        backLinkTo,
         onBigScreen,
         setTabTitle,
-        setArtSource,
-        setnpSource,
-        setnpArtist,
-        setnpAlbum,
-        setnpTitle,
         setSidebarOverlay,
-        setNewAudio,
+        setnpAlbum,
+        npTrack,
+        setnpTrack,
+        setNewTrack,
         explicitQueue,
         setExplicitQueue,
         setImplicitQueuePlaylist,
@@ -42,7 +40,7 @@ function Album(props) {
     }, [id]);
 
     const onClickGoBack = () => {
-        navigate(backLinkTo ? backLinkTo : `/album1234`);
+        navigate("/album");
     };
 
     const display = album ? 
@@ -51,12 +49,10 @@ function Album(props) {
             serverUrl={serverUrl}
             onBigScreen={onBigScreen}
             setTabTitle={setTabTitle}
-            setArtSource={setArtSource}
-            setnpSource={setnpSource}
-            setnpArtist={setnpArtist}
             setnpAlbum={setnpAlbum}
-            setnpTitle={setnpTitle}
-            setNewAudio={setNewAudio}
+            npTrack={npTrack}
+            setnpTrack={setnpTrack}
+            setNewTrack={setNewTrack}
             explicitQueue={explicitQueue}
             setExplicitQueue={setExplicitQueue}
             setImplicitQueuePlaylist={setImplicitQueuePlaylist}
@@ -87,12 +83,10 @@ function AlbumDisplay(props) {
         serverUrl,
         onBigScreen,
         setTabTitle,
-        setArtSource,
-        setnpSource,
-        setnpArtist,
         setnpAlbum,
-        setnpTitle,
-        setNewAudio,
+        npTrack,
+        setnpTrack,
+        setNewTrack,
         explicitQueue,
         setExplicitQueue,
         setImplicitQueuePlaylist,
@@ -114,12 +108,9 @@ function AlbumDisplay(props) {
         const track = album.discs[0].tracks[0];
 
         setTabTitle(`${track.artist} - ${track.name} | musicthing`);
-        setArtSource(artSource);
-        setnpSource(`${serverUrl}/api/track/${track.path}`);
-        setnpArtist(track.artist);
+        setnpTrack(track);
         setnpAlbum(album);
-        setnpTitle(track.name);
-        setNewAudio(true);
+        setNewTrack(true);
 
         setImplicitQueuePlaylist(album);
         setImplicitQueueDiscIndex(0);
@@ -165,15 +156,12 @@ function AlbumDisplay(props) {
                 album={album}
                 discsTrackCount={discsTrackCount}
                 discsTimeCount={discsTimeCount}
-                serverUrl={serverUrl}
                 onBigScreen={onBigScreen}
                 setTabTitle={setTabTitle}
-                setArtSource={setArtSource}
-                setnpSource={setnpSource}
-                setnpArtist={setnpArtist}
                 setnpAlbum={setnpAlbum}
-                setnpTitle={setnpTitle}
-                setNewAudio={setNewAudio}
+                npTrack={npTrack}
+                setnpTrack={setnpTrack}
+                setNewTrack={setNewTrack}
                 explicitQueue={explicitQueue}
                 setExplicitQueue={setExplicitQueue}
                 setImplicitQueuePlaylist={setImplicitQueuePlaylist}
@@ -190,15 +178,12 @@ function TrackListing(props) {
         album,
         discsTrackCount,
         discsTimeCount,
-        serverUrl,
         onBigScreen,
         setTabTitle,
-        setArtSource,
-        setnpSource,
-        setnpArtist,
         setnpAlbum,
-        setnpTitle,
-        setNewAudio,
+        npTrack,
+        setnpTrack,
+        setNewTrack,
         explicitQueue,
         setExplicitQueue,
         setImplicitQueuePlaylist,
@@ -217,22 +202,19 @@ function TrackListing(props) {
     });
 
     // generate discs
-    const discs = discsInfo.map((disc) =>
+    const discs = discsInfo.map((disc, i) =>
         <div key={`Album ${album.id} Disc ${disc.index}`}
             className="md:pt-2">
             <Disc 
                 disc={disc}
                 lengthOne={discsInfo.length === 1}
                 album={album}
-                serverUrl={serverUrl}
                 onBigScreen={onBigScreen}
                 setTabTitle={setTabTitle}
-                setArtSource={setArtSource}
-                setnpSource={setnpSource}
-                setnpArtist={setnpArtist}
                 setnpAlbum={setnpAlbum}
-                setnpTitle={setnpTitle}
-                setNewAudio={setNewAudio}
+                npTrack={npTrack}
+                setnpTrack={setnpTrack}
+                setNewTrack={setNewTrack}
                 explicitQueue={explicitQueue}
                 setExplicitQueue={setExplicitQueue}
                 setImplicitQueuePlaylist={setImplicitQueuePlaylist}
@@ -254,15 +236,12 @@ function Disc(props) {
         disc,
         lengthOne,
         album,
-        serverUrl,
         onBigScreen,
         setTabTitle,
-        setArtSource,
-        setnpSource,
-        setnpArtist,
         setnpAlbum,
-        setnpTitle,
-        setNewAudio,
+        npTrack,
+        setnpTrack,
+        setNewTrack,
         explicitQueue,
         setExplicitQueue,
         setImplicitQueuePlaylist,
@@ -281,15 +260,12 @@ function Disc(props) {
             album={album}
             discIndex={discIndex}
             trackIndex={i}
-            serverUrl={serverUrl}
             onBigScreen={onBigScreen}
             setTabTitle={setTabTitle}
-            setArtSource={setArtSource}
-            setnpSource={setnpSource}
-            setnpArtist={setnpArtist}
             setnpAlbum={setnpAlbum}
-            setnpTitle={setnpTitle}
-            setNewAudio={setNewAudio}
+            npTrack={npTrack}
+            setnpTrack={setnpTrack}
+            setNewTrack={setNewTrack}
             explicitQueue={explicitQueue}
             setExplicitQueue={setExplicitQueue}
             setImplicitQueuePlaylist={setImplicitQueuePlaylist}
@@ -298,24 +274,19 @@ function Disc(props) {
         />
     );
 
-
     const onEnterShowPlay = () => setShowPlayButton(true);
     const onLeaveHidePlay = () => setShowPlayButton(false);
-    const artSource = album.art_path ? `${serverUrl}/api/art/${album.art_path}` : unknown_album;
     const onClickPlayDisc = () => {
         // first track
         const track = album.discs[discIndex].tracks[0];
 
         setTabTitle(`${track.artist} - ${track.name} | musicthing`);
-        setArtSource(artSource);
-        setnpSource(`${serverUrl}/api/track/${track.path}`);
-        setnpArtist(track.artist);
         setnpAlbum(album);
-        setnpTitle(track.name);
-        setNewAudio(true);
+        setnpTrack(track);
+        setNewTrack(true);
 
         setImplicitQueuePlaylist(album);
-        setImplicitQueueDiscIndex(0);
+        setImplicitQueueDiscIndex(discIndex);
         setImplicitQueueTrackIndex(0);
     }
 
@@ -348,15 +319,12 @@ function Track(props) {
         album,
         discIndex,
         trackIndex,
-        serverUrl,
         onBigScreen,
         setTabTitle,
-        setArtSource,
-        setnpSource,
-        setnpArtist,
         setnpAlbum,
-        setnpTitle,
-        setNewAudio,
+        npTrack,
+        setnpTrack,
+        setNewTrack,
         explicitQueue,
         setExplicitQueue,
         setImplicitQueuePlaylist,
@@ -371,17 +339,13 @@ function Track(props) {
     const onLeaveHideButton = () => {
         setShowButton(false);
     };
-    
+
     // get art source
-    const artSource = track.art_path ? `${serverUrl}/api/art/${track.art_path}` : unknown_album;
     const onClickPlayTrack = () => {
         setTabTitle(`${track.artist} - ${track.name} | musicthing`);
-        setArtSource(artSource);
-        setnpSource(`${serverUrl}/api/track/${track.path}`);
-        setnpArtist(track.artist);
         setnpAlbum(album);
-        setnpTitle(track.name);
-        setNewAudio(true);
+        setnpTrack(track);
+        setNewTrack(true);
 
         // update queue
         setImplicitQueuePlaylist(album);
@@ -415,7 +379,7 @@ function Track(props) {
     return (
         <div className="flex flex-row text-slate-50 items-center">
             {!onBigScreen && playButton}
-            <div className="flex flex-row grow min-w-0 overflow-hidden items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 hover:bg-gray-300 hover:text-slate-700"
+            <div className={`flex flex-row grow min-w-0 overflow-hidden items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 ${npTrack.id === track.id ?  "bg-gray-300 text-slate-700" : "hover:bg-gray-300 hover:text-slate-700"}`}
                 onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}>
                 <div className="flex justify-center font-sans text-sm md:text-2xl font-semibold mx-2 w-2 md:w-3">
                     {onBigScreen && showButton ? 
