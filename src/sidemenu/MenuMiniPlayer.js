@@ -13,6 +13,10 @@ function MenuMiniPlayer(props) {
         setnpTrack,
         showSidebar,
         setShowSidebar,
+        explicitQueue,
+        setExplicitQueue,
+        inExplicitQueue,
+        setInExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -21,7 +25,6 @@ function MenuMiniPlayer(props) {
         isPlaying,
         setIsPlaying,
         setNewTrack,
-        setNextTrack,
         setDivHeight,
         showMenu,
         setDivWidth,
@@ -45,6 +48,10 @@ function MenuMiniPlayer(props) {
                 npAlbum={npAlbum}
                 npTrack={npTrack}
                 setnpTrack={setnpTrack}
+                explicitQueue={explicitQueue}
+                setExplicitQueue={setExplicitQueue}
+                inExplicitQueue={inExplicitQueue}
+                setInExplicitQueue={setInExplicitQueue}
                 implicitQueuePlaylist={implicitQueuePlaylist}
                 implicitQueueDiscIndex={implicitQueueDiscIndex}
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
@@ -53,7 +60,6 @@ function MenuMiniPlayer(props) {
                 isPlaying={isPlaying}
                 setIsPlaying={setIsPlaying}
                 setNewTrack={setNewTrack}
-                setNextTrack={setNextTrack}
             />
         </div>
     );
@@ -121,6 +127,10 @@ function MenuMiniControls(props) {
         npAlbum,
         npTrack,
         setnpTrack,
+        explicitQueue,
+        setExplicitQueue,
+        inExplicitQueue,
+        setInExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -129,7 +139,6 @@ function MenuMiniControls(props) {
         isPlaying,
         setIsPlaying,
         setNewTrack,
-        setNextTrack,
     } = props;
 
     const {
@@ -153,6 +162,10 @@ function MenuMiniControls(props) {
             <div className="grid grid-cols-3 justify-center items-center grow font-mono font-medium text-3xl select-none">
                 <p></p>
                 <ControlButtons
+                    explicitQueue={explicitQueue}
+                    setExplicitQueue={setExplicitQueue}
+                    inExplicitQueue={inExplicitQueue}
+                    setInExplicitQueue={setInExplicitQueue}
                     implicitQueuePlaylist={implicitQueuePlaylist}
                     implicitQueueDiscIndex={implicitQueueDiscIndex}
                     implicitQueueTrackIndex={implicitQueueTrackIndex}
@@ -161,7 +174,6 @@ function MenuMiniControls(props) {
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
                     setNewTrack={setNewTrack}
-                    setNextTrack={setNextTrack}
                     setTabTitle={setTabTitle}
                     setnpTrack={setnpTrack}
                 />

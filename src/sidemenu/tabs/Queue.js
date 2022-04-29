@@ -45,7 +45,9 @@ export default function Queue(props) {
     
     return (
         <div className="bg-gray-500">
+            <div>Explicit Queue</div>
             {explicitQueueItems}
+            <div>Implicit Queue</div>
             {implicitQueueItems}
         </div>
     );

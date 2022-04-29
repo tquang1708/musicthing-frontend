@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { decrementQueueIndex, incrementQueueIndex } from '../../misc/helper/queueIndex';
+import { incrementQueueIndex, decrementQueueIndex } from '../../misc/helper/queueIndex';
 
 function ControlButtons(props) {
     const {
+        explicitQueue,
+        setExplicitQueue,
+        inExplicitQueue,
+        setInExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -11,7 +15,6 @@ function ControlButtons(props) {
         isPlaying,
         setIsPlaying,
         setNewTrack,
-        setNextTrack,
         setTabTitle,
         setnpTrack,
     } = props;
@@ -19,6 +22,8 @@ function ControlButtons(props) {
     return (
         <div className="flex flex-row justify-between items-center">
             <PrevButton 
+                inExplicitQueue={inExplicitQueue}
+                setInExplicitQueue={setInExplicitQueue}
                 implicitQueuePlaylist={implicitQueuePlaylist}
                 implicitQueueDiscIndex={implicitQueueDiscIndex}
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
@@ -30,14 +35,26 @@ function ControlButtons(props) {
             />
             <PlayPauseButton 
                 isPlaying={isPlaying}
-                setIsPlaying={setIsPlaying} />
+                setIsPlaying={setIsPlaying} 
+                explicitQueue={explicitQueue}
+                setExplicitQueue={setExplicitQueue}
+                inExplicitQueue={inExplicitQueue}
+                setInExplicitQueue={setInExplicitQueue}
+                implicitQueuePlaylist={implicitQueuePlaylist}
+                setNewTrack={setNewTrack}
+                setnpTrack={setnpTrack}
+                setTabTitle={setTabTitle}
+            />
             <NextButton 
+                explicitQueue={explicitQueue}
+                setExplicitQueue={setExplicitQueue}
+                setInExplicitQueue={setInExplicitQueue}
                 implicitQueuePlaylist={implicitQueuePlaylist}
                 implicitQueueDiscIndex={implicitQueueDiscIndex}
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
                 setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                 setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
-                setNextTrack={setNextTrack}
+                setNewTrack={setNewTrack}
                 setTabTitle={setTabTitle}
                 setnpTrack={setnpTrack}
             />
@@ -47,6 +64,8 @@ function ControlButtons(props) {
 
 function PrevButton(props) {
     const {
+        inExplicitQueue,
+        setInExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -59,24 +78,42 @@ function PrevButton(props) {
     const [ isFirstTrack, setIsFirstTrack ] = useState(true);
 
     useEffect(() => {
-        if (implicitQueueTrackIndex <= 0 && implicitQueueDiscIndex <= 0) {
-            setIsFirstTrack(true);
+        if (!inExplicitQueue) {
+            if (implicitQueueTrackIndex <= 0 && implicitQueueDiscIndex <= 0) {
+                setIsFirstTrack(true);
+            } else {
+                setIsFirstTrack(false);
+            }
         } else {
-            setIsFirstTrack(false);
+            // in explicit queue - first track means no implicit queue since ur alw at the top of an explicit queue
+            if (!implicitQueuePlaylist) {
+                setIsFirstTrack(true)
+            } else {
+                setIsFirstTrack(false);
+            }
         }
-    }, [implicitQueueTrackIndex, implicitQueueDiscIndex]);
+    }, [inExplicitQueue, implicitQueueTrackIndex, implicitQueueDiscIndex]);
 
     const onClickPrevTrack = () => {
-        const [ newDiscIndex, newTrackIndex ] = decrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
-        if (newDiscIndex !== implicitQueueDiscIndex || newTrackIndex !== implicitQueueTrackIndex) {
-            setNewTrack(true);
+        let newnpTrack = null;
 
-            const newnpTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
+        if (inExplicitQueue) {
+            // dont update implicit queue index while exiting out of explicit queue
+            newnpTrack = implicitQueuePlaylist.discs[implicitQueueDiscIndex].tracks[implicitQueueTrackIndex];
+            setInExplicitQueue(false);
+        } else {
+            const [ newDiscIndex, newTrackIndex ] = decrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
+            if (newDiscIndex !== implicitQueueDiscIndex || newTrackIndex !== implicitQueueTrackIndex) {
+                newnpTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
+                setImplicitQueueDiscIndex(newDiscIndex);
+                setImplicitQueueTrackIndex(newTrackIndex);
+            }
+        }
+
+        if (newnpTrack) {
+            setNewTrack(true);
             setnpTrack(newnpTrack);
             setTabTitle(`${newnpTrack.artist} - ${newnpTrack.name} | musicthing`);
-
-            setImplicitQueueDiscIndex(newDiscIndex);
-            setImplicitQueueTrackIndex(newTrackIndex);
         }
     }
 
@@ -92,10 +129,30 @@ function PlayPauseButton(props) {
     const {
         isPlaying,
         setIsPlaying,
+        explicitQueue,
+        setExplicitQueue,
+        inExplicitQueue,
+        setInExplicitQueue,
+        implicitQueuePlaylist,
+        setNewTrack,
+        setnpTrack,
+        setTabTitle,
     } = props;
 
     const onPlayPauseClick = () => {
-        setIsPlaying(!isPlaying);
+        // if there is nothing in the implicit queue and something in the explicit queue play the first track there
+        if (!implicitQueuePlaylist && !inExplicitQueue && explicitQueue.length > 0) {
+            let newExplicitQueue = [...explicitQueue];
+            const nextnpTrack = newExplicitQueue.pop();
+            setExplicitQueue(newExplicitQueue);
+            setInExplicitQueue(true);
+    
+            setNewTrack(true);
+            setnpTrack(nextnpTrack);
+            setTabTitle(`${nextnpTrack.artist} - ${nextnpTrack.name} | musicthing`);
+        } else {
+            setIsPlaying(!isPlaying);
+        }
     };
 
     return (
@@ -109,40 +166,61 @@ function PlayPauseButton(props) {
 
 function NextButton(props) {
     const {
+        explicitQueue,
+        setExplicitQueue,
+        setInExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
-        setNextTrack,
+        setNewTrack,
         setTabTitle,
         setnpTrack,
     } = props;
     const [ isLastTrack, setIsLastTrack ] = useState(true);
 
     useEffect(() => {
-        if (implicitQueuePlaylist) {
-            if (implicitQueueDiscIndex === implicitQueuePlaylist.discs.length - 1 && implicitQueueTrackIndex === implicitQueuePlaylist.discs[implicitQueueDiscIndex].tracks.length - 1) {
+        if (explicitQueue.length === 0) {
+            if (!implicitQueuePlaylist) {
                 setIsLastTrack(true);
             } else {
-                setIsLastTrack(false);
+                if (implicitQueueDiscIndex === implicitQueuePlaylist.discs.length - 1 && implicitQueueTrackIndex === implicitQueuePlaylist.discs[implicitQueueDiscIndex].tracks.length - 1) {
+                    setIsLastTrack(true);
+                } else {
+                    setIsLastTrack(false);
+                }
             }
+        } else {
+            setIsLastTrack(false);
         }
-    }, [implicitQueueTrackIndex, implicitQueueDiscIndex]);
+    }, [implicitQueueTrackIndex, implicitQueueDiscIndex, explicitQueue]);
 
     const onClickNextTrack = () => {
-        const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
-        if (newDiscIndex !== implicitQueueDiscIndex || newTrackIndex !== implicitQueueTrackIndex) {
-            setNextTrack(true);
+        let nextnpTrack = null;
 
-            const nextnpTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
+        // consume explicit queue first
+        if (explicitQueue.length > 0) {
+            let newExplicitQueue = [...explicitQueue];
+            nextnpTrack = newExplicitQueue.pop();
+            setExplicitQueue(newExplicitQueue);
+            setInExplicitQueue(true);
+        } else {
+            setInExplicitQueue(false);
+            const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
+            if (newDiscIndex !== implicitQueueDiscIndex || newTrackIndex !== implicitQueueTrackIndex) {
+                nextnpTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
+                setImplicitQueueDiscIndex(newDiscIndex);
+                setImplicitQueueTrackIndex(newTrackIndex);
+            }
+        }
+
+        if (nextnpTrack) {
+            setNewTrack(true);
             setnpTrack(nextnpTrack);
             setTabTitle(`${nextnpTrack.artist} - ${nextnpTrack.name} | musicthing`);
-
-            setImplicitQueueDiscIndex(newDiscIndex);
-            setImplicitQueueTrackIndex(newTrackIndex);
         }
-    }
+    };
 
     return (
         <div onClick={onClickNextTrack}

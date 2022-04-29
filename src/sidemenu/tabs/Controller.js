@@ -3,9 +3,7 @@ import secondsToTimeString from '../../misc/helper/secondsToTimeString'
 
 function Controller(props) {
     const {
-        audioRefFirst,
-        audioRefSecond,
-        currAudioRefIsFirst,
+        audioRef,
         intervalRef,
         startInterval,
         trackProgress,
@@ -14,14 +12,13 @@ function Controller(props) {
         setIsPlaying,
     } = props;
 
-    const currAudioRef = currAudioRefIsFirst.current ? audioRefFirst : audioRefSecond;
-    const duration = currAudioRef.current.duration;
+    const duration = audioRef.current.duration;
 
     const onScrub = (s) => {
         // clear any current timers
         clearInterval(intervalRef.current);
-        currAudioRef.current.currentTime = s;
-        setTrackProgress(currAudioRef.current.currentTime);
+        audioRef.current.currentTime = s;
+        setTrackProgress(audioRef.current.currentTime);
     }
 
     const onScrubEnd = () => {

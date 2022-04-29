@@ -340,7 +340,6 @@ function Track(props) {
         setShowButton(false);
     };
 
-    // get art source
     const onClickPlayTrack = () => {
         setTabTitle(`${track.artist} - ${track.name} | musicthing`);
         setnpAlbum(album);
@@ -354,7 +353,9 @@ function Track(props) {
     };
     const onClickQueueTrack = () => {
         // update explicit queue
-        setExplicitQueue([...explicitQueue, track]);
+        setExplicitQueue([track, ...explicitQueue]);
+
+        // if implicit queue is empty just play it
     }
 
     const playButton = 

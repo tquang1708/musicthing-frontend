@@ -13,18 +13,17 @@ function SideMenu(props) {
         isPlaying,
         setIsPlaying,
         setNewTrack,
-        setNextTrack,
         trackProgress,
         setTrackProgress,
-        audioRefFirst,
-        audioRefSecond,
-        currAudioRefIsFirst,
+        audioRef,
         intervalRef,
         startInterval,
         serverUrl,
         setServerUrl,
         explicitQueue,
         setExplicitQueue,
+        inExplicitQueue,
+        setInExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -60,6 +59,10 @@ function SideMenu(props) {
                     setnpTrack={setnpTrack}
                     showSidebar={showSidebar}
                     setShowSidebar={setShowSidebar}
+                    explicitQueue={explicitQueue}
+                    setExplicitQueue={setExplicitQueue}
+                    inExplicitQueue={inExplicitQueue}
+                    setInExplicitQueue={setInExplicitQueue}
                     implicitQueuePlaylist={implicitQueuePlaylist}
                     implicitQueueDiscIndex={implicitQueueDiscIndex}
                     implicitQueueTrackIndex={implicitQueueTrackIndex}
@@ -68,16 +71,13 @@ function SideMenu(props) {
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
                     setNewTrack={setNewTrack}
-                    setNextTrack={setNextTrack}
                     setDivHeight={setDivHeight}
                     showMenu={showMenu}
                     setDivWidth={setDivWidth}
                 />
                 <MenuContent 
                     showSidebar={showSidebar}
-                    audioRefFirst={audioRefFirst}
-                    audioRefSecond={audioRefSecond}
-                    currAudioRefIsFirst={currAudioRefIsFirst}
+                    audioRef={audioRef}
                     intervalRef={intervalRef}
                     startInterval={startInterval}
                     trackProgress={trackProgress}
