@@ -17,6 +17,7 @@ function ControlButtons(props) {
         setNewTrack,
         setTabTitle,
         setnpTrack,
+        setnpAlbum,
     } = props;
 
     return (
@@ -32,6 +33,7 @@ function ControlButtons(props) {
                 setNewTrack={setNewTrack}
                 setTabTitle={setTabTitle}
                 setnpTrack={setnpTrack}
+                setnpAlbum={setnpAlbum}
             />
             <PlayPauseButton 
                 isPlaying={isPlaying}
@@ -57,6 +59,7 @@ function ControlButtons(props) {
                 setNewTrack={setNewTrack}
                 setTabTitle={setTabTitle}
                 setnpTrack={setnpTrack}
+                setnpAlbum={setnpAlbum}
             />
         </div>
     );
@@ -74,6 +77,7 @@ function PrevButton(props) {
         setNewTrack,
         setTabTitle,
         setnpTrack,
+        setnpAlbum,
     } = props;
     const [ isFirstTrack, setIsFirstTrack ] = useState(true);
 
@@ -96,10 +100,12 @@ function PrevButton(props) {
 
     const onClickPrevTrack = () => {
         let newnpTrack = null;
+        let newnpAlbum = null;
 
         if (inExplicitQueue) {
             // dont update implicit queue index while exiting out of explicit queue
             newnpTrack = implicitQueuePlaylist.discs[implicitQueueDiscIndex].tracks[implicitQueueTrackIndex];
+            newnpAlbum = implicitQueuePlaylist;
             setInExplicitQueue(false);
         } else {
             const [ newDiscIndex, newTrackIndex ] = decrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
@@ -114,6 +120,9 @@ function PrevButton(props) {
             setNewTrack(true);
             setnpTrack(newnpTrack);
             setTabTitle(`${newnpTrack.artist} - ${newnpTrack.name} | musicthing`);
+            if (newnpAlbum) {
+                setnpAlbum(newnpAlbum);
+            }
         }
     }
 
@@ -177,6 +186,7 @@ function NextButton(props) {
         setNewTrack,
         setTabTitle,
         setnpTrack,
+        setnpAlbum,
     } = props;
     const [ isLastTrack, setIsLastTrack ] = useState(true);
 
@@ -198,11 +208,13 @@ function NextButton(props) {
 
     const onClickNextTrack = () => {
         let nextnpTrack = null;
+        let nextnpAlbum = null;
 
         // consume explicit queue first
         if (explicitQueue.length > 0) {
             let newExplicitQueue = [...explicitQueue];
-            nextnpTrack = newExplicitQueue.pop();
+            [ nextnpTrack, nextnpAlbum ] = newExplicitQueue.pop();
+            
             setExplicitQueue(newExplicitQueue);
             setInExplicitQueue(true);
         } else {
@@ -219,6 +231,10 @@ function NextButton(props) {
             setNewTrack(true);
             setnpTrack(nextnpTrack);
             setTabTitle(`${nextnpTrack.artist} - ${nextnpTrack.name} | musicthing`);
+
+            if (nextnpAlbum) {
+                setnpAlbum(nextnpAlbum);
+            }
         }
     };
 

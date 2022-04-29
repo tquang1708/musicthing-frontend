@@ -37,10 +37,13 @@ export default function Queue(props) {
     }
 
     // explicit queue is reversed
-    const explicitQueueItems = explicitQueue.map((track) => 
-        <div key={`explicit queue ${track.id}`}>
-            {track.number}. {track.artist} - {track.name} ({secondsToTimeString(track.length_seconds)})
+    const explicitQueueLength = explicitQueue.length;
+    const explicitQueueItems = explicitQueue.map((item, i) => {
+        const [ track, album ] = item;
+        return <div key={`explicit queue ${track.id} ${i}`}>
+            {explicitQueueLength - i}. {track.artist} - {track.name} - {album.name} ({secondsToTimeString(track.length_seconds)})
         </div>
+        }
     ).reverse();
     
     return (

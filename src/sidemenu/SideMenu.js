@@ -10,6 +10,7 @@ function SideMenu(props) {
         npAlbum,
         npTrack,
         setnpTrack,
+        setnpAlbum,
         isPlaying,
         setIsPlaying,
         setNewTrack,
@@ -57,6 +58,7 @@ function SideMenu(props) {
                     npAlbum={npAlbum}
                     npTrack={npTrack}
                     setnpTrack={setnpTrack}
+                    setnpAlbum={setnpAlbum}
                     showSidebar={showSidebar}
                     setShowSidebar={setShowSidebar}
                     explicitQueue={explicitQueue}

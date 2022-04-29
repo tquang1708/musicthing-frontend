@@ -351,12 +351,10 @@ function Track(props) {
         setImplicitQueueDiscIndex(discIndex);
         setImplicitQueueTrackIndex(trackIndex);
     };
-    const onClickQueueTrack = () => {
-        // update explicit queue
-        setExplicitQueue([track, ...explicitQueue]);
 
-        // if implicit queue is empty just play it
-    }
+    // explicit queue's first is at last (for quick track popping)
+    const onClickQueueTrackTop = () => setExplicitQueue([...explicitQueue, [track, album]]);
+    const onClickQueueTrack = () => setExplicitQueue([[track, album], ...explicitQueue]);
 
     const playButton = 
     <div 
@@ -364,17 +362,34 @@ function Track(props) {
         onClick={onClickPlayTrack}>
         ▶
     </div>;
-    const settingButton = 
-    <div 
-        className="font-mono select-none text-3xl hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700"
-        onClick={onClickQueueTrack}>
-        …
-    </div>;
+
+    const miscButtons = 
+        <div className="flex flex-row font-mono select-none text-3xl gap-2">
+            <div 
+                title="Add to Top of Queue"
+                className="hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700"
+                onClick={onClickQueueTrackTop}>
+                ±
+            </div>
+            <div 
+                title="Add to Bottom of Queue"
+                className="hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700"
+                onClick={onClickQueueTrack}>
+                ∓
+            </div>
+            <div
+                title="Settings" 
+                className="hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700"
+            >
+                …
+            </div>
+        </div>;
+
     let rightButton;
     if (onBigScreen && !showButton) {
         rightButton = <div>{secondsToTimeString(track.length_seconds)}</div>;
     } else {
-        rightButton = settingButton;
+        rightButton = miscButtons;
     }
 
     const currPlaying = npTrack ? npTrack.id === track.id : false;

@@ -11,6 +11,7 @@ function MenuMiniPlayer(props) {
         npAlbum,
         npTrack,
         setnpTrack,
+        setnpAlbum,
         showSidebar,
         setShowSidebar,
         explicitQueue,
@@ -48,6 +49,7 @@ function MenuMiniPlayer(props) {
                 npAlbum={npAlbum}
                 npTrack={npTrack}
                 setnpTrack={setnpTrack}
+                setnpAlbum={setnpAlbum}
                 explicitQueue={explicitQueue}
                 setExplicitQueue={setExplicitQueue}
                 inExplicitQueue={inExplicitQueue}
@@ -127,6 +129,7 @@ function MenuMiniControls(props) {
         npAlbum,
         npTrack,
         setnpTrack,
+        setnpAlbum,
         explicitQueue,
         setExplicitQueue,
         inExplicitQueue,
@@ -176,6 +179,7 @@ function MenuMiniControls(props) {
                     setNewTrack={setNewTrack}
                     setTabTitle={setTabTitle}
                     setnpTrack={setnpTrack}
+                    setnpAlbum={setnpAlbum}
                 />
                 <VolumeButton />
             </div>

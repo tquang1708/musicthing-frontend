@@ -116,6 +116,7 @@ function Main(props) {
         sidebarOverlay,
         onBigScreen,
         npAlbum,
+        setnpAlbum,
         npTrack,
         setnpTrack,
         newTrack,
@@ -168,11 +169,15 @@ function Main(props) {
     useEffect(() => {
         if (audioRef.current.ended) {
             let nextnpTrack = null;
+            let nextnpAlbum = null;
 
             // consume explicit queue first
             if (explicitQueue.length > 0) {
                 let newExplicitQueue = [...explicitQueue];
-                nextnpTrack = newExplicitQueue.pop();
+                const [ track, album ] = newExplicitQueue.pop();
+                nextnpTrack = track;
+                nextnpAlbum = album;
+
                 setExplicitQueue(newExplicitQueue);
                 setInExplicitQueue(true);
             } else {
@@ -191,6 +196,10 @@ function Main(props) {
                 setNewTrack(true);
                 setnpTrack(nextnpTrack);
                 setTabTitle(`${nextnpTrack.artist} - ${nextnpTrack.name} | musicthing`);
+
+                if (nextnpAlbum) {
+                    setnpAlbum(nextnpAlbum);
+                }
             }
         }
     }, [audioRef.current.ended]);
@@ -230,6 +239,7 @@ function Main(props) {
                         npAlbum={npAlbum}
                         npTrack={npTrack}
                         setnpTrack={setnpTrack}
+                        setnpAlbum={setnpAlbum}
                         isPlaying={isPlaying}
                         setIsPlaying={setIsPlaying}
                         setNewTrack={setNewTrack}
