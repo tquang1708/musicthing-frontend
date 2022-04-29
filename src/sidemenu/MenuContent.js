@@ -16,6 +16,7 @@ function MenuContent(props) {
         setIsPlaying,
         explicitQueue,
         setExplicitQueue,
+        setInExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -23,6 +24,10 @@ function MenuContent(props) {
         setImplicitQueueTrackIndex,
         serverUrl,
         setServerUrl,
+        setNewTrack,
+        setnpTrack,
+        setnpAlbum,
+        setTabTitle,
     } = props;
     const [ selectedTab, setSelectedTab ] = useState(0);
     const [ showSettingMessage, setShowSettingMessage ] = useState(false);
@@ -44,6 +49,7 @@ function MenuContent(props) {
                 setIsPlaying={setIsPlaying}
                 explicitQueue={explicitQueue}
                 setExplicitQueue={setExplicitQueue}
+                setInExplicitQueue={setInExplicitQueue}
                 implicitQueuePlaylist={implicitQueuePlaylist}
                 implicitQueueDiscIndex={implicitQueueDiscIndex}
                 implicitQueueTrackIndex={implicitQueueTrackIndex}
@@ -53,6 +59,10 @@ function MenuContent(props) {
                 setServerUrl={setServerUrl}
                 showSettingMessage={showSettingMessage}
                 setShowSettingMessage={setShowSettingMessage}
+                setNewTrack={setNewTrack}
+                setnpTrack={setnpTrack}
+                setnpAlbum={setnpAlbum}
+                setTabTitle={setTabTitle}
             />
         </div>
     );
@@ -101,6 +111,7 @@ function MenuTabContent(props) {
         setIsPlaying,
         explicitQueue,
         setExplicitQueue,
+        setInExplicitQueue,
         implicitQueuePlaylist,
         implicitQueueDiscIndex,
         implicitQueueTrackIndex,
@@ -110,6 +121,10 @@ function MenuTabContent(props) {
         setServerUrl,
         showSettingMessage,
         setShowSettingMessage,
+        setNewTrack,
+        setnpTrack,
+        setnpAlbum,
+        setTabTitle,
     } = props;
 
     const tab_contents = [
@@ -127,11 +142,16 @@ function MenuTabContent(props) {
             key="tab queue" 
             explicitQueue={explicitQueue}
             setExplicitQueue={setExplicitQueue}
+            setInExplicitQueue={setInExplicitQueue}
             implicitQueuePlaylist={implicitQueuePlaylist}
             implicitQueueDiscIndex={implicitQueueDiscIndex}
             implicitQueueTrackIndex={implicitQueueTrackIndex}
             setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
             setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
+            setNewTrack={setNewTrack}
+            setnpTrack={setnpTrack}
+            setnpAlbum={setnpAlbum}
+            setTabTitle={setTabTitle}
         />,
         <Setting 
             key="tab setting"

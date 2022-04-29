@@ -88,6 +88,7 @@ function SideMenu(props) {
                     setIsPlaying={setIsPlaying}
                     explicitQueue={explicitQueue}
                     setExplicitQueue={setExplicitQueue}
+                    setInExplicitQueue={setInExplicitQueue}
                     implicitQueuePlaylist={implicitQueuePlaylist}
                     implicitQueueDiscIndex={implicitQueueDiscIndex}
                     implicitQueueTrackIndex={implicitQueueTrackIndex}
@@ -95,6 +96,10 @@ function SideMenu(props) {
                     setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                     serverUrl={serverUrl}
                     setServerUrl={setServerUrl}
+                    setNewTrack={setNewTrack}
+                    setnpTrack={setnpTrack}
+                    setnpAlbum={setnpAlbum}
+                    setTabTitle={setTabTitle}
                 />
             </div>
             <MenuHideButton 

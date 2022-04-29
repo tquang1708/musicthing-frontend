@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+
 import unknown_album from '../unknown_album.svg';
 
 function AlbumDisplay(props) {
@@ -87,34 +88,23 @@ function Tile(props) {
         noSubtitle,
         linkTo,
     } = props;
-    const [ showButton, setShowButton ] = useState(false);
 
-    const onEnterShowButton = () => setShowButton(true);
-    const onLeaveHideButton = () => setShowButton(false);
-    
     return (
         <Link to={`${linkTo}`}>
-            <div onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}
+            <div
                 className="flex flex-col p-1.5 rounded-lg drop-shadow-md bg-gray-500 text-slate-50 transition ease-linear duration-200 hover:bg-gray-300 hover:text-slate-700 hover:cursor-pointer hover:drop-shadow-none">
                 <img
                     src={imgSource}
                     alt={`Art for ${title}`}
                     className="object-contain h-12 md:h-20" >
                 </img>
-                <div className="flex flex-col">
-                    <div className="flex flex-row">
-                        <div
-                            className="font-sans font-bold truncate grow">
-                            {title ? title : noTitle}
-                        </div>
-                        <div className={`font-mono font-bold text-xl md:text-2xl select-none ${showButton ? "md:visible" : "md:invisible"} hover:text-amber-700`}>
-                            ⋮
-                        </div>
-                    </div>
-                    <div
-                        className="font-sans font-light truncate">
-                        {subtitle ? subtitle : noSubtitle}
-                    </div>
+                <div
+                    className="font-sans font-bold truncate grow">
+                    {title ? title : noTitle}
+                </div>
+                <div
+                    className="font-sans font-light truncate">
+                    {subtitle ? subtitle : noSubtitle}
                 </div>
             </div>
         </Link>

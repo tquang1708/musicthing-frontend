@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import SettingsBox from "./SettingsBox";
 
 import secondsToTimeString from '../misc/helper/secondsToTimeString';
 import unknown_album from '../unknown_album.svg';
@@ -93,6 +94,9 @@ function AlbumDisplay(props) {
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
     } = props;
+    const [ showSettings, setShowSettings ] = useState(false);
+    const [ xOffset, setxOffset ] = useState(0);
+    const [ yOffset, setyOffset ] = useState(0);
 
     // calculating some information
     const artSource = album.art_path ? `${serverUrl}/api/art/${album.art_path}` : unknown_album;
@@ -117,6 +121,27 @@ function AlbumDisplay(props) {
         setImplicitQueueTrackIndex(0);
     };
 
+    // settings window
+    const onClickShowSettings = (e) => {
+        setShowSettings(true);
+        setxOffset(e.pageX);
+        setyOffset(e.pageY);
+    }
+    const albumForExplicitQueue = album.discs.reduce((init, disc) => {
+        return [...init, ...disc.tracks.map((t) => {return [ t, album ];})];
+    }, []).reverse();
+    const onClickQueueAlbumTop = () => {
+        setExplicitQueue([...explicitQueue, ...albumForExplicitQueue]);
+    }
+    const onClickQueueAlbum = () => {
+        setExplicitQueue([...albumForExplicitQueue, ...explicitQueue]);
+    }
+    const settingsButtonsContent = [
+        ["Play Now", onClickPlayAlbum],
+        ["Play Next", onClickQueueAlbumTop],
+        ["Add to Queue", onClickQueueAlbum],
+    ];
+
     return (
         <div className="flex flex-col 2xl:flex-row md:p-6">
             <div className="flex flex-col md:flex-row 2xl:flex-col 2xl:w-81 2xl:min-w-81 2xl:sticky 2xl:top-0 2xl:self-start">
@@ -139,19 +164,28 @@ function AlbumDisplay(props) {
                         {album.album_artist_name}
                     </div>
                     <div className="flex flex-row font-sans font-bold text-3xl md:text-5xl pl-3 2xl:pl-0 pb-1 md:pb-3 2xl:pt-3 text-slate-50 break-words">
-                        {/* {album.name} */}
                         <div className="grow">
                             {album.name}
                         </div>
-                        <div className="font-mono select-none transition duration-300 pt-1 pr-3 2xl:pr-0 md:hidden 2xl:block 2xl:hover:text-amber-500 hover:cursor-pointer">
+                        <div
+                            onClick={onClickShowSettings} 
+                            className="font-mono select-none transition duration-300 pt-1 pr-3 2xl:pr-0 md:hidden 2xl:block 2xl:hover:text-amber-500 hover:cursor-pointer">
                             ⋮
                         </div>
                     </div>
-                    <div className="font-mono font-bold text-5xl text-slate-50 grow hidden md:block 2xl:hidden self-end select-none transition duration-300 hover:text-amber-500 hover:cursor-pointer">
+                    <div
+                        onClick={onClickShowSettings}  
+                        className="font-mono font-bold text-5xl text-slate-50 grow hidden md:block 2xl:hidden self-end select-none transition duration-300 hover:text-amber-500 hover:cursor-pointer">
                         ⋮
                     </div>
                 </div>
             </div>
+            {showSettings && <SettingsBox 
+                    context={`Album ${album.id} Settings`} 
+                    buttonsContent={settingsButtonsContent}
+                    xOffset={xOffset}
+                    yOffset={yOffset}
+                    setShowSettings={setShowSettings} />}
             <TrackListing 
                 album={album}
                 discsTrackCount={discsTrackCount}
@@ -202,7 +236,7 @@ function TrackListing(props) {
     });
 
     // generate discs
-    const discs = discsInfo.map((disc, i) =>
+    const discs = discsInfo.map((disc) =>
         <div key={`Album ${album.id} Disc ${disc.index}`}
             className="md:pt-2">
             <Disc 
@@ -249,6 +283,9 @@ function Disc(props) {
         setImplicitQueueTrackIndex,
     } = props;
     const [ showPlayButton, setShowPlayButton ] = useState(false);
+    const [ showSettings, setShowSettings ] = useState(false);
+    const [ xOffset, setxOffset ] = useState(0);
+    const [ yOffset, setyOffset ] = useState(0);
 
     // generate tracks
     let discContent = disc.disc;
@@ -278,7 +315,7 @@ function Disc(props) {
     const onLeaveHidePlay = () => setShowPlayButton(false);
     const onClickPlayDisc = () => {
         // first track
-        const track = album.discs[discIndex].tracks[0];
+        const track = discContent.tracks[0];
 
         setTabTitle(`${track.artist} - ${track.name} | musicthing`);
         setnpAlbum(album);
@@ -289,6 +326,25 @@ function Disc(props) {
         setImplicitQueueDiscIndex(discIndex);
         setImplicitQueueTrackIndex(0);
     }
+
+    // settings window
+    const onClickShowSettings = (e) => {
+        setShowSettings(true);
+        setxOffset(e.pageX);
+        setyOffset(e.pageY);
+    }
+    const discForExplicitQueue = discContent.tracks.map((t) => [t, album]).reverse();
+    const onClickQueueDiscTop = () => {
+        setExplicitQueue([...explicitQueue, ...discForExplicitQueue]);
+    }
+    const onClickQueueDisc = () => {
+        setExplicitQueue([...discForExplicitQueue, ...explicitQueue]);
+    }
+    const settingsButtonsContent = [
+        ["Play Now", onClickPlayDisc],
+        ["Play Next", onClickQueueDiscTop],
+        ["Add to Queue", onClickQueueDisc],
+    ];
 
     return (
         <div className="flex flex-col">
@@ -305,7 +361,17 @@ function Disc(props) {
                         <div className="font-light text-lg">
                             &nbsp;&nbsp;{`${disc.trackCount} Tracks - ${secondsToTimeString(disc.lengthSecondsCount)}`}
                         </div>
+                        <div className="text-xl select-none hover:cursor-pointer md:transition md:duration-300 hover:md:text-amber-500"
+                            onClick={onClickShowSettings}>
+                            &nbsp;&nbsp;…
+                        </div>
                     </div>
+                    {showSettings && <SettingsBox 
+                        context={`Disc ${discIndex} album ${album.id} Settings`} 
+                        buttonsContent={settingsButtonsContent}
+                        xOffset={xOffset}
+                        yOffset={yOffset}
+                        setShowSettings={setShowSettings} />}
                 </div>
             }
             {tracks}
@@ -332,6 +398,9 @@ function Track(props) {
         setImplicitQueueTrackIndex,
     } = props;
     const [ showButton, setShowButton ] = useState(false);
+    const [ showSettings, setShowSettings ] = useState(false);
+    const [ xOffset, setxOffset ] = useState(0);
+    const [ yOffset, setyOffset ] = useState(0);
 
     const onEnterShowButton = () => {
         setShowButton(true);
@@ -355,6 +424,13 @@ function Track(props) {
     // explicit queue's first is at last (for quick track popping)
     const onClickQueueTrackTop = () => setExplicitQueue([...explicitQueue, [track, album]]);
     const onClickQueueTrack = () => setExplicitQueue([[track, album], ...explicitQueue]);
+    const onClickShowDetails = () => console.log("DETIALS!!");
+
+    const onClickShowSettings = (e) => {
+        setShowSettings(true);
+        setxOffset(e.pageX);
+        setyOffset(e.pageY);
+    }
 
     const playButton = 
     <div 
@@ -366,21 +442,21 @@ function Track(props) {
     const miscButtons = 
         <div className="flex flex-row font-mono select-none text-3xl gap-2">
             <div 
-                title="Add to Top of Queue"
+                title="Play Next"
                 className="hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700"
                 onClick={onClickQueueTrackTop}>
                 ±
             </div>
             <div 
-                title="Add to Bottom of Queue"
+                title="Add to Queue"
                 className="hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700"
                 onClick={onClickQueueTrack}>
                 ∓
             </div>
             <div
                 title="Settings" 
-                className="hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700"
-            >
+                className="hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700" 
+                onClick={(e) => onClickShowSettings(e)} >
                 …
             </div>
         </div>;
@@ -391,6 +467,13 @@ function Track(props) {
     } else {
         rightButton = miscButtons;
     }
+
+    const settingsButtonsContent = [
+        ["Play Now", onClickPlayTrack],
+        ["Play Next", onClickQueueTrackTop],
+        ["Add to Queue", onClickQueueTrack],
+        ["Details", onClickShowDetails],
+    ];
 
     const currPlaying = npTrack ? npTrack.id === track.id : false;
     return (
@@ -413,6 +496,12 @@ function Track(props) {
                     {rightButton}
                 </div>
             </div>
+            {showSettings && <SettingsBox 
+                context={`Track ${track.id} Settings`} 
+                buttonsContent={settingsButtonsContent}
+                xOffset={xOffset}
+                yOffset={yOffset}
+                setShowSettings={setShowSettings} /> }
         </div>
     );
 }

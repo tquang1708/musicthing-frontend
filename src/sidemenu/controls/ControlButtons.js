@@ -45,6 +45,7 @@ function ControlButtons(props) {
                 implicitQueuePlaylist={implicitQueuePlaylist}
                 setNewTrack={setNewTrack}
                 setnpTrack={setnpTrack}
+                setnpAlbum={setnpAlbum}
                 setTabTitle={setTabTitle}
             />
             <NextButton 
@@ -145,6 +146,7 @@ function PlayPauseButton(props) {
         implicitQueuePlaylist,
         setNewTrack,
         setnpTrack,
+        setnpAlbum,
         setTabTitle,
     } = props;
 
@@ -152,12 +154,13 @@ function PlayPauseButton(props) {
         // if there is nothing in the implicit queue and something in the explicit queue play the first track there
         if (!implicitQueuePlaylist && !inExplicitQueue && explicitQueue.length > 0) {
             let newExplicitQueue = [...explicitQueue];
-            const nextnpTrack = newExplicitQueue.pop();
+            const [ nextnpTrack, nextnpAlbum ] = newExplicitQueue.pop();
             setExplicitQueue(newExplicitQueue);
             setInExplicitQueue(true);
     
             setNewTrack(true);
             setnpTrack(nextnpTrack);
+            setnpAlbum(nextnpAlbum);
             setTabTitle(`${nextnpTrack.artist} - ${nextnpTrack.name} | musicthing`);
         } else {
             setIsPlaying(!isPlaying);

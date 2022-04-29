@@ -67,8 +67,8 @@ function Setting(props) {
 function SettingButton(props) {
     const {
         content,
-        dangerous,
         onClickFunc,
+        dangerous,
     } = props;
 
     return (
