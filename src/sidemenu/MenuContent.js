@@ -87,7 +87,7 @@ function MenuTabItems(props) {
     });
 
     return (
-        <div className={`grow z-30 w-14 2xl:w-20 flex flex-col bg-gray-700`}>
+        <div className={`grow z-30 w-14 2xl:w-20 overflow-auto flex flex-col bg-gray-700`}>
             {images}
         </div>
     )
@@ -151,7 +151,7 @@ function MenuTabContent(props) {
     ];
 
     return (
-        <div className={`bg-gray-500 grow z-30 w-42 2xl:w-60`}>
+        <div className={`bg-gray-500 grow z-30 overflow-auto w-42 2xl:w-60`}>
             {tab_contents[selectedTab]}
         </div>
     )

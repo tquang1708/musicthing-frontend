@@ -376,10 +376,11 @@ function Track(props) {
         rightButton = settingButton;
     }
 
+    const currPlaying = npTrack ? npTrack.id === track.id : false;
     return (
         <div className="flex flex-row text-slate-50 items-center">
             {!onBigScreen && playButton}
-            <div className={`flex flex-row grow min-w-0 overflow-hidden items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 ${npTrack.id === track.id ?  "bg-gray-300 text-slate-700" : "hover:bg-gray-300 hover:text-slate-700"}`}
+            <div className={`flex flex-row grow min-w-0 overflow-hidden items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 ${currPlaying ?  "bg-gray-300 text-slate-700" : "hover:bg-gray-300 hover:text-slate-700"}`}
                 onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}>
                 <div className="flex justify-center font-sans text-sm md:text-2xl font-semibold mx-2 w-2 md:w-3">
                     {onBigScreen && showButton ? 
