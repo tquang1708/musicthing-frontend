@@ -11,6 +11,7 @@ function SideMenu(props) {
         npTrack,
         setnpTrack,
         setnpAlbum,
+        onBiggerScreen,
         isPlaying,
         setIsPlaying,
         setNewTrack,
@@ -54,6 +55,7 @@ function SideMenu(props) {
                 className={`flex flex-col transition ease-in-out duration-500 ${divHeight} ${showMenu ? "translate-x-0" : "-translate-x-full"}`}>
                 <MenuMiniPlayer
                     serverUrl={serverUrl}
+                    onBiggerScreen={onBiggerScreen}
                     setTabTitle={setTabTitle}
                     npAlbum={npAlbum}
                     npTrack={npTrack}
@@ -84,6 +86,7 @@ function SideMenu(props) {
                     audioRef={audioRef}
                     intervalRef={intervalRef}
                     startInterval={startInterval}
+                    onBiggerScreen={onBiggerScreen}
                     trackProgress={trackProgress}
                     setTrackProgress={setTrackProgress}
                     isPlaying={isPlaying}

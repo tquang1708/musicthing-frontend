@@ -3,6 +3,8 @@ import { incrementQueueIndex, decrementQueueIndex } from '../../misc/helper/queu
 
 function ControlButtons(props) {
     const {
+        fontSize,
+        gapSide,
         explicitQueue,
         setExplicitQueue,
         inExplicitQueue,
@@ -21,7 +23,8 @@ function ControlButtons(props) {
     } = props;
 
     return (
-        <div className={`flex flex-row justify-between items-center`}>
+        <div style={{"fontSize": `${fontSize}`, "marginLeft": `${gapSide}`, "marginRight": `${gapSide}`}} 
+            className={`flex flex-row justify-between items-baseline`}>
             <PrevButton 
                 inExplicitQueue={inExplicitQueue}
                 setInExplicitQueue={setInExplicitQueue}
@@ -129,8 +132,8 @@ function PrevButton(props) {
 
     return (
         <div onClick={onClickPrevTrack}
-            className={`transition duration-300 ${isFirstTrack ? "text-gray-500 hover:cursor-default" : "text-slate-50 hover:cursor-pointer hover:text-amber-500"}`}>
-            ⏮
+            className={`transition duration-300 ${isFirstTrack ? "text-gray-600 hover:cursor-default" : "text-slate-50 hover:cursor-pointer hover:text-amber-500"}`}>
+            ⏮&#xFE0E;
         </div>
     );
 }
@@ -162,7 +165,8 @@ function PlayPauseButton(props) {
             setnpTrack(nextnpTrack);
             setnpAlbum(nextnpAlbum);
             setTabTitle(`${nextnpTrack.artist} - ${nextnpTrack.name} | musicthing`);
-        } else {
+        } else if (implicitQueuePlaylist || explicitQueue.length > 0) {
+            // dont do anything if there's nothing in the queue
             setIsPlaying(!isPlaying);
         }
     };
@@ -170,8 +174,8 @@ function PlayPauseButton(props) {
     return (
         <button 
             onClick={onPlayPauseClick}
-            className="font-mono font-medium text-3xl text-slate-50 md:hover:text-amber-500 transition duration-300">
-            {isPlaying ? "⏸" : "▶"}
+            className="font-mono font-medium text-slate-50 md:hover:text-amber-500 transition duration-300">
+            {isPlaying ? `⏸${String.fromCodePoint(0xFE0E)}` : `▶${String.fromCodePoint(0xFE0E)}`}
         </button>
     );
 }
@@ -243,8 +247,8 @@ function NextButton(props) {
 
     return (
         <div onClick={onClickNextTrack}
-            className={`transition duration-300 ${isLastTrack ? "text-gray-500 hover:cursor-default" : "text-slate-50 hover:cursor-pointer hover:text-amber-500"}`}>
-            ⏭
+            className={`transition duration-300 ${isLastTrack ? "text-gray-600 hover:cursor-default" : "text-slate-50 hover:cursor-pointer hover:text-amber-500"}`}>
+            ⏭&#xFE0E;
         </div>
     );
 }

@@ -64,6 +64,7 @@ function App() {
             setTabTitle={setTabTitle}
             sidebarOverlay={sidebarOverlay}
             onBigScreen={onBigScreen}
+            onBiggerScreen={onBiggerScreen}
             npAlbum={npAlbum}
             setnpAlbum={setnpAlbum}
             npTrack={npTrack}
@@ -123,6 +124,7 @@ function Main(props) {
         setTabTitle,
         sidebarOverlay,
         onBigScreen,
+        onBiggerScreen,
         npAlbum,
         setnpAlbum,
         npTrack,
@@ -248,6 +250,7 @@ function Main(props) {
                         npTrack={npTrack}
                         setnpTrack={setnpTrack}
                         setnpAlbum={setnpAlbum}
+                        onBiggerScreen={onBiggerScreen}
                         isPlaying={isPlaying}
                         setIsPlaying={setIsPlaying}
                         setNewTrack={setNewTrack}

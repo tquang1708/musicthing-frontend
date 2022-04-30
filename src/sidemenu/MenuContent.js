@@ -12,6 +12,7 @@ function MenuContent(props) {
         audioRef,
         intervalRef,
         startInterval,
+        onBiggerScreen,
         trackProgress,
         setTrackProgress,
         isPlaying,
@@ -51,6 +52,7 @@ function MenuContent(props) {
                 startInterval={startInterval}
                 trackProgress={trackProgress}
                 setTrackProgress={setTrackProgress}
+                onBiggerScreen={onBiggerScreen}
                 isPlaying={isPlaying}
                 setIsPlaying={setIsPlaying}
                 explicitQueue={explicitQueue}
@@ -120,6 +122,7 @@ function MenuTabContent(props) {
         startInterval,
         trackProgress,
         setTrackProgress,
+        onBiggerScreen,
         isPlaying,
         setIsPlaying,
         explicitQueue,
@@ -143,7 +146,7 @@ function MenuTabContent(props) {
 
     const tab_contents = [
         <Controller 
-            key="tab controller"
+            key={"tab controller"}
             serverUrl={serverUrl}
             npTrack={npTrack}
             npAlbum={npAlbum}
@@ -152,8 +155,22 @@ function MenuTabContent(props) {
             startInterval={startInterval}
             trackProgress={trackProgress}
             setTrackProgress={setTrackProgress}
+            onBiggerScreen={onBiggerScreen}
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
+            explicitQueue={explicitQueue}
+            setExplicitQueue={setExplicitQueue}
+            inExplicitQueue={inExplicitQueue}
+            setInExplicitQueue={setInExplicitQueue}
+            implicitQueuePlaylist={implicitQueuePlaylist}
+            implicitQueueDiscIndex={implicitQueueDiscIndex}
+            implicitQueueTrackIndex={implicitQueueTrackIndex}
+            setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+            setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
+            setNewTrack={setNewTrack}
+            setTabTitle={setTabTitle}
+            setnpTrack={setnpTrack}
+            setnpAlbum={setnpAlbum}
         />,
         <Queue 
             key="tab queue" 
