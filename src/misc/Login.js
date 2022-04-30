@@ -25,7 +25,7 @@ function Login(props) {
             <div className="grid grid-cols-3 grid-rows-3 gap-1 justify-start">
                 <p
                     className="pl-3 text-base 2xl:text-lg font-semibold text-slate-50">
-                    Server&apos;s IPAddr:Port
+                    Server&apos;s IPAddr:Port (no ending slash)
                 </p>
                 <input 
                     type="text"
