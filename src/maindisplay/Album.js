@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 import SettingsBox from "./SettingsBox";
 
 import secondsToTimeString from '../misc/helper/secondsToTimeString';
@@ -23,9 +24,9 @@ function Album(props) {
         setImplicitQueueTrackIndex,
     } = props;
     const [ album, setAlbum ] = useState(null);
+    const [ hashLink, setHashLink ] = useState("/album");
 
     const { id } = useParams();
-    const navigate = useNavigate();
 
     // allow sidebar to overlay
     useEffect(() => {
@@ -41,9 +42,12 @@ function Album(props) {
         window.scroll(0,0);
     }, [id]);
 
-    const onClickGoBack = () => {
-        navigate("/album");
-    };
+    // generate hash link when album is available
+    useEffect(() => {
+        if (album) {
+            setHashLink(`/album#${album.id}${album.name}`);
+        }
+    }, [album]);
 
     const display = album ? 
         <AlbumDisplay
@@ -70,11 +74,11 @@ function Album(props) {
 
     return (
         <div className="flex flex-col">
-            <div
-                onClick={onClickGoBack} 
+            <HashLink
+                to={hashLink}
                 className={`${!onBigScreen ? "absolute text-stroke-black" : ""} self-end flex justify-center items-center w-14 h-14 select-none text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono text-slate-50 transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-500`}>
                 X
-            </div>
+            </HashLink>
             {display}
         </div>
     );

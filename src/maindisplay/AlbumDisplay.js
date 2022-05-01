@@ -22,6 +22,7 @@ function AlbumDisplay(props) {
     const listItems = albums.map((album) => {
         return {
             key: `Album ${album.id}`,
+            id: album.id,
             title: album.name,
             subtitle: album.artist_name,
             art_path: album.art_path,
@@ -60,6 +61,7 @@ function TilesGridDisplay(props) {
         <div key={i.key} className="item">
             <Tile 
                 imgSource={i.art_path ? `${serverUrl}/api/art/${i.art_path}` : unknown_album}
+                id={i.id}
                 title={i.title}
                 noTitle={defaultTitle}
                 subtitle={i.subtitle}
@@ -82,6 +84,7 @@ function TilesGridDisplay(props) {
 function Tile(props) {
     const {
         imgSource,
+        id,
         title,
         noTitle,
         subtitle,
@@ -94,6 +97,7 @@ function Tile(props) {
             <div
                 className="flex flex-col p-1.5 rounded-lg drop-shadow-md bg-gray-500 text-slate-50 transition ease-linear duration-200 hover:bg-gray-300 hover:text-slate-700 hover:cursor-pointer hover:drop-shadow-none">
                 <img
+                    id={`${id}${title}`}
                     src={imgSource}
                     alt={`Art for ${title}`}
                     className="object-contain h-12 md:h-20" >
