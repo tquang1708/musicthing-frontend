@@ -12,6 +12,7 @@ function MenuContent(props) {
         audioRef,
         intervalRef,
         startInterval,
+        onBigScreen,
         onBiggerScreen,
         trackProgress,
         setTrackProgress,
@@ -32,13 +33,14 @@ function MenuContent(props) {
         setnpTrack,
         setnpAlbum,
         setTabTitle,
+        setBottomMenuContentVisible,
         currTheme,
     } = props;
     const [ selectedTab, setSelectedTab ] = useState(0);
     const [ showSettingMessage, setShowSettingMessage ] = useState(false);
 
     return (
-        <div className={`flex flex-row grow overflow-auto .display-hidden transition ease-in-out duration-500 ${showSidebar ? "translate-y-0" : "-translate-y-full"}`}>
+        <div className={`flex flex-row grow overflow-auto transition ease-in-out duration-500 ${showSidebar ? "translate-y-0" : "-translate-y-full"}`}>
             <MenuTabItems 
                 selectedTab={selectedTab}
                 setSelectedTab={setSelectedTab}
@@ -53,6 +55,7 @@ function MenuContent(props) {
                 startInterval={startInterval}
                 trackProgress={trackProgress}
                 setTrackProgress={setTrackProgress}
+                onBigScreen={onBigScreen}
                 onBiggerScreen={onBiggerScreen}
                 isPlaying={isPlaying}
                 setIsPlaying={setIsPlaying}
@@ -73,6 +76,7 @@ function MenuContent(props) {
                 setnpTrack={setnpTrack}
                 setnpAlbum={setnpAlbum}
                 setTabTitle={setTabTitle}
+                setBottomMenuContentVisible={setBottomMenuContentVisible}
                 currTheme={currTheme}
             />
         </div>
@@ -124,6 +128,7 @@ function MenuTabContent(props) {
         startInterval,
         trackProgress,
         setTrackProgress,
+        onBigScreen,
         onBiggerScreen,
         isPlaying,
         setIsPlaying,
@@ -144,6 +149,7 @@ function MenuTabContent(props) {
         setnpTrack,
         setnpAlbum,
         setTabTitle,
+        setBottomMenuContentVisible,
         currTheme,
     } = props;
 
@@ -158,6 +164,7 @@ function MenuTabContent(props) {
             startInterval={startInterval}
             trackProgress={trackProgress}
             setTrackProgress={setTrackProgress}
+            onBigScreen={onBigScreen}
             onBiggerScreen={onBiggerScreen}
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
@@ -174,11 +181,13 @@ function MenuTabContent(props) {
             setTabTitle={setTabTitle}
             setnpTrack={setnpTrack}
             setnpAlbum={setnpAlbum}
+            setBottomMenuContentVisible={setBottomMenuContentVisible}
             currTheme={currTheme}
         />,
         <Queue 
             key="tab queue" 
             serverUrl={serverUrl}
+            onBigScreen={onBigScreen}
             explicitQueue={explicitQueue}
             setExplicitQueue={setExplicitQueue}
             inExplicitQueue={inExplicitQueue}
@@ -191,6 +200,7 @@ function MenuTabContent(props) {
             setNewTrack={setNewTrack}
             setnpTrack={setnpTrack}
             setnpAlbum={setnpAlbum}
+            setBottomMenuContentVisible={setBottomMenuContentVisible}
             setTabTitle={setTabTitle}
         />,
         <Setting 

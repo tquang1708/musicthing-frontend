@@ -71,7 +71,7 @@ function TilesGridDisplay(props) {
     display = 
         <div className="grow">
             <div className="h-0 md:h-20"></div>
-            <div className="grid gap-3 p-2 md:gap-6 justify-evenly grid-cols-auto-mobile md:grid-cols-auto">
+            <div className="grid gap-2 p-2 md:gap-6 justify-evenly grid-cols-auto-mobile md:grid-cols-auto">
                 {listItems}
             </div>
         </div>

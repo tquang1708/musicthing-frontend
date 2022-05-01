@@ -9,9 +9,9 @@ function Setting(props) {
     } = props;
     const [ reloadRunning, setReloadRunning ] = useState(false);
 
-    const lastfm = () => {
-        console.log("LAST!!!");
-    }
+    // const lastfm = () => {
+    //     console.log("TBD!!!");
+    // }
 
     const reload = () => {
         fetch(`${serverUrl}/api/reload`)
@@ -43,8 +43,8 @@ function Setting(props) {
 
     return (
         <div className="flex flex-col gap-2 m-2 select-none text-base 2xl:text-lg font-semibold text-slate-50">
-            <SettingButton content="Connect to Last.fm (TBD)" onClickFunc={lastfm} />
-            <div></div>
+            {/* <SettingButton content="Connect to Last.fm (TBD)" onClickFunc={lastfm} />
+            <div></div> */}
             <div className="text-neutral-900">Administrative</div>
             <SettingButton content="Reload Metadata DB" dangerous={true} onClickFunc={reload} />
             <SettingButton content="Hard-Reload Metadata DB" dangerous={true} onClickFunc={hard_reload} />

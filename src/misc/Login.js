@@ -14,7 +14,7 @@ function Login(props) {
     };
 
     return (
-        <div className="m-8 w-60 2xl:w-80">
+        <div className="m-2 md:m-8 w-auto max-w-60 2xl:max-w-80">
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>musicthing</title>
@@ -29,7 +29,7 @@ function Login(props) {
                 </p>
                 <input 
                     type="text"
-                    value={textInput}
+                    value={textInput ? textInput : ""}
                     onChange={(e) => updateInput(e)}
                     className="col-span-2" />
                 <p

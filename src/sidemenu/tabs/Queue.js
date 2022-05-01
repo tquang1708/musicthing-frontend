@@ -7,6 +7,7 @@ import unknown_album from "../../unknown_album.svg";
 export default function Queue(props) {
     const {
         serverUrl,
+        onBigScreen,
         explicitQueue,
         setExplicitQueue,
         inExplicitQueue,
@@ -20,6 +21,7 @@ export default function Queue(props) {
         setnpTrack,
         setnpAlbum,
         setTabTitle,
+        setBottomMenuContentVisible,
     } = props;
 
     const onClickSkipToImplicitQueueTrack = (i, j) => {
@@ -52,6 +54,7 @@ export default function Queue(props) {
                                 serverUrl={serverUrl}
                                 track={track}
                                 onClickSkipFunc={() => onClickSkipToImplicitQueueTrack(i, j)}
+                                setBottomMenuContentVisible={setBottomMenuContentVisible}
                             />);
                     }
                 }))
@@ -87,12 +90,14 @@ export default function Queue(props) {
         return (
             <QueueItem
                 key={`explicit queue item ${track.id} ${i}`} 
+                onBigScreen={onBigScreen}
                 serverUrl={serverUrl}
                 index={explicitQueueLength - i}
                 track={track}
                 album={album}
                 onClickSkipFunc={() => onClickSkipToExplicitQueueTrack(i)}
                 onClickRemoveFunc={() => onClickRemoveFromExplicitQueue(i)}
+                setBottomMenuContentVisible={setBottomMenuContentVisible}
             />
         );
     }).reverse();
@@ -104,7 +109,7 @@ export default function Queue(props) {
         display = <div className="m-2 select-none text-base 2xl:text-lg font-semibold text-slate-50">Queue is Empty. Add something to get started!</div>;
     } else {
         display =
-            <div>
+            <div className="w-screen md:w-auto">
                 {explicitQueue.length > 0 && 
                     <div className="flex flex-row justify-between px-0.5 pb-[2px]">
                         <div>
@@ -142,11 +147,13 @@ export default function Queue(props) {
 function QueueItem(props) {
     const {
         serverUrl,
+        onBigScreen,
         track,
         album,
         index,
         onClickSkipFunc,
         onClickRemoveFunc,
+        setBottomMenuContentVisible,
     } = props;
     const [ showButton, setShowButton ] = useState(false);
     const [ changeBackground, setChangeBackground ] = useState(false);
@@ -161,19 +168,21 @@ function QueueItem(props) {
 
     const rightButton = onClickRemoveFunc ? 
         <div onClick={onClickRemoveFunc} onMouseEnter={onEnterChangeBackgroundRemove} onMouseLeave={onLeaveRestoreBackgroundRemove}
-            className={`ml-auto select-none ${showButton ? "text-5xl" : "text-sm"} hover:cursor-pointer hover:text-gray-700`}>
-            {showButton ? "-" : secondsToTimeString(track.length_seconds)}
+            className={`ml-auto select-none ${(!onBigScreen || showButton) ? "text-5xl" : "text-sm"} hover:cursor-pointer hover:md:text-gray-700`}>
+            {(!onBigScreen || showButton) ? "-" : secondsToTimeString(track.length_seconds)}
         </div> :
         <div className="ml-auto">
             {secondsToTimeString(track.length_seconds)}
         </div>
+
+    const onClickHideMobileMenu = () => setBottomMenuContentVisible(false);
 
     return (                       
         <div onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}
             className={`flex flex-row items-center gap-1.5 px-1 py-[2px] transition duration-200 ease-in-out text-black hover:text-slate-50 ${changeBackground ? "bg-amber-700" : (changeBackgroundRemove ? "bg-red-500" : "bg-gray-500 hover:bg-gray-700")}`}>
             <div onClick={onClickSkipFunc} onMouseEnter={onEnterChangeBackground} onMouseLeave={onLeaveRestoreBackground}
                 className={`w-3 select-none ${showButton ? "text-xl" : "text-lg"} shrink-0 hover:text-gray-700 hover:cursor-pointer`}>
-                {showButton ? "▶" : (index ? index : track.number)}
+                {(!onBigScreen || showButton) ? "▶" : (index ? index : track.number)}
             </div>
             <img 
                 alt={`Cover image of track ${track.name} from the implicit queue`} 
@@ -189,6 +198,7 @@ function QueueItem(props) {
                 </div>
                 {album && 
                     <Link to={album ? `/album/${album.id}` : `/`}
+                        onClick={onClickHideMobileMenu}
                         className="overflow-hidden text-ellipsis text-sm font-medium hover:underline hover:decoration-solid">
                         {album.name}
                     </Link>}

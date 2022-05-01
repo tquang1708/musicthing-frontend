@@ -11,6 +11,7 @@ function SideMenu(props) {
         npTrack,
         setnpTrack,
         setnpAlbum,
+        onBigScreen,
         onBiggerScreen,
         isPlaying,
         setIsPlaying,
@@ -31,6 +32,7 @@ function SideMenu(props) {
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
+        setBottomMenuContentVisible,
         currTheme,
     } = props;
     const [ showMenu, setShowMenu ] = useState(true);
@@ -87,6 +89,7 @@ function SideMenu(props) {
                     audioRef={audioRef}
                     intervalRef={intervalRef}
                     startInterval={startInterval}
+                    onBigScreen={onBigScreen}
                     onBiggerScreen={onBiggerScreen}
                     trackProgress={trackProgress}
                     setTrackProgress={setTrackProgress}
@@ -107,6 +110,7 @@ function SideMenu(props) {
                     setnpTrack={setnpTrack}
                     setnpAlbum={setnpAlbum}
                     setTabTitle={setTabTitle}
+                    setBottomMenuContentVisible={setBottomMenuContentVisible}
                     currTheme={currTheme}
                 />
             </div>

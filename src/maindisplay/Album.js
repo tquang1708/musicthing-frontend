@@ -317,17 +317,20 @@ function Disc(props) {
     const onEnterShowPlay = () => setShowPlayButton(true);
     const onLeaveHidePlay = () => setShowPlayButton(false);
     const onClickPlayDisc = () => {
-        // first track
-        const track = discContent.tracks[0];
+        if (onBigScreen) {
+            // only play while not on mobile
+            // first track
+            const track = discContent.tracks[0];
 
-        setTabTitle(`${track.artist} - ${track.name} | musicthing`);
-        setnpAlbum(album);
-        setnpTrack(track);
-        setNewTrack(true);
+            setTabTitle(`${track.artist} - ${track.name} | musicthing`);
+            setnpAlbum(album);
+            setnpTrack(track);
+            setNewTrack(true);
 
-        setImplicitQueuePlaylist(album);
-        setImplicitQueueDiscIndex(discIndex);
-        setImplicitQueueTrackIndex(0);
+            setImplicitQueuePlaylist(album);
+            setImplicitQueueDiscIndex(discIndex);
+            setImplicitQueueTrackIndex(0);
+        }
     }
 
     // settings window
@@ -471,7 +474,7 @@ function Track(props) {
         ["Play Now", onClickPlayTrack],
         ["Play Next", onClickQueueTrackTop],
         ["Add to Queue", onClickQueueTrack],
-        ["Details", onClickShowDetails],
+        ["Details (TBD)", onClickShowDetails],
     ];
 
     const currPlaying = npTrack ? npTrack.id === track.id : false;

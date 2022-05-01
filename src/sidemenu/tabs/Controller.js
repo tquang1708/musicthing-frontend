@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import secondsToTimeString from '../../misc/helper/secondsToTimeString';
 import unwrapMetadata from "../../misc/helper/unwrapMetadata";
 import { ControlButtons } from "../controls/ControlButtons";
@@ -14,6 +14,7 @@ function Controller(props) {
         startInterval,
         trackProgress,
         setTrackProgress,
+        onBigScreen,
         onBiggerScreen,
         isPlaying,
         setIsPlaying,
@@ -30,6 +31,7 @@ function Controller(props) {
         setTabTitle,
         setnpTrack,
         setnpAlbum,
+        setBottomMenuContentVisible,
         currTheme,
     } = props;
 
@@ -57,12 +59,21 @@ function Controller(props) {
         startInterval();
     }
 
+    //on click navigate. also hide mobile menu
+    const navigate = useNavigate();
+    const onClickGoBack = () => {
+        navigate(npAlbum ? `/album/${npAlbum.id}` : "/album");
+        if (!onBigScreen) {
+            setBottomMenuContentVisible(false);
+        }
+    };
+
     return (
-        <div className="flex flex-col bg-gray-500 mt-2">
+        <div className="flex flex-col bg-gray-500 mt-2 w-screen md:w-auto">
             <img 
                 src={artSource} 
                 alt={`Bigger front cover art for ${title} by ${artist} from the album ${album}`} 
-                className={`object-contain mx-2 mb-2 w-38 2xl:w-56 h-38 2xl:h-56 bg-gray-700`} >
+                className={`flex self-center object-contain mb-2 w-38 2xl:w-56 h-38 2xl:h-56 bg-gray-700`} >
             </img>
             <input
                     type="range"
@@ -106,10 +117,11 @@ function Controller(props) {
                 className={`text-left font-medium text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words`}>
                 {artist}
             </p>
-            <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} style={{"color": `${currTheme.textColor}`}}
-                className={`text-left font-light text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words hover:underline hover:decoration-solid`}>
+            <div style={{"color": `${currTheme.textColor}`}}
+                onClick={onClickGoBack}
+                className={`text-left font-light text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words hover:cursor-pointer hover:underline hover:decoration-solid`}>
                 {album}
-            </Link>
+            </div>
         </div>
     );
 }

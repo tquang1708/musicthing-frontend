@@ -10,7 +10,7 @@ import Login from './misc/Login';
 import NotFound from './misc/NotFound';
 
 import SideMenu from './sidemenu/SideMenu';
-import BottomMenuMobile from './sidemenu/BottomMenuMobile';
+import BottomMenuMobile from './sidemenu/mobile/BottomMenuMobile';
 import AlbumDisplay from './maindisplay/AlbumDisplay';
 import Album from './maindisplay/Album';
 
@@ -30,7 +30,10 @@ function App() {
     const [ implicitQueueDiscIndex, setImplicitQueueDiscIndex ] = useState(-1);
     const [ implicitQueueTrackIndex, setImplicitQueueTrackIndex ] = useState(-1);
 
+    /* eslint-disable no-unused-vars */
+    // implement custom theme TBD
     const [ textColor, setTextColor ] = useState("rgb(248 250 252)");
+    /* eslint-enable no-unused-vars */
 
     const currTheme = {
         "textColor": textColor,
@@ -152,6 +155,7 @@ function Main(props) {
     const [ isPlaying, setIsPlaying ] = useState(false);
     const [ trackProgress, setTrackProgress ] = useState(0);
     const [ inExplicitQueue, setInExplicitQueue ] = useState(false);
+    const [ bottomMenuContentVisible, setBottomMenuContentVisible ] = useState(false);
 
     const audioRef = useRef(new Audio());
     const intervalRef = useRef();
@@ -258,6 +262,7 @@ function Main(props) {
                         npTrack={npTrack}
                         setnpTrack={setnpTrack}
                         setnpAlbum={setnpAlbum}
+                        onBigScreen={onBigScreen}
                         onBiggerScreen={onBiggerScreen}
                         isPlaying={isPlaying}
                         setIsPlaying={setIsPlaying}
@@ -278,13 +283,22 @@ function Main(props) {
                         implicitQueueTrackIndex={implicitQueueTrackIndex}
                         setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                         setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
+                        setBottomMenuContentVisible={setBottomMenuContentVisible}
                         currTheme={currTheme}
                     />
                     :
                     <BottomMenuMobile 
+                        bottomMenuContentVisible={bottomMenuContentVisible}
+                        setBottomMenuContentVisible={setBottomMenuContentVisible}
                         serverUrl={serverUrl}
+                        setServerUrl={setServerUrl}
                         npTrack={npTrack}
                         npAlbum={npAlbum}
+                        audioRef={audioRef}
+                        intervalRef={intervalRef}
+                        startInterval={startInterval}
+                        trackProgress={trackProgress}
+                        setTrackProgress={setTrackProgress}
                         isPlaying={isPlaying}
                         setIsPlaying={setIsPlaying}
                         explicitQueue={explicitQueue}
@@ -292,15 +306,20 @@ function Main(props) {
                         inExplicitQueue={inExplicitQueue}
                         setInExplicitQueue={setInExplicitQueue}
                         implicitQueuePlaylist={implicitQueuePlaylist}
+                        implicitQueueDiscIndex={implicitQueueDiscIndex}
+                        implicitQueueTrackIndex={implicitQueueTrackIndex}
+                        setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
+                        setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                         setNewTrack={setNewTrack}
                         setnpTrack={setnpTrack}
                         setnpAlbum={setnpAlbum}
                         setTabTitle={setTabTitle}
+                        currTheme={currTheme}
                     />
                 }
                 <div className="flex flex-col grow min-w-0">
                     <Outlet />
-                    <div className="h-8 md:h-20"></div>
+                    <div className="h-20"></div>
                 </div>
             </div>
         </div>

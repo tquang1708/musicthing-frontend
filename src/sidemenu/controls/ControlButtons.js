@@ -132,7 +132,7 @@ function PrevButton(props) {
 
     return (
         <div onClick={onClickPrevTrack}
-            className={`transition duration-300 ${isFirstTrack ? "text-gray-600 hover:cursor-default" : "text-slate-50 hover:cursor-pointer hover:text-amber-500"}`}>
+            className={`select-none transition duration-300 ${isFirstTrack ? "text-gray-600 hover:cursor-default" : "text-slate-50 hover:cursor-pointer hover:text-amber-500"}`}>
             ⏮&#xFE0E;
         </div>
     );
@@ -174,7 +174,7 @@ function PlayPauseButton(props) {
     return (
         <button 
             onClick={onPlayPauseClick}
-            className="font-mono font-medium text-slate-50 md:hover:text-amber-500 transition duration-300">
+            className="select-none font-mono font-medium text-slate-50 md:hover:text-amber-500 transition duration-300">
             {isPlaying ? `⏸${String.fromCodePoint(0xFE0E)}` : `▶${String.fromCodePoint(0xFE0E)}`}
         </button>
     );
@@ -247,7 +247,7 @@ function NextButton(props) {
 
     return (
         <div onClick={onClickNextTrack}
-            className={`transition duration-300 ${isLastTrack ? "text-gray-600 hover:cursor-default" : "text-slate-50 hover:cursor-pointer hover:text-amber-500"}`}>
+            className={`select-none transition duration-300 ${isLastTrack ? "text-gray-600 hover:cursor-default" : "text-slate-50 hover:cursor-pointer hover:text-amber-500"}`}>
             ⏭&#xFE0E;
         </div>
     );

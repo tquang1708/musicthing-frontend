@@ -6,6 +6,10 @@ html {
     background-color: rgb(75 85 99);
 }
 
+.text-stroke-white {
+    -webkit-text-stroke: 2px white;
+}
+
 input[type=range] {
   -webkit-appearance: none;
   background: transparent;
