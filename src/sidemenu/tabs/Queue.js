@@ -168,7 +168,7 @@ function QueueItem(props) {
 
     const rightButton = onClickRemoveFunc ? 
         <div onClick={onClickRemoveFunc} onMouseEnter={onEnterChangeBackgroundRemove} onMouseLeave={onLeaveRestoreBackgroundRemove}
-            className={`ml-auto select-none ${(!onBigScreen || showButton) ? "text-5xl" : "text-sm"} hover:cursor-pointer hover:md:text-gray-700`}>
+            className={`ml-auto select-none ${(!onBigScreen || showButton) ? "text-5xl" : "text-normal"} hover:cursor-pointer hover:md:text-gray-700`}>
             {(!onBigScreen || showButton) ? "-" : secondsToTimeString(track.length_seconds)}
         </div> :
         <div className="ml-auto">
