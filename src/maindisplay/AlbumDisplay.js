@@ -9,13 +9,14 @@ function AlbumDisplay(props) {
         setSidebarOverlay,
     } = props;
     const [ albums, setAlbums ] = useState([]);
+    const [ error, setError ] = useState("");
 
     // get albums
     useEffect(() => {
         fetch(`${serverUrl}/api/list/albums`)
             .then((response) => response.json())
             .then((data) => setAlbums(data))
-            .catch((error) => console.log(error));
+            .catch((err) => setError(err.toString()));
     }, []);
 
     // generate items for main display
@@ -31,13 +32,25 @@ function AlbumDisplay(props) {
     });
 
     return (
-        <TilesGridDisplay
-            items={listItems}
-            serverUrl={serverUrl}
-            defaultTitle="Unknown Album"
-            defaultSubtitle="Unknown Artist"
-            setSidebarOverlay={setSidebarOverlay}
-        />
+        (listItems.length > 0) ? 
+            <TilesGridDisplay
+                items={listItems}
+                serverUrl={serverUrl}
+                defaultTitle="Unknown Album"
+                defaultSubtitle="Unknown Artist"
+                setSidebarOverlay={setSidebarOverlay}
+            /> 
+        : 
+        <div
+            className="text-slate-50 text-3xl 2xl:text-5xl font-semibold self-end">
+            <div className="mt-20">
+                {`No albums fetched.`}
+            </div>
+            <br></br>
+            <div>
+                {error ? `Error: ${error}` : ""}
+            </div>
+        </div>
     );
 }
 

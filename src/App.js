@@ -233,7 +233,7 @@ function Main(props) {
             try {
                 await audioRef.current.play();
             } catch(e) {
-                console.log(`Error: ${e}`);
+                alert(`Failure to play audio at ${audioRef.current.src}. Perhaps the server is down?\n\nError: ${e}`);
             }
         } else {
             audioRef.current.pause();

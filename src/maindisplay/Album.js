@@ -25,6 +25,7 @@ function Album(props) {
     } = props;
     const [ album, setAlbum ] = useState(null);
     const [ hashLink, setHashLink ] = useState("/album");
+    const [ error, setError ] = useState("");
 
     const { id } = useParams();
 
@@ -38,7 +39,7 @@ function Album(props) {
         fetch(`${serverUrl}/api/list/album/${id}`)
             .then((response) => response.json())
             .then((data) => setAlbum(data))
-            .catch((error) => console.log(error));
+            .catch((err) => setError(err.toString()));
         window.scroll(0,0);
     }, [id]);
 
@@ -69,7 +70,13 @@ function Album(props) {
         : 
         <div
             className="p-4 text-slate-50 text-3xl 2xl:text-5xl font-semibold self-end">
-            Album can&apos;t be displayed. Currently fetching album&apos;s content, or the ID is Invalid.
+            <div>
+                {`Album at ID ${id} can't be displayed. Currently fetching album's content, or the ID is Invalid.`}
+            </div>
+            <br></br>
+            <div>
+                {error ? `Error: ${error}` : ""}
+            </div>
         </div>
 
     return (
@@ -430,7 +437,7 @@ function Track(props) {
     // explicit queue's first is at last (for quick track popping)
     const onClickQueueTrackTop = () => setExplicitQueue([...explicitQueue, [track, album]]);
     const onClickQueueTrack = () => setExplicitQueue([[track, album], ...explicitQueue]);
-    const onClickShowDetails = () => console.log("DETIALS!!");
+    // const onClickShowDetails = () => console.log("DETAILS!!");
 
     const onClickShowSettings = (e) => {
         setShowSettings(true);
@@ -478,7 +485,7 @@ function Track(props) {
         ["Play Now", onClickPlayTrack],
         ["Play Next", onClickQueueTrackTop],
         ["Add to Queue", onClickQueueTrack],
-        ["Details (TBD)", onClickShowDetails],
+        // ["Details (TBD)", onClickShowDetails],
     ];
 
     const currPlaying = npTrack ? npTrack.id === track.id : false;
