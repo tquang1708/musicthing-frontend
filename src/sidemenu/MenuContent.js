@@ -32,6 +32,7 @@ function MenuContent(props) {
         setnpTrack,
         setnpAlbum,
         setTabTitle,
+        currTheme,
     } = props;
     const [ selectedTab, setSelectedTab ] = useState(0);
     const [ showSettingMessage, setShowSettingMessage ] = useState(false);
@@ -72,6 +73,7 @@ function MenuContent(props) {
                 setnpTrack={setnpTrack}
                 setnpAlbum={setnpAlbum}
                 setTabTitle={setTabTitle}
+                currTheme={currTheme}
             />
         </div>
     );
@@ -142,6 +144,7 @@ function MenuTabContent(props) {
         setnpTrack,
         setnpAlbum,
         setTabTitle,
+        currTheme,
     } = props;
 
     const tab_contents = [
@@ -171,6 +174,7 @@ function MenuTabContent(props) {
             setTabTitle={setTabTitle}
             setnpTrack={setnpTrack}
             setnpAlbum={setnpAlbum}
+            currTheme={currTheme}
         />,
         <Queue 
             key="tab queue" 

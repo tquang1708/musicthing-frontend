@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import secondsToTimeString from '../../misc/helper/secondsToTimeString';
 import unwrapMetadata from "../../misc/helper/unwrapMetadata";
 import { ControlButtons } from "../controls/ControlButtons";
@@ -29,6 +30,7 @@ function Controller(props) {
         setTabTitle,
         setnpTrack,
         setnpAlbum,
+        currTheme,
     } = props;
 
     // get metadata
@@ -96,6 +98,18 @@ function Controller(props) {
                 setnpTrack={setnpTrack}
                 setnpAlbum={setnpAlbum}
             />
+            <p style={{"color": `${currTheme.textColor}`}}
+                className={`text-left font-bold text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words`}>
+                {title}
+            </p>
+            <p style={{"color": `${currTheme.textColor}`}}
+                className={`text-left font-medium text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words`}>
+                {artist}
+            </p>
+            <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} style={{"color": `${currTheme.textColor}`}}
+                className={`text-left font-light text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words hover:underline hover:decoration-solid`}>
+                {album}
+            </Link>
         </div>
     );
 }

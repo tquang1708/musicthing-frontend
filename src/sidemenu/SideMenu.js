@@ -31,6 +31,7 @@ function SideMenu(props) {
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
+        currTheme,
     } = props;
     const [ showMenu, setShowMenu ] = useState(true);
     const [ showSidebar, setShowSidebar ] = useState(true);
@@ -106,6 +107,7 @@ function SideMenu(props) {
                     setnpTrack={setnpTrack}
                     setnpAlbum={setnpAlbum}
                     setTabTitle={setTabTitle}
+                    currTheme={currTheme}
                 />
             </div>
             <MenuHideButton 

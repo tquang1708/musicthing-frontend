@@ -30,6 +30,12 @@ function App() {
     const [ implicitQueueDiscIndex, setImplicitQueueDiscIndex ] = useState(-1);
     const [ implicitQueueTrackIndex, setImplicitQueueTrackIndex ] = useState(-1);
 
+    const [ textColor, setTextColor ] = useState("rgb(248 250 252)");
+
+    const currTheme = {
+        "textColor": textColor,
+    }
+
     // detect mobile
     // from https://stackoverflow.com/questions/54491645/media-query-syntax-for-reactjs
     const [ onBigScreen, setOnBigScreen ] = useState(
@@ -80,6 +86,7 @@ function App() {
             implicitQueueTrackIndex={implicitQueueTrackIndex}
             setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
             setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
+            currTheme={currTheme}
         />;
 
     const albumDisplay = 
@@ -140,6 +147,7 @@ function Main(props) {
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
+        currTheme,
     } = props;
     const [ isPlaying, setIsPlaying ] = useState(false);
     const [ trackProgress, setTrackProgress ] = useState(0);
@@ -270,6 +278,7 @@ function Main(props) {
                         implicitQueueTrackIndex={implicitQueueTrackIndex}
                         setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                         setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
+                        currTheme={currTheme}
                     />
                     :
                     <BottomMenuMobile 
