@@ -229,6 +229,7 @@ function NextButton(props) {
             const [ newDiscIndex, newTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
             if (newDiscIndex !== implicitQueueDiscIndex || newTrackIndex !== implicitQueueTrackIndex) {
                 nextnpTrack = implicitQueuePlaylist.discs[newDiscIndex].tracks[newTrackIndex];
+                nextnpAlbum = implicitQueuePlaylist;
                 setImplicitQueueDiscIndex(newDiscIndex);
                 setImplicitQueueTrackIndex(newTrackIndex);
             }
