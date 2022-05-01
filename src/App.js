@@ -287,6 +287,15 @@ function Main(props) {
                         npAlbum={npAlbum}
                         isPlaying={isPlaying}
                         setIsPlaying={setIsPlaying}
+                        explicitQueue={explicitQueue}
+                        setExplicitQueue={setExplicitQueue}
+                        inExplicitQueue={inExplicitQueue}
+                        setInExplicitQueue={setInExplicitQueue}
+                        implicitQueuePlaylist={implicitQueuePlaylist}
+                        setNewTrack={setNewTrack}
+                        setnpTrack={setnpTrack}
+                        setnpAlbum={setnpAlbum}
+                        setTabTitle={setTabTitle}
                     />
                 }
                 <div className="flex flex-col grow min-w-0">

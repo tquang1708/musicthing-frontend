@@ -442,19 +442,19 @@ function Track(props) {
         <div className="flex flex-row font-mono select-none text-3xl gap-2">
             <div 
                 title="Play Next"
-                className="hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700"
+                className="hidden md:block hover:transition hover:duration-300 hover:cursor-pointer hover:text-amber-700"
                 onClick={onClickQueueTrackTop}>
                 ±
             </div>
             <div 
                 title="Add to Queue"
-                className="hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700"
+                className="hidden md:block hover:transition hover:duration-300 hover:cursor-pointer hover:text-amber-700"
                 onClick={onClickQueueTrack}>
                 ∓
             </div>
             <div
                 title="Settings" 
-                className="hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700" 
+                className="hover:md:transition hover:md:duration-300 hover:md:cursor-pointer hover:md:text-amber-700" 
                 onClick={(e) => onClickShowSettings(e)} >
                 …
             </div>
@@ -488,14 +488,14 @@ function Track(props) {
                 </div>
                 <div
                     title={`${track.artist} - ${track.name}`} 
-                    className="flex flex-row items-center font-sans whitespace-nowrap overflow-hidden text-ellipsis">
+                    className="flex flex-col md:flex-row font-sans whitespace-nowrap overflow-hidden text-ellipsis">
                     <div 
                         className="text-base md:text-2xl font-semibold shrink-0 text-ellipsis">
                         {track.artist}
                     </div>
                     <div 
                         title={`${track.artist} - ${track.name}`}
-                        className="text-lg md:text-2xl font-light px-2 overflow-hidden text-ellipsis">
+                        className="text-lg md:text-2xl font-light md:px-2 overflow-hidden text-ellipsis">
                         {track.name}
                     </div>
                 </div>

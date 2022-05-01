@@ -34,7 +34,7 @@ module.exports = {
         },
         gridTemplateColumns: {
             'auto': 'repeat(auto-fill, 10rem)',
-            'auto-mobile': 'repeat(auto-fill, 8rem)'
+            'auto-mobile': 'repeat(auto-fill, 6rem)'
         },
         borderWidth: {
             '6': '6px',

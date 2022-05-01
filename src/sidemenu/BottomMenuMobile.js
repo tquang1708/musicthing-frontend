@@ -10,6 +10,15 @@ function BottomMenuMobile(props) {
         npAlbum,
         isPlaying,
         setIsPlaying,
+        explicitQueue,
+        setExplicitQueue,
+        inExplicitQueue,
+        setInExplicitQueue,
+        implicitQueuePlaylist,
+        setNewTrack,
+        setnpTrack,
+        setnpAlbum,
+        setTabTitle,
     } = props;
 
     const {
@@ -26,7 +35,7 @@ function BottomMenuMobile(props) {
                 alt={`Front cover art for ${title} by ${artist} from the album ${album}`} 
                 className={`bg-gray-700 object-contain w-10 h-10`} >
             </img>
-            <div className="flex flex-col grow bg-gray-700">
+            <div className="flex flex-col grow min-w-0 bg-gray-700">
                 <div className="font-sans font-bold text-xl pl-1 pt-1 text-slate-50 truncate">
                     {title}
                 </div>
@@ -34,10 +43,19 @@ function BottomMenuMobile(props) {
                     {artist} - {album}
                 </div>
             </div>
-            <div className="flex items-center justify-center w-10 bg-gray-700">
+            <div className="flex items-center justify-center text-4xl basis-14 bg-gray-700">
                 <PlayPauseButton 
                     isPlaying={isPlaying}
-                    setIsPlaying={setIsPlaying} />
+                    setIsPlaying={setIsPlaying} 
+                    explicitQueue={explicitQueue}
+                    setExplicitQueue={setExplicitQueue}
+                    inExplicitQueue={inExplicitQueue}
+                    setInExplicitQueue={setInExplicitQueue}
+                    implicitQueuePlaylist={implicitQueuePlaylist}
+                    setNewTrack={setNewTrack}
+                    setnpTrack={setnpTrack}
+                    setnpAlbum={setnpAlbum}
+                    setTabTitle={setTabTitle} />
             </div>
         </div>
     );
