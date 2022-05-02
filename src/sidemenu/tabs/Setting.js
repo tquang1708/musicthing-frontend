@@ -6,6 +6,8 @@ function Setting(props) {
         setServerUrl,
         showSettingMessage,
         setShowSettingMessage,
+        textColor,
+        setTextColor,
     } = props;
     const [ reloadRunning, setReloadRunning ] = useState(false);
 
@@ -45,7 +47,11 @@ function Setting(props) {
         <div className="flex flex-col gap-2 m-2 select-none text-base 2xl:text-lg font-semibold text-slate-50">
             {/* <SettingButton content="Connect to Last.fm (TBD)" onClickFunc={lastfm} />
             <div></div> */}
-            <div className="text-neutral-900">Administrative</div>
+            <Theming 
+                textColor={textColor}
+                setTextColor={setTextColor}
+            />
+            <div className="text-black">Administrative</div>
             <SettingButton content="Reload Metadata DB" dangerous={true} onClickFunc={reload} />
             <SettingButton content="Hard-Reload Metadata DB" dangerous={true} onClickFunc={hard_reload} />
             <SettingButton content="Disconnect from DB" dangerous={true} onClickFunc={disconnect} />
@@ -60,6 +66,27 @@ function Setting(props) {
                     </div>
                 )
             }
+        </div>
+    );
+}
+
+function Theming(props) {
+    const {
+        textColor,
+        setTextColor,
+    } = props;
+
+    const onChangeSetTextColor = (e) => setTextColor(e.target.value);
+
+    return (
+        <div className="flex flex-col grow gap-1">
+            <div className="text-black">Theming</div>
+            <select className="text-black grow">
+                <option value="default">Default</option>
+                <option value="custom">Custom</option>
+            </select>
+            <input type="color" name="text" value={textColor} onChange={onChangeSetTextColor}></input>
+            <label htmlFor="text">Text</label>
         </div>
     );
 }

@@ -35,6 +35,8 @@ function MenuContent(props) {
         setTabTitle,
         setBottomMenuContentVisible,
         currTheme,
+        textColor,
+        setTextColor,
     } = props;
     const [ selectedTab, setSelectedTab ] = useState(0);
     const [ showSettingMessage, setShowSettingMessage ] = useState(false);
@@ -78,6 +80,8 @@ function MenuContent(props) {
                 setTabTitle={setTabTitle}
                 setBottomMenuContentVisible={setBottomMenuContentVisible}
                 currTheme={currTheme}
+                textColor={textColor}
+                setTextColor={setTextColor}
             />
         </div>
     );
@@ -151,6 +155,8 @@ function MenuTabContent(props) {
         setTabTitle,
         setBottomMenuContentVisible,
         currTheme,
+        textColor,
+        setTextColor,
     } = props;
 
     const tab_contents = [
@@ -209,6 +215,8 @@ function MenuTabContent(props) {
             setServerUrl={setServerUrl}
             showSettingMessage={showSettingMessage}
             setShowSettingMessage={setShowSettingMessage}
+            textColor={textColor}
+            setTextColor={setTextColor}
         />
     ];
 

@@ -94,7 +94,7 @@ function MenuContentTabMobileLeftIcon(props) {
 
     return (
         <div onClick={onClickToggleContentVisible}
-            className={`bg-gray-700 overflow-hidden object-contain basis-10 h-10 shrink-0`}>
+            className={`bg-gray-700 overflow-hidden object-contain basis-10 h-10 shrink-0 hover:cursor-pointer`}>
             <div className={`text-stroke-white absolute text-center flex flex-col justify-center select-none text-black drop-shadow z-10 text-7xl w-10 h-10 ${!bottomMenuContentVisible && "hidden"}`}>
                 X
             </div>
@@ -120,7 +120,7 @@ function MenuMiniPlayerMobileDetails(props) {
 
     return (
         <div onClick={onClickToggleContentVisible} 
-            className="flex flex-col grow min-w-0 bg-gray-700">
+            className="flex flex-col grow min-w-0 bg-gray-700 hover:cursor-pointer">
             <div className="font-sans font-bold text-xl pl-1 pt-1 text-slate-50 truncate">
                 {title}
             </div>

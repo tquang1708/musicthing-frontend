@@ -167,7 +167,7 @@ function AlbumDisplay(props) {
                 <div className="flex flex-col-reverse pt-3 grow min-w-0 md:pt-0">
                     <div className="flex flex-row items-center font-sans font-light text-base md:text-xl pl-3 2xl:pl-0 text-slate-50 break-words">
                         <div onClick={onClickPlayAlbum} 
-                            className="font-mono select-none text-3xl md:transition md:duration-300 hover:md:text-amber-500 hover:cursor-pointer">
+                            className="font-mono select-none text-3xl transition duration-300 hover:text-amber-500 hover:cursor-pointer">
                             ▶
                         </div>
                         <div>
@@ -378,7 +378,7 @@ function Disc(props) {
                         <div className="font-light text-lg">
                             &nbsp;&nbsp;{`${disc.trackCount} Tracks - ${secondsToTimeString(disc.lengthSecondsCount)}`}
                         </div>
-                        <div className="text-xl select-none hover:cursor-pointer md:transition md:duration-300 hover:md:text-amber-500"
+                        <div className="text-xl select-none hover:cursor-pointer transition duration-300 hover:text-amber-500"
                             onClick={onClickShowSettings}>
                             &nbsp;&nbsp;…
                         </div>
@@ -447,7 +447,7 @@ function Track(props) {
 
     const playButton = 
     <div 
-        className="font-mono select-none text-3xl hover:md:transition hover:md:duration-300 hover:cursor-pointer hover:md:text-amber-700" 
+        className="font-mono select-none text-3xl hover:transition hover:duration-300 hover:cursor-pointer hover:text-amber-500 hover:md:text-amber-700" 
         onClick={onClickPlayTrack}>
         ▶
     </div>;
@@ -468,7 +468,7 @@ function Track(props) {
             </div>
             <div
                 title="Settings" 
-                className="hover:md:transition hover:md:duration-300 hover:md:cursor-pointer hover:md:text-amber-700" 
+                className="hover:transition hover:duration-300 hover:cursor-pointer hover:text-amber-700" 
                 onClick={(e) => onClickShowSettings(e)} >
                 …
             </div>

@@ -102,7 +102,9 @@ export default function Queue(props) {
         );
     }).reverse();
 
-    // creating display based on
+    // hide mobile menu on redirect
+    const onClickHideMobileMenu = () => setBottomMenuContentVisible(false);
+
     let display;
     if (implicitQueueItems.length === 0 && explicitQueueItems.length === 0) {
         // nothing in either queue
@@ -128,6 +130,7 @@ export default function Queue(props) {
                             Continue From&nbsp;
                         </div>
                         <Link to={implicitQueuePlaylist ? `/album/${implicitQueuePlaylist.id}` : `/`}
+                            onClick={onClickHideMobileMenu}
                             className="font-sans truncate hover:underline hover:decoration-solid">
                             {implicitQueuePlaylist ? implicitQueuePlaylist.name : ""}
                         </Link>
@@ -168,7 +171,7 @@ function QueueItem(props) {
 
     const rightButton = onClickRemoveFunc ? 
         <div onClick={onClickRemoveFunc} onMouseEnter={onEnterChangeBackgroundRemove} onMouseLeave={onLeaveRestoreBackgroundRemove}
-            className={`ml-auto select-none ${(!onBigScreen || showButton) ? "text-5xl" : "text-normal"} hover:cursor-pointer hover:md:text-gray-700`}>
+            className={`ml-auto select-none ${(!onBigScreen || showButton) ? "text-5xl" : "text-normal"} hover:cursor-pointer hover:text-gray-700`}>
             {(!onBigScreen || showButton) ? "-" : secondsToTimeString(track.length_seconds)}
         </div> :
         <div className="ml-auto">

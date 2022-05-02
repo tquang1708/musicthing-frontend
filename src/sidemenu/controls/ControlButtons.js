@@ -174,7 +174,7 @@ function PlayPauseButton(props) {
     return (
         <button 
             onClick={onPlayPauseClick}
-            className="select-none font-mono font-medium text-slate-50 md:hover:text-amber-500 transition duration-300">
+            className="select-none font-mono font-medium text-slate-50 hover:text-amber-500 transition duration-300">
             {isPlaying ? `⏸${String.fromCodePoint(0xFE0E)}` : `▶${String.fromCodePoint(0xFE0E)}`}
         </button>
     );

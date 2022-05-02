@@ -34,6 +34,8 @@ function SideMenu(props) {
         setImplicitQueueTrackIndex,
         setBottomMenuContentVisible,
         currTheme,
+        textColor,
+        setTextColor,
     } = props;
     const [ showMenu, setShowMenu ] = useState(true);
     const [ showSidebar, setShowSidebar ] = useState(true);
@@ -112,6 +114,8 @@ function SideMenu(props) {
                     setTabTitle={setTabTitle}
                     setBottomMenuContentVisible={setBottomMenuContentVisible}
                     currTheme={currTheme}
+                    textColor={textColor}
+                    setTextColor={setTextColor}
                 />
             </div>
             <MenuHideButton 

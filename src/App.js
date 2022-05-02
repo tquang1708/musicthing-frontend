@@ -32,7 +32,7 @@ function App() {
 
     /* eslint-disable no-unused-vars */
     // implement custom theme TBD
-    const [ textColor, setTextColor ] = useState("rgb(248 250 252)");
+    const [ textColor, setTextColor ] = useState("#f8fafc");
     /* eslint-enable no-unused-vars */
 
     const currTheme = {
@@ -90,6 +90,8 @@ function App() {
             setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
             setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
             currTheme={currTheme}
+            textColor={textColor}
+            setTextColor={setTextColor}
         />;
 
     const albumDisplay = 
@@ -151,6 +153,8 @@ function Main(props) {
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
         currTheme,
+        textColor,
+        setTextColor,
     } = props;
     const [ isPlaying, setIsPlaying ] = useState(false);
     const [ trackProgress, setTrackProgress ] = useState(0);
@@ -286,6 +290,8 @@ function Main(props) {
                         setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                         setBottomMenuContentVisible={setBottomMenuContentVisible}
                         currTheme={currTheme}
+                        textColor={textColor}
+                        setTextColor={setTextColor}
                     />
                     :
                     <BottomMenuMobile 
