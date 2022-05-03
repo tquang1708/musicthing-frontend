@@ -83,7 +83,6 @@ function Controller(props) {
                     max={duration ? duration : `${duration}`}
                     onChange={(e) => onScrub(e.target.value)}
                     onMouseUp={onScrubEnd}
-                    onKeyUp={onScrubEnd}
                     disabled={duration ? false : true}
                     className={"grow hover:cursor-pointer mx-4 mb-1"}
             />
@@ -91,8 +90,8 @@ function Controller(props) {
                 {secondsToTimeString(Math.floor(trackProgress))} / {duration ? secondsToTimeString(Math.floor(duration)) : "00:00"}
             </div>
             <ControlButtons 
-                fontSize={onBiggerScreen ? "5rem" : "4rem"}
-                gapSide={"2rem"}
+                fontSize={onBigScreen ? (onBiggerScreen ? "5rem" : "4rem") : "3.5rem"}
+                gapSide={onBigScreen ? "2rem" : "3rem"}
                 explicitQueue={explicitQueue}
                 setExplicitQueue={setExplicitQueue}
                 inExplicitQueue={inExplicitQueue}
@@ -110,16 +109,16 @@ function Controller(props) {
                 setnpAlbum={setnpAlbum}
             />
             <p style={{"color": `${currTheme.textColor}`}}
-                className={`text-left font-bold text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words`}>
+                className={`text-left font-bold text-xl md:text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words`}>
                 {title}
             </p>
             <p style={{"color": `${currTheme.textColor}`}}
-                className={`text-left font-medium text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words`}>
+                className={`text-left font-medium text-xl md:text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words`}>
                 {artist}
             </p>
             <div style={{"color": `${currTheme.textColor}`}}
                 onClick={onClickGoBack}
-                className={`text-left font-light text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words hover:cursor-pointer hover:underline hover:decoration-solid`}>
+                className={`text-left font-light text-xl md:text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words hover:cursor-pointer hover:underline hover:decoration-solid`}>
                 {album}
             </div>
         </div>

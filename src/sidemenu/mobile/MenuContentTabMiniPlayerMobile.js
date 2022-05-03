@@ -121,10 +121,10 @@ function MenuMiniPlayerMobileDetails(props) {
     return (
         <div onClick={onClickToggleContentVisible} 
             className="flex flex-col grow min-w-0 bg-gray-700 hover:cursor-pointer">
-            <div className="font-sans font-bold text-xl pl-1 pt-1 text-slate-50 truncate">
+            <div className="font-sans font-bold text-base pl-1 pt-1 text-slate-50 truncate">
                 {title}
             </div>
-            <div className="font-sans font-sem text-base pl-1 pt-1 pb-1 text-slate-50 truncate">
+            <div className="font-sans font-sem text-lg pl-1 pt-1 pb-1 text-slate-50 truncate">
                 {artist} - {album}
             </div>
         </div>

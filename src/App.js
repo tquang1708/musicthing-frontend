@@ -19,7 +19,12 @@ import { incrementQueueIndex } from './misc/helper/queueIndex';
 function App() {
     const [ serverUrl, setServerUrl ] = useState(localStorage.getItem("serverUrl"));
     const [ tabTitle, setTabTitle ] = useState("musicthing");
+
     const [ sidebarOverlay, setSidebarOverlay ] = useState(false);
+    const [ showMenu, setShowMenu ] = useState(true);
+    const [ showSidebar, setShowSidebar ] = useState(true);
+    const [ hideSidebarOnDisplayMedium, setHideSidebarOnDisplayMedium ] = useState(true);
+    const [ hideSidebarOnDisplayLarge, setHideSidebarOnDisplayLarge ] = useState(false);
     
     const [ npAlbum, setnpAlbum ] = useState(null);
     const [ npTrack, setnpTrack ] = useState(null);
@@ -71,6 +76,10 @@ function App() {
         : <Main 
             tabTitle={tabTitle}
             setTabTitle={setTabTitle}
+            showMenu={showMenu}
+            setShowMenu={setShowMenu}
+            showSidebar={showSidebar}
+            setShowSidebar={setShowSidebar}
             sidebarOverlay={sidebarOverlay}
             onBigScreen={onBigScreen}
             onBiggerScreen={onBiggerScreen}
@@ -89,6 +98,10 @@ function App() {
             implicitQueueTrackIndex={implicitQueueTrackIndex}
             setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
             setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
+            hideSidebarOnDisplayMedium={hideSidebarOnDisplayMedium}
+            setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
+            hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
+            setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
             currTheme={currTheme}
             textColor={textColor}
             setTextColor={setTextColor}
@@ -106,6 +119,10 @@ function App() {
             onBigScreen={onBigScreen}
             onBiggerScreen={onBiggerScreen}
             setTabTitle={setTabTitle}
+            showSidebar={showSidebar}
+            setShowSidebar={setShowSidebar}
+            hideSidebarOnDisplayMedium={hideSidebarOnDisplayMedium}
+            hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
             setSidebarOverlay={setSidebarOverlay}
             setnpAlbum={setnpAlbum}
             npTrack={npTrack}
@@ -135,6 +152,10 @@ function Main(props) {
         tabTitle,
         setTabTitle,
         sidebarOverlay,
+        showMenu,
+        setShowMenu,
+        showSidebar,
+        setShowSidebar,
         onBigScreen,
         onBiggerScreen,
         npAlbum,
@@ -152,6 +173,10 @@ function Main(props) {
         implicitQueueTrackIndex,
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
+        hideSidebarOnDisplayMedium,
+        setHideSidebarOnDisplayMedium,
+        hideSidebarOnDisplayLarge,
+        setHideSidebarOnDisplayLarge,
         currTheme,
         textColor,
         setTextColor,
@@ -169,6 +194,7 @@ function Main(props) {
         // clear previous interval
         clearInterval(intervalRef.current);
 
+        // interval that update track length once a second
         intervalRef.current = setInterval(() => {
             setTrackProgress(audioRef.current.currentTime);
         }, 1000);
@@ -262,6 +288,10 @@ function Main(props) {
                 {onBigScreen ? 
                     <SideMenu
                         sidebarOverlay={sidebarOverlay}
+                        showMenu={showMenu}
+                        setShowMenu={setShowMenu}
+                        showSidebar={showSidebar}
+                        setShowSidebar={setShowSidebar}
                         setTabTitle={setTabTitle}
                         npAlbum={npAlbum}
                         npTrack={npTrack}
@@ -289,6 +319,10 @@ function Main(props) {
                         setImplicitQueueDiscIndex={setImplicitQueueDiscIndex}
                         setImplicitQueueTrackIndex={setImplicitQueueTrackIndex}
                         setBottomMenuContentVisible={setBottomMenuContentVisible}
+                        hideSidebarOnDisplayMedium={hideSidebarOnDisplayMedium}
+                        setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
+                        hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
+                        setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
                         currTheme={currTheme}
                         textColor={textColor}
                         setTextColor={setTextColor}

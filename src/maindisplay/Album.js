@@ -11,8 +11,12 @@ function Album(props) {
         serverUrl,
         onBigScreen,
         onBiggerScreen,
-        setTabTitle,
+        showSidebar,
+        setShowSidebar,
+        hideSidebarOnDisplayMedium,
+        hideSidebarOnDisplayLarge,
         setSidebarOverlay,
+        setTabTitle,
         setnpAlbum,
         npTrack,
         setnpTrack,
@@ -32,6 +36,13 @@ function Album(props) {
     // allow sidebar to overlay
     useEffect(() => {
         setSidebarOverlay(true);
+
+        // hide sidebar on enter
+        if (showSidebar) {
+            if ((onBiggerScreen && hideSidebarOnDisplayLarge) || (!onBiggerScreen && onBigScreen && hideSidebarOnDisplayMedium)) {
+                setShowSidebar(false);
+            }
+        }
     }, []);
 
     // fetch info

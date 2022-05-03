@@ -5,6 +5,10 @@ import MenuContent from './MenuContent';
 
 function SideMenu(props) {
     const {
+        showMenu,
+        setShowMenu,
+        showSidebar,
+        setShowSidebar,
         sidebarOverlay,
         setTabTitle,
         npAlbum,
@@ -33,12 +37,14 @@ function SideMenu(props) {
         setImplicitQueueDiscIndex,
         setImplicitQueueTrackIndex,
         setBottomMenuContentVisible,
+        hideSidebarOnDisplayMedium,
+        setHideSidebarOnDisplayMedium,
+        hideSidebarOnDisplayLarge,
+        setHideSidebarOnDisplayLarge,
         currTheme,
         textColor,
         setTextColor,
     } = props;
-    const [ showMenu, setShowMenu ] = useState(true);
-    const [ showSidebar, setShowSidebar ] = useState(true);
     const [ divHeight, setDivHeight ] = useState("h-screen");
     const [ divWidth, setDivWidth ] = useState("w-auto");
 
@@ -113,6 +119,10 @@ function SideMenu(props) {
                     setnpAlbum={setnpAlbum}
                     setTabTitle={setTabTitle}
                     setBottomMenuContentVisible={setBottomMenuContentVisible}
+                    hideSidebarOnDisplayMedium={hideSidebarOnDisplayMedium}
+                    setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
+                    hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
+                    setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
                     currTheme={currTheme}
                     textColor={textColor}
                     setTextColor={setTextColor}

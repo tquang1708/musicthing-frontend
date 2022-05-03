@@ -34,6 +34,10 @@ function MenuContent(props) {
         setnpAlbum,
         setTabTitle,
         setBottomMenuContentVisible,
+        hideSidebarOnDisplayMedium,
+        setHideSidebarOnDisplayMedium,
+        hideSidebarOnDisplayLarge,
+        setHideSidebarOnDisplayLarge,
         currTheme,
         textColor,
         setTextColor,
@@ -79,6 +83,10 @@ function MenuContent(props) {
                 setnpAlbum={setnpAlbum}
                 setTabTitle={setTabTitle}
                 setBottomMenuContentVisible={setBottomMenuContentVisible}
+                hideSidebarOnDisplayMedium={hideSidebarOnDisplayMedium}
+                setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
+                hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
+                setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
                 currTheme={currTheme}
                 textColor={textColor}
                 setTextColor={setTextColor}
@@ -154,6 +162,10 @@ function MenuTabContent(props) {
         setnpAlbum,
         setTabTitle,
         setBottomMenuContentVisible,
+        hideSidebarOnDisplayMedium,
+        setHideSidebarOnDisplayMedium,
+        hideSidebarOnDisplayLarge,
+        setHideSidebarOnDisplayLarge,
         currTheme,
         textColor,
         setTextColor,
@@ -217,6 +229,10 @@ function MenuTabContent(props) {
             setShowSettingMessage={setShowSettingMessage}
             textColor={textColor}
             setTextColor={setTextColor}
+            hideSidebarOnDisplayMedium={hideSidebarOnDisplayMedium}
+            setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
+            hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
+            setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
         />
     ];
 
