@@ -83,6 +83,7 @@ function Controller(props) {
                     max={duration ? duration : `${duration}`}
                     onChange={(e) => onScrub(e.target.value)}
                     onMouseUp={onScrubEnd}
+                    onTouchEnd={onScrubEnd}
                     disabled={duration ? false : true}
                     className={"grow hover:cursor-pointer mx-4 mb-1"}
             />
