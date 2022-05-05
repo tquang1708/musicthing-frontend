@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
+import { incrementQueueIndex } from '../../misc/helper/queueIndex';
 import secondsToTimeString from "../../misc/helper/secondsToTimeString";
 
 import unknown_album from "../../unknown_album.svg";
@@ -42,22 +43,32 @@ export default function Queue(props) {
     let implicitQueueItems;
     if (implicitQueuePlaylist) {
         const discs = implicitQueuePlaylist.discs;
+        const lengthOne = discs.length === 1;
 
         implicitQueueItems = discs.map((disc, i) => {
             if (i >= implicitQueueDiscIndex) {
                 // current disc with track
-                return disc.tracks.map(((track, j) => {
-                    if ((i == implicitQueueDiscIndex && j > implicitQueueTrackIndex) || i > implicitQueueDiscIndex) {
-                        return (
-                            <QueueItem
-                                key={`implicit queue item ${track.id} ${j}`} 
-                                serverUrl={serverUrl}
-                                track={track}
-                                onClickSkipFunc={() => onClickSkipToImplicitQueueTrack(i, j)}
-                                setBottomMenuContentVisible={setBottomMenuContentVisible}
-                            />);
-                    }
-                }))
+                return (
+                    <div key={`implicit queue item ${implicitQueuePlaylist.id} Disc ${disc.number} ${i}`}>
+                        {!lengthOne && (i > implicitQueueDiscIndex || (i === implicitQueueDiscIndex) && (implicitQueueTrackIndex !== disc.tracks.length - 1)) &&
+                            <div className="px-0.5 pb-[2px] font-semibold">
+                                {`⦿ Disc ${disc.number}`}
+                            </div>
+                        }
+                        {disc.tracks.map(((track, j) => {
+                            if ((i === implicitQueueDiscIndex && j > implicitQueueTrackIndex) || i > implicitQueueDiscIndex) {
+                                return (
+                                    <QueueItem
+                                        key={`implicit queue item ${track.id} ${j}`} 
+                                        serverUrl={serverUrl}
+                                        track={track}
+                                        onClickSkipFunc={() => onClickSkipToImplicitQueueTrack(i, j)}
+                                        setBottomMenuContentVisible={setBottomMenuContentVisible}
+                                    />);
+                            }
+                        }))}
+                    </div>
+                );
             }
         });
     } else {
@@ -83,6 +94,12 @@ export default function Queue(props) {
     };
     const onClickClearExplicitQueue = () => setExplicitQueue([]);
 
+    // scroll with offset func
+    const scrollWithOffset = (e) => {
+        const yCoords = e.getBoundingClientRect().top + window.pageYOffset - 120;
+        window.scrollTo({top: yCoords, behavior: "smooth"})
+    }
+
     // explicit queue is reversed
     const explicitQueueLength = explicitQueue.length;
     const explicitQueueItems = explicitQueue.map((item, i) => {
@@ -92,9 +109,11 @@ export default function Queue(props) {
                 key={`explicit queue item ${track.id} ${i}`} 
                 onBigScreen={onBigScreen}
                 serverUrl={serverUrl}
+                explicitQueue={explicitQueue}
                 index={explicitQueueLength - i}
                 track={track}
                 album={album}
+                scrollWithOffset={scrollWithOffset}
                 onClickSkipFunc={() => onClickSkipToExplicitQueueTrack(i)}
                 onClickRemoveFunc={() => onClickRemoveFromExplicitQueue(i)}
                 setBottomMenuContentVisible={setBottomMenuContentVisible}
@@ -110,6 +129,8 @@ export default function Queue(props) {
         // nothing in either queue
         display = <div className="m-2 select-none text-base 2xl:text-lg font-semibold text-slate-50">Queue is Empty. Add something to get started!</div>;
     } else {
+        // calculate next index for implicit queue
+        const [ nextDiscIndex, nextTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
         display =
             <div className="w-screen md:w-auto">
                 {explicitQueue.length > 0 && 
@@ -129,11 +150,13 @@ export default function Queue(props) {
                         <div className="shrink-0">
                             Continue From&nbsp;
                         </div>
-                        <Link to={implicitQueuePlaylist ? `/album/${implicitQueuePlaylist.id}` : `/`}
+                        <HashLink to={implicitQueuePlaylist ? `/album/${implicitQueuePlaylist.id}#${implicitQueuePlaylist.discs[nextDiscIndex].tracks[nextTrackIndex].id}` : `/`}
+                            smooth
+                            scroll={scrollWithOffset}
                             onClick={onClickHideMobileMenu}
-                            className="font-sans truncate hover:underline hover:decoration-solid">
+                            className="font-sans truncate font-semibold hover:underline hover:decoration-solid">
                             {implicitQueuePlaylist ? implicitQueuePlaylist.name : ""}
-                        </Link>
+                        </HashLink>
                     </div>
                 }
                 {implicitQueueItems}
@@ -152,9 +175,11 @@ function QueueItem(props) {
     const {
         serverUrl,
         onBigScreen,
+        explicitQueue,
         track,
         album,
         index,
+        scrollWithOffset,
         onClickSkipFunc,
         onClickRemoveFunc,
         setBottomMenuContentVisible,
@@ -201,11 +226,13 @@ function QueueItem(props) {
                     {track.artist}
                 </div>
                 {album && 
-                    <Link to={album ? `/album/${album.id}` : `/`}
+                    <HashLink to={album ? `/album/${album.id}${explicitQueue ? `#${explicitQueue[explicitQueue.length - index][0].id}` : ""}` : `/`}
+                        smooth
+                        scroll={scrollWithOffset}
                         onClick={onClickHideMobileMenu}
                         className="overflow-hidden text-ellipsis text-sm font-medium hover:underline hover:decoration-solid">
                         {album.name}
-                    </Link>}
+                    </HashLink>}
             </div>
             {rightButton}
         </div>

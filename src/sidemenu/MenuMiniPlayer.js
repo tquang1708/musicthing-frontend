@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import { ControlButtons } from './controls/ControlButtons';
 
 import unwrapMetadata from '../misc/helper/unwrapMetadata';
@@ -152,6 +152,11 @@ function MenuMiniControls(props) {
         album,
     } = unwrapMetadata(serverUrl, npTrack, npAlbum);
 
+    const scrollWithOffset = (e) => {
+        const yCoords = e.getBoundingClientRect().top + window.pageYOffset - 120;
+        window.scrollTo({top: yCoords, behavior: "smooth"})
+    }
+
     return(
         <div className={`flex flex-col z-40 w-42 h-14 pl-1 gap-y-0.5 2xl:w-60 2xl:h-20 2xl:pl-2 
             transition ease-in-out duration-300 bg-gray-700 text-slate-50`}>
@@ -161,10 +166,13 @@ function MenuMiniControls(props) {
             <div className={`font-sans truncate text-sm 2xl:text-lg`}>
                 {artist}
             </div>
-            <Link to={npAlbum ? `/album/${npAlbum.id}` : "/album"} 
+            <HashLink 
+                smooth
+                scroll={scrollWithOffset}
+                to={npAlbum ? `/album/${npAlbum.id}#${npTrack.id}playing` : "/album"} 
                 className={`font-sans truncate text-base 2xl:text-xl hover:underline hover:decoration-solid`}>
                 {album}
-            </Link>
+            </HashLink>
             <div className={`grid grid-cols-3 justify-center items-center grow font-mono font-medium text-3xl select-none`}>
                 <p></p>
                 <ControlButtons

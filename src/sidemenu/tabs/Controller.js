@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 import secondsToTimeString from '../../misc/helper/secondsToTimeString';
 import unwrapMetadata from "../../misc/helper/unwrapMetadata";
 import { ControlButtons } from "../controls/ControlButtons";
@@ -59,14 +59,17 @@ function Controller(props) {
         startInterval();
     }
 
-    //on click navigate. also hide mobile menu
-    const navigate = useNavigate();
+    //on click hide mobile menu
     const onClickGoBack = () => {
-        navigate(npAlbum ? `/album/${npAlbum.id}` : "/album");
         if (!onBigScreen) {
             setBottomMenuContentVisible(false);
         }
     };
+
+    const scrollWithOffset = (e) => {
+        const yCoords = e.getBoundingClientRect().top + window.pageYOffset - 120;
+        window.scrollTo({top: yCoords, behavior: "smooth"})
+    }
 
     return (
         <div className="flex flex-col bg-gray-500 mt-2 w-screen md:w-auto">
@@ -118,11 +121,13 @@ function Controller(props) {
                 className={`text-left font-medium text-xl md:text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words`}>
                 {artist}
             </p>
-            <div style={{"color": `${currTheme.textColor}`}}
+            <HashLink to={npAlbum ? `/album/${npAlbum.id}#${npTrack.id}playing` : "/album"}
                 onClick={onClickGoBack}
-                className={`text-left font-light text-xl md:text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words hover:cursor-pointer hover:underline hover:decoration-solid`}>
+                scroll={scrollWithOffset}
+                style={{"color": `${currTheme.textColor}`}}
+                className={`text-left font-light text-xl md:text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words hover:cursor-pointer hover:underline hover:decoration-solid`} >
                 {album}
-            </div>
+            </HashLink>
         </div>
     );
 }
