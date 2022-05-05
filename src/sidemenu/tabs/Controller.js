@@ -70,6 +70,7 @@ function Controller(props) {
 
     return (
         <div className="flex flex-col bg-gray-500 mt-2 w-screen md:w-auto">
+            <div className="h-8 md:hidden"></div>
             <img 
                 src={artSource} 
                 alt={`Bigger front cover art for ${title} by ${artist} from the album ${album}`} 

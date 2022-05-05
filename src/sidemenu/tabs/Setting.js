@@ -56,6 +56,7 @@ function Behavior(props) {
 
     return (
         <div className="flex flex-col grow text-black">
+            <div className="h-8 md:hidden"></div>
             <div className="mb-1">Behavior</div>
             <div className="ml-2">Hide Side Menu on Displaying Album</div>
             <label className="mb-1 ml-2 font-normal text-base">

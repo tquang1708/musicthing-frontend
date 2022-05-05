@@ -141,7 +141,8 @@ export default function Queue(props) {
     }
 
     return (
-        <div className="bg-gray-500">
+        <div className="flex flex-col bg-gray-500">
+            <div className="h-8 md:hidden"></div>
             {display}
         </div>
     );
