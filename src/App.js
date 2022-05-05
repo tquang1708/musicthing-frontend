@@ -23,8 +23,11 @@ function App() {
     const [ sidebarOverlay, setSidebarOverlay ] = useState(false);
     const [ showMenu, setShowMenu ] = useState(true);
     const [ showSidebar, setShowSidebar ] = useState(true);
-    const [ hideSidebarOnDisplayMedium, setHideSidebarOnDisplayMedium ] = useState(true);
-    const [ hideSidebarOnDisplayLarge, setHideSidebarOnDisplayLarge ] = useState(false);
+
+    const hideSidebarOnDisplayMediumSetting = localStorage.getItem("hideSidebarOnDisplayMedium") ? JSON.parse(localStorage.getItem("hideSidebarOnDisplayMedium")) : true;
+    const hideSidebarOnDisplayLargeSetting = localStorage.getItem("hideSidebarOnDisplayLarge") ? JSON.parse(localStorage.getItem("hideSidebarOnDisplayLarge")) : false;
+    const [ hideSidebarOnDisplayMedium, setHideSidebarOnDisplayMedium ] = useState(hideSidebarOnDisplayMediumSetting);
+    const [ hideSidebarOnDisplayLarge, setHideSidebarOnDisplayLarge ] = useState(hideSidebarOnDisplayLargeSetting);
     
     const [ npAlbum, setnpAlbum ] = useState(null);
     const [ npTrack, setnpTrack ] = useState(null);

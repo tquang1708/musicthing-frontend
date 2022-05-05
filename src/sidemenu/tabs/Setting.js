@@ -51,8 +51,14 @@ function Behavior(props) {
         setHideSidebarOnDisplayLarge,
     } = props;
 
-    const onChangeFlipSidebarDisplayMedium = () => setHideSidebarOnDisplayMedium(!hideSidebarOnDisplayMedium);
-    const onChangeFlipSidebarDisplayLarge = () => setHideSidebarOnDisplayLarge(!hideSidebarOnDisplayLarge);
+    const onChangeFlipSidebarDisplayMedium = () => {
+        localStorage.setItem('hideSidebarOnDisplayMedium', !hideSidebarOnDisplayMedium);
+        setHideSidebarOnDisplayMedium(!hideSidebarOnDisplayMedium);
+    };
+    const onChangeFlipSidebarDisplayLarge = () => {
+        localStorage.setItem('hideSidebarOnDisplayLarge', !hideSidebarOnDisplayLarge);
+        setHideSidebarOnDisplayLarge(!hideSidebarOnDisplayLarge);
+    };
 
     return (
         <div className="flex flex-col grow text-black">
