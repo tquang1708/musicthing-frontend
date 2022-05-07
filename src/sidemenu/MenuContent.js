@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import tab_images from './tabs/tabimages/tabImages.js'
 import Controller from './tabs/Controller.js';
 import Queue from "./tabs/Queue";
 import Setting from "./tabs/Setting";
+import tabIcons from './tabs/tabIcons.js';
 
 function MenuContent(props) {
     const {
@@ -38,9 +38,12 @@ function MenuContent(props) {
         setHideSidebarOnDisplayMedium,
         hideSidebarOnDisplayLarge,
         setHideSidebarOnDisplayLarge,
-        currTheme,
+        themeSelection,
+        setThemeSelection,
         textColor,
         setTextColor,
+        customTextColor,
+        setCustomTextColor,
     } = props;
     const [ selectedTab, setSelectedTab ] = useState(0);
     const [ showSettingMessage, setShowSettingMessage ] = useState(false);
@@ -87,9 +90,12 @@ function MenuContent(props) {
                 setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
                 hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
                 setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
-                currTheme={currTheme}
+                themeSelection={themeSelection}
+                setThemeSelection={setThemeSelection}
                 textColor={textColor}
                 setTextColor={setTextColor}
+                customTextColor={customTextColor}
+                setCustomTextColor={setCustomTextColor}
             />
         </div>
     );
@@ -104,22 +110,22 @@ function MenuTabItems(props) {
 
     const onClickSetTab = (i) => {
         setSelectedTab(i);
-        if (i !== tab_images.length - 1) {
+        if (i !== tabIcons.length - 1) {
             setShowSettingMessage(false);
         }
     };
 
-    const images = tab_images.map((tab, i) => {
+    const images = tabIcons.map((tab, i) => {
         return (
-            <img
+            <div
                 key={`tab image ${tab[0]}`} 
-                src={tab[1]}
                 onClick={() => onClickSetTab(i)}
                 className={`p-2 2xl:p-3 w-14 h-14 2xl:w-20 2xl:h-20
-                    ${i === tab_images.length - 1 && "mt-auto"} 
+                    ${i === tabIcons.length - 1 && "mt-auto"} 
                     ${i !== selectedTab ? "bg-gray-700" : "bg-gray-500"} 
                     transition duration-350 ease-in-out hover:cursor-pointer hover:bg-amber-700`}>
-            </img>
+                {tab[1]}
+            </div>
         )
     });
 
@@ -166,9 +172,6 @@ function MenuTabContent(props) {
         setHideSidebarOnDisplayMedium,
         hideSidebarOnDisplayLarge,
         setHideSidebarOnDisplayLarge,
-        currTheme,
-        textColor,
-        setTextColor,
     } = props;
 
     const tab_contents = [
@@ -200,7 +203,6 @@ function MenuTabContent(props) {
             setnpTrack={setnpTrack}
             setnpAlbum={setnpAlbum}
             setBottomMenuContentVisible={setBottomMenuContentVisible}
-            currTheme={currTheme}
         />,
         <Queue 
             key="tab queue" 
@@ -227,8 +229,6 @@ function MenuTabContent(props) {
             setServerUrl={setServerUrl}
             showSettingMessage={showSettingMessage}
             setShowSettingMessage={setShowSettingMessage}
-            textColor={textColor}
-            setTextColor={setTextColor}
             hideSidebarOnDisplayMedium={hideSidebarOnDisplayMedium}
             setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
             hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}

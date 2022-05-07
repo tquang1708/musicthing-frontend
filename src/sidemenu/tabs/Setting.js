@@ -7,8 +7,6 @@ function Setting(props) {
         setServerUrl,
         showSettingMessage,
         setShowSettingMessage,
-        textColor,
-        setTextColor,
         hideSidebarOnDisplayMedium,
         setHideSidebarOnDisplayMedium,
         hideSidebarOnDisplayLarge,
@@ -16,7 +14,8 @@ function Setting(props) {
     } = props;
 
     return (
-        <div className="flex flex-col gap-2 m-2 text-base 2xl:text-lg font-semibold text-slate-50">
+        <div style={{"color": "var(--highlight-color)"}} 
+            className="flex flex-col gap-2 m-2 text-base 2xl:text-lg font-semibold">
             {/* <SettingButton content="Connect to Last.fm (TBD)" onClickFunc={lastfm} />
             <div></div> */}
             <Behavior 
@@ -25,10 +24,7 @@ function Setting(props) {
                 hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
                 setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
             />
-            <Theming 
-                textColor={textColor}
-                setTextColor={setTextColor}
-            />
+            <Theming />
             <Administrative 
                 serverUrl={serverUrl}
                 setServerUrl={setServerUrl}
@@ -89,23 +85,66 @@ function Behavior(props) {
     );
 }
 
-function Theming(props) {
-    const {
-        textColor,
-        setTextColor,
-    } = props;
+function Theming() {
+    const themeSelectionLocal = localStorage.getItem("themeSelection") ? localStorage.getItem("themeSelection") : "default";
+    const highlightColorLocal = localStorage.getItem("highlightColor") ? localStorage.getItem("highlightColor") : "#f8fafc";
+    const customHighlightColorLocal = localStorage.getItem("customHighlightColor") ? localStorage.getItem("customHighlightColor") : "#f8fafc";
+    const [ themeSelection, setThemeSelection ] = useState(themeSelectionLocal);
+    const [ highlightColor, setHighlightColor ] = useState(highlightColorLocal);
+    const [ customHighlightColor, setCustomHighlightColor ] = useState(customHighlightColorLocal);
 
-    const onChangeSetTextColor = (e) => setTextColor(e.target.value);
+    const [ disableCustomTheme, setDisableCustomTheme ] = useState(themeSelection !== "custom");
+
+    const onChangeSetTheme = (e) => {
+        const newTheme = e.target.value;
+
+        // if custom enable custom theming
+        if (newTheme === "custom") {
+            setDisableCustomTheme(false);
+
+            localStorage.setItem('highlightColor', customHighlightColor);
+            setHighlightColor(customHighlightColor);
+            document.documentElement.style.setProperty('--highlight-color', customHighlightColor);
+        } else {
+            setDisableCustomTheme(true);
+
+            if (newTheme === "default") {
+                localStorage.setItem('highlightColor', '#f8fafc');
+                setHighlightColor('#f8fafc');
+                document.documentElement.style.setProperty('--highlight-color', '#f8fafc');
+            }
+        }
+
+        localStorage.setItem('themeSelection', newTheme);
+        setThemeSelection(newTheme);
+    };
+
+    const onChangeSetHighlightColor = (e) => {
+        const newHightlightColor = e.target.value;
+
+        localStorage.setItem('highlightColor', newHightlightColor);
+        setHighlightColor(newHightlightColor);
+        if (themeSelection === "custom") {
+            // storing custom highlight color away
+            // so we can retrieve it later even if user switch to a different theme then back
+            localStorage.setItem('customHighlightColor', newHightlightColor);
+            setCustomHighlightColor(newHightlightColor);
+        }
+
+        document.documentElement.style.setProperty('--highlight-color', newHightlightColor);
+    };
 
     return (
-        <div className="flex flex-col grow gap-1">
-            <div className="text-black">Theming</div>
-            <select className="text-black grow">
+        <div className="flex flex-col grow gap-1 text-black">
+            <div>Theming</div>
+            <select className="grow" value={themeSelection} onChange={onChangeSetTheme}>
                 <option value="default">Default</option>
                 <option value="custom">Custom</option>
             </select>
-            <input type="color" name="text" value={textColor} onChange={onChangeSetTextColor}></input>
-            <label htmlFor="text">Text</label>
+            <label style={{"color": `${disableCustomTheme ? "var(--menu-text-icon-color)" : "var(--highlight-color)"}`}}>
+                <input disabled={disableCustomTheme} type="color" value={highlightColor} onChange={onChangeSetHighlightColor}></input>
+                &nbsp;Highlight
+            </label>
         </div>
     );
 }

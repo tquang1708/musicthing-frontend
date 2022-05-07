@@ -30,7 +30,10 @@ function BottomMenuMobile(props) {
         setnpTrack,
         setnpAlbum,
         setTabTitle,
-        currTheme,
+        hideSidebarOnDisplayMedium,
+        setHideSidebarOnDisplayMedium,
+        hideSidebarOnDisplayLarge,
+        setHideSidebarOnDisplayLarge,
     } = props;
     const [ selectedTab, setSelectedTab ] = useState(0);
     const [ showSettingMessage, setShowSettingMessage ] = useState(false);
@@ -80,7 +83,10 @@ function BottomMenuMobile(props) {
                 setnpAlbum={setnpAlbum}
                 setTabTitle={setTabTitle}
                 setBottomMenuContentVisible={setBottomMenuContentVisible}
-                currTheme={currTheme}
+                hideSidebarOnDisplayMedium={hideSidebarOnDisplayMedium}
+                setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
+                hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
+                setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
             />
             <MenuContentTabMiniPlayerMobile
                 serverUrl={serverUrl}

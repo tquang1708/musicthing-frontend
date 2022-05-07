@@ -24,10 +24,10 @@ function App() {
     const [ showMenu, setShowMenu ] = useState(true);
     const [ showSidebar, setShowSidebar ] = useState(true);
 
-    const hideSidebarOnDisplayMediumSetting = localStorage.getItem("hideSidebarOnDisplayMedium") ? JSON.parse(localStorage.getItem("hideSidebarOnDisplayMedium")) : true;
-    const hideSidebarOnDisplayLargeSetting = localStorage.getItem("hideSidebarOnDisplayLarge") ? JSON.parse(localStorage.getItem("hideSidebarOnDisplayLarge")) : false;
-    const [ hideSidebarOnDisplayMedium, setHideSidebarOnDisplayMedium ] = useState(hideSidebarOnDisplayMediumSetting);
-    const [ hideSidebarOnDisplayLarge, setHideSidebarOnDisplayLarge ] = useState(hideSidebarOnDisplayLargeSetting);
+    const hideSidebarOnDisplayMediumLocal = localStorage.getItem("hideSidebarOnDisplayMedium") ? JSON.parse(localStorage.getItem("hideSidebarOnDisplayMedium")) : true;
+    const hideSidebarOnDisplayLargeLocal = localStorage.getItem("hideSidebarOnDisplayLarge") ? JSON.parse(localStorage.getItem("hideSidebarOnDisplayLarge")) : false;
+    const [ hideSidebarOnDisplayMedium, setHideSidebarOnDisplayMedium ] = useState(hideSidebarOnDisplayMediumLocal);
+    const [ hideSidebarOnDisplayLarge, setHideSidebarOnDisplayLarge ] = useState(hideSidebarOnDisplayLargeLocal);
     
     const [ npAlbum, setnpAlbum ] = useState(null);
     const [ npTrack, setnpTrack ] = useState(null);
@@ -38,14 +38,9 @@ function App() {
     const [ implicitQueueDiscIndex, setImplicitQueueDiscIndex ] = useState(-1);
     const [ implicitQueueTrackIndex, setImplicitQueueTrackIndex ] = useState(-1);
 
-    /* eslint-disable no-unused-vars */
-    // implement custom theme TBD
-    const [ textColor, setTextColor ] = useState("#f8fafc");
-    /* eslint-enable no-unused-vars */
-
-    const currTheme = {
-        "textColor": textColor,
-    }
+    // set theme
+    const highlightColorLocal = localStorage.getItem("highlightColor") ? localStorage.getItem("highlightColor") : "#f8fafc";
+    document.documentElement.style.setProperty('--highlight-color', highlightColorLocal);
 
     // detect mobile
     // from https://stackoverflow.com/questions/54491645/media-query-syntax-for-reactjs
@@ -105,9 +100,6 @@ function App() {
             setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
             hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
             setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
-            currTheme={currTheme}
-            textColor={textColor}
-            setTextColor={setTextColor}
         />;
 
     const albumDisplay = 
@@ -180,9 +172,6 @@ function Main(props) {
         setHideSidebarOnDisplayMedium,
         hideSidebarOnDisplayLarge,
         setHideSidebarOnDisplayLarge,
-        currTheme,
-        textColor,
-        setTextColor,
     } = props;
     const [ isPlaying, setIsPlaying ] = useState(false);
     const [ trackProgress, setTrackProgress ] = useState(0);
@@ -326,9 +315,6 @@ function Main(props) {
                         setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
                         hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
                         setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
-                        currTheme={currTheme}
-                        textColor={textColor}
-                        setTextColor={setTextColor}
                     />
                     :
                     <BottomMenuMobile 
@@ -358,7 +344,10 @@ function Main(props) {
                         setnpTrack={setnpTrack}
                         setnpAlbum={setnpAlbum}
                         setTabTitle={setTabTitle}
-                        currTheme={currTheme}
+                        hideSidebarOnDisplayMedium={hideSidebarOnDisplayMedium}
+                        setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
+                        hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
+                        setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
                     />
                 }
                 <div className="flex flex-col grow min-w-0">

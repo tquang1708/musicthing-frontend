@@ -57,14 +57,14 @@ function Album(props) {
     // generate hash link when album is available
     useEffect(() => {
         if (album) {
-            setHashLink(`/album#${album.id}${album.name}`);
+            setHashLink(`/album#${album.id}`);
         }
     }, [album]);
 
     // scroll with offset from
     // https://github.com/rafgraph/react-router-hash-link/issues/25#issuecomment-536688104
-    const scrollWithOffset = (e, margin) => {
-        const yCoords = e.getBoundingClientRect().top + window.pageYOffset - margin;
+    const scrollWithOffset = (e) => {
+        const yCoords = e.getBoundingClientRect().top + window.pageYOffset - 120;
         window.scrollTo({top: yCoords})
     }
 
@@ -101,8 +101,9 @@ function Album(props) {
         <div className="flex flex-col">
             <HashLink
                 to={hashLink}
-                scroll={(e) => scrollWithOffset(e, onBigScreen ? 180 : 40)}
-                className={`${!onBigScreen ? "absolute text-stroke-black" : ""} self-end flex justify-center items-center w-14 h-14 select-none text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono text-slate-50 transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-500`}>
+                scroll={scrollWithOffset}
+                style={{"WebkitTextStroke": "2px black"}}
+                className={`${!onBigScreen ? "absolute" : ""} self-end flex justify-center items-center w-14 h-14 select-none text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono text-slate-50 transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-500`}>
                 X
             </HashLink>
             {display}
@@ -512,7 +513,7 @@ function Track(props) {
         <div 
             className="flex flex-row text-slate-50 items-center">
             {!onBigScreen && playButton}
-            <div className={`flex flex-row grow min-w-0 overflow-hidden items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 ${currPlaying ?  "bg-gray-300 text-slate-700" : "hover:bg-gray-300 hover:text-slate-700"}`}
+            <div className={`flex flex-row grow min-w-0 overflow-hidden items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 ${currPlaying ?  "bg-slate-50 text-slate-700" : "hover:bg-slate-50 hover:text-slate-700"}`}
                 onMouseEnter={onEnterShowButton} 
                 onMouseLeave={onLeaveHideButton}
                 id={currPlaying ? `${track.id}playing` : `${track.id}`}>

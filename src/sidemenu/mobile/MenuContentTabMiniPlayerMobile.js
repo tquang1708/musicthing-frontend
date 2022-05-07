@@ -1,8 +1,7 @@
 import React from "react";
 import { PlayPauseButton } from '../controls/ControlButtons';
 import unwrapMetadata from '../../misc/helper/unwrapMetadata';
-
-import tab_images from "../tabs/tabimages/tabImages";
+import tabIcons from "../tabs/tabIcons";
 
 function MenuContentTabMiniPlayerMobile(props) {
     const {
@@ -95,7 +94,9 @@ function MenuContentTabMobileLeftIcon(props) {
     return (
         <div onClick={onClickToggleContentVisible}
             className={`bg-gray-700 overflow-hidden object-contain basis-10 h-10 shrink-0 hover:cursor-pointer`}>
-            <div className={`text-stroke-white absolute text-center flex flex-col justify-center select-none text-black drop-shadow z-10 text-7xl w-10 h-10 ${!bottomMenuContentVisible && "hidden"}`}>
+            <div
+                style={{"WebkitTextStroke": "2px white"}} 
+                className={`absolute text-center flex flex-col justify-center select-none text-black drop-shadow z-10 text-7xl w-10 h-10 ${!bottomMenuContentVisible && "hidden"}`}>
                 X
             </div>
             <img 
@@ -140,21 +141,22 @@ function MenuContentTabIconsMobile(props) {
 
     const onClickSetTab = (i) => {
         setSelectedTab(i);
-        if (i !== tab_images.length - 1) {
+        if (i !== tabIcons.length - 1) {
             setShowSettingMessage(false);
         }
     };
 
-    const images = tab_images.map((tab, i) => {
+    const images = tabIcons.map((tab, i) => {
         return (
-            <img
+            <div
                 key={`tab image ${tab[0]}`} 
-                src={tab[1]}
                 onClick={() => onClickSetTab(i)}
                 className={`p-1 w-10 h-10
-                    ${i === tab_images.length - 1 ? "ml-auto" : ""} 
-                    ${i !== selectedTab ? "bg-gray-700" : "bg-gray-500"}`}>
-            </img>
+                    ${i === tabIcons.length - 1 && "ml-auto"} 
+                    ${i !== selectedTab ? "bg-gray-700" : "bg-gray-500"} 
+                    transition duration-350 ease-in-out hover:cursor-pointer hover:bg-amber-700`}>
+                {tab[1]}
+            </div>
         )
     });
 

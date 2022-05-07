@@ -108,9 +108,9 @@ function Tile(props) {
     return (
         <Link to={`${linkTo}`}>
             <div
-                className="flex flex-col p-1.5 rounded-lg drop-shadow-md bg-gray-500 text-slate-50 transition ease-linear duration-200 hover:bg-gray-300 hover:text-slate-700 hover:cursor-pointer hover:drop-shadow-none">
+                className="flex flex-col p-1.5 rounded-lg drop-shadow-md bg-gray-500 text-slate-50 transition ease-linear duration-200 hover:bg-slate-50 hover:text-slate-700 hover:cursor-pointer hover:drop-shadow-none">
                 <img
-                    id={`${id}${title}`}
+                    id={`${id}`}
                     src={imgSource}
                     alt={`Art for ${title}`}
                     className="object-contain h-12 md:h-20" >

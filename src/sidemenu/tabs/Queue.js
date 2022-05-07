@@ -197,7 +197,7 @@ function QueueItem(props) {
 
     const rightButton = onClickRemoveFunc ? 
         <div onClick={onClickRemoveFunc} onMouseEnter={onEnterChangeBackgroundRemove} onMouseLeave={onLeaveRestoreBackgroundRemove}
-            className={`ml-auto select-none ${(!onBigScreen || showButton) ? "text-5xl" : "text-normal"} hover:cursor-pointer hover:text-gray-700`}>
+            className={`ml-auto select-none ${(!onBigScreen || showButton) ? "text-5xl" : "text-normal"} hover:cursor-pointer hover:text-black`}>
             {(!onBigScreen || showButton) ? "-" : secondsToTimeString(track.length_seconds)}
         </div> :
         <div className="ml-auto">
@@ -210,7 +210,7 @@ function QueueItem(props) {
         <div onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}
             className={`flex flex-row items-center gap-1.5 px-1 py-[2px] transition duration-200 ease-in-out text-black hover:text-slate-50 ${changeBackground ? "bg-amber-700" : (changeBackgroundRemove ? "bg-red-500" : "bg-gray-500 hover:bg-gray-700")}`}>
             <div onClick={onClickSkipFunc} onMouseEnter={onEnterChangeBackground} onMouseLeave={onLeaveRestoreBackground}
-                className={`w-3 select-none ${showButton ? "text-xl" : "text-lg"} shrink-0 hover:text-gray-700 hover:cursor-pointer`}>
+                className={`w-3 select-none ${showButton ? "text-xl" : "text-lg"} shrink-0 hover:text-black hover:cursor-pointer`}>
                 {(!onBigScreen || showButton) ? `▶${String.fromCodePoint(0xFE0E)}` : (index ? index : track.number)}
             </div>
             <img 

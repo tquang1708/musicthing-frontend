@@ -41,9 +41,6 @@ function SideMenu(props) {
         setHideSidebarOnDisplayMedium,
         hideSidebarOnDisplayLarge,
         setHideSidebarOnDisplayLarge,
-        currTheme,
-        textColor,
-        setTextColor,
     } = props;
     const [ divHeight, setDivHeight ] = useState("h-screen");
     const [ divWidth, setDivWidth ] = useState("w-auto");
@@ -123,9 +120,6 @@ function SideMenu(props) {
                     setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
                     hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
                     setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
-                    currTheme={currTheme}
-                    textColor={textColor}
-                    setTextColor={setTextColor}
                 />
             </div>
             <MenuHideButton 

@@ -35,7 +35,10 @@ function MenuContentMobile(props) {
         setnpAlbum,
         setTabTitle,
         setBottomMenuContentVisible,
-        currTheme,
+        hideSidebarOnDisplayMedium,
+        setHideSidebarOnDisplayMedium,
+        hideSidebarOnDisplayLarge,
+        setHideSidebarOnDisplayLarge,
     } = props;
 
     const tab_contents = [
@@ -66,7 +69,6 @@ function MenuContentMobile(props) {
             setnpTrack={setnpTrack}
             setnpAlbum={setnpAlbum}
             setBottomMenuContentVisible={setBottomMenuContentVisible}
-            currTheme={currTheme}
         />,
         <Queue 
             key="tab queue" 
@@ -92,6 +94,10 @@ function MenuContentMobile(props) {
             setServerUrl={setServerUrl}
             showSettingMessage={showSettingMessage}
             setShowSettingMessage={setShowSettingMessage}
+            hideSidebarOnDisplayMedium={hideSidebarOnDisplayMedium}
+            setHideSidebarOnDisplayMedium={setHideSidebarOnDisplayMedium}
+            hideSidebarOnDisplayLarge={hideSidebarOnDisplayLarge}
+            setHideSidebarOnDisplayLarge={setHideSidebarOnDisplayLarge}
         />
     ];
 
