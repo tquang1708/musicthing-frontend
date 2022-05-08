@@ -70,8 +70,6 @@ function Controller(props) {
         window.scrollTo({top: yCoords, behavior: "smooth"})
     };
 
-    // document.documentElement.style.setProperty('--highlight-color', 'black');
-
     return (
         <div className="flex flex-col bg-gray-500 mt-2 w-screen md:w-auto">
             <div className="h-8 md:hidden"></div>
@@ -92,7 +90,9 @@ function Controller(props) {
                     disabled={duration ? false : true}
                     className={"grow hover:cursor-pointer mx-4 mb-1"}
             />
-            <div className="font-semibold text-2xl 2xl:text-3xl text-center text-slate-50">
+            <div 
+                style={{color: "var(--highlight-color)"}}
+                className="font-semibold text-2xl 2xl:text-3xl text-center">
                 {secondsToTimeString(Math.floor(trackProgress))} / {duration ? secondsToTimeString(Math.floor(duration)) : "00:00"}
             </div>
             <ControlButtons 
@@ -114,18 +114,18 @@ function Controller(props) {
                 setnpTrack={setnpTrack}
                 setnpAlbum={setnpAlbum}
             />
-            <p style={{"color": "var(--highlight-color)"}}
+            <p style={{color: "var(--highlight-color)"}}
                 className={`text-left font-bold text-xl md:text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words`}>
                 {title}
             </p>
-            <p style={{"color": "var(--highlight-color)"}}
+            <p style={{color: "var(--highlight-color)"}}
                 className={`text-left font-medium text-xl md:text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words`}>
                 {artist}
             </p>
             <HashLink to={npAlbum ? `/album/${npAlbum.id}#${npTrack.id}playing` : "/album"}
                 onClick={onClickGoBack}
                 scroll={scrollWithOffset}
-                style={{"color": "var(--highlight-color)"}}
+                style={{color: "var(--highlight-color)"}}
                 className={`text-left font-light text-xl md:text-3xl 2xl:text-4xl mx-1.5 2xl:mx-2.5 mb-1.5 break-words hover:cursor-pointer hover:underline hover:decoration-solid`} >
                 {album}
             </HashLink>

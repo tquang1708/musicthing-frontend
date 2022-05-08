@@ -14,7 +14,7 @@ function Setting(props) {
     } = props;
 
     return (
-        <div style={{"color": "var(--highlight-color)"}} 
+        <div style={{color: "var(--highlight-color)"}} 
             className="flex flex-col gap-2 m-2 text-base 2xl:text-lg font-semibold">
             {/* <SettingButton content="Connect to Last.fm (TBD)" onClickFunc={lastfm} />
             <div></div> */}
@@ -57,7 +57,9 @@ function Behavior(props) {
     };
 
     return (
-        <div className="flex flex-col grow text-black">
+        <div
+            style={{color: "var(--menu-text-icon-color)"}}
+            className="flex flex-col grow">
             <div className="h-8 md:hidden"></div>
             <div className="mb-1">Behavior</div>
             <div className="ml-2">Hide Side Menu on Displaying Album</div>
@@ -87,12 +89,22 @@ function Behavior(props) {
 
 function Theming() {
     const themeSelectionLocal = localStorage.getItem("themeSelection") ? localStorage.getItem("themeSelection") : "default";
-    const highlightColorLocal = localStorage.getItem("highlightColor") ? localStorage.getItem("highlightColor") : "#f8fafc";
-    const customHighlightColorLocal = localStorage.getItem("customHighlightColor") ? localStorage.getItem("customHighlightColor") : "#f8fafc";
     const [ themeSelection, setThemeSelection ] = useState(themeSelectionLocal);
-    const [ highlightColor, setHighlightColor ] = useState(highlightColorLocal);
-    const [ customHighlightColor, setCustomHighlightColor ] = useState(customHighlightColorLocal);
 
+    const menuTextIconColorLocal = localStorage.getItem("menuTextIconColor") ? localStorage.getItem("menuTextIconColor") : "#000";
+    const highlightColorLocal = localStorage.getItem("highlightColor") ? localStorage.getItem("highlightColor") : "#f8fafc";
+
+    const customMenuTextIconColorLocal = localStorage.getItem("customMenuTextIconColor") ? localStorage.getItem("customMenuTextIconColor") : "#000";
+    const customHighlightColorLocal = localStorage.getItem("customHighlightColor") ? localStorage.getItem("customHighlightColor") : "#f8fafc";
+
+    const [ theme, setTheme ] = useState({
+        menuTextIconColor: menuTextIconColorLocal,
+        highlightColor: highlightColorLocal,
+    });
+    const [ customTheme, setCustomTheme ] = useState({
+        customMenuTextIconColor: customMenuTextIconColorLocal,
+        customHighlightColor: customHighlightColorLocal,
+    });
     const [ disableCustomTheme, setDisableCustomTheme ] = useState(themeSelection !== "custom");
 
     const onChangeSetTheme = (e) => {
@@ -101,16 +113,29 @@ function Theming() {
         // if custom enable custom theming
         if (newTheme === "custom") {
             setDisableCustomTheme(false);
+            setTheme({
+                menuTextIconColor: customTheme["customMenuTextIconColor"],
+                highlightColor: customTheme["customHighlightColor"],
+            });
 
-            localStorage.setItem('highlightColor', customHighlightColor);
-            setHighlightColor(customHighlightColor);
-            document.documentElement.style.setProperty('--highlight-color', customHighlightColor);
+            localStorage.setItem('menuTextIconColor', customTheme["customMenuTextIconColor"]);
+            localStorage.setItem('highlightColor', customTheme["customHighlightColor"]);
+
+            document.documentElement.style.setProperty('--menu-text-icon-color', customTheme["customMenuTextIconColorLocal"]);
+            document.documentElement.style.setProperty('--highlight-color', customTheme["customHighlightColor"]);
         } else {
             setDisableCustomTheme(true);
 
             if (newTheme === "default") {
+                setTheme({
+                    menuTextIconColor: '#000',
+                    highlightColor: '#f8fafc',
+                });
+                
+                localStorage.setItem('menuTextIconColor', '#000');
                 localStorage.setItem('highlightColor', '#f8fafc');
-                setHighlightColor('#f8fafc');
+
+                document.documentElement.style.setProperty('--menu-text-icon-color', '#000');
                 document.documentElement.style.setProperty('--highlight-color', '#f8fafc');
             }
         }
@@ -119,32 +144,56 @@ function Theming() {
         setThemeSelection(newTheme);
     };
 
-    const onChangeSetHighlightColor = (e) => {
-        const newHightlightColor = e.target.value;
+    const onChangeSetColor = (e, themeKey, customThemeKey, cssVar) => {
+        const newColor = e.target.value;
+        const newTheme = {
+            ...theme,
+            [themeKey]: newColor,
+        };
+        setTheme(newTheme);
+        localStorage.setItem(themeKey, newColor);
 
-        localStorage.setItem('highlightColor', newHightlightColor);
-        setHighlightColor(newHightlightColor);
         if (themeSelection === "custom") {
-            // storing custom highlight color away
-            // so we can retrieve it later even if user switch to a different theme then back
-            localStorage.setItem('customHighlightColor', newHightlightColor);
-            setCustomHighlightColor(newHightlightColor);
+            const newCustomTheme = {
+                ...customTheme,
+                [customThemeKey]: newColor,
+            };
+            setCustomTheme(newCustomTheme);
+            localStorage.setItem(customThemeKey, newColor);
         }
 
-        document.documentElement.style.setProperty('--highlight-color', newHightlightColor);
-    };
+        document.documentElement.style.setProperty(cssVar, newColor);
+    }
 
     return (
-        <div className="flex flex-col grow gap-1 text-black">
+        <div
+            style={{color: "var(--menu-text-icon-color)"}} 
+            className="flex flex-col grow gap-1">
             <div>Theming</div>
             <select className="grow" value={themeSelection} onChange={onChangeSetTheme}>
                 <option value="default">Default</option>
                 <option value="custom">Custom</option>
             </select>
-            <label style={{"color": `${disableCustomTheme ? "var(--menu-text-icon-color)" : "var(--highlight-color)"}`}}>
-                <input disabled={disableCustomTheme} type="color" value={highlightColor} onChange={onChangeSetHighlightColor}></input>
-                &nbsp;Highlight
-            </label>
+            <div
+                style={{color: `${disableCustomTheme ? "var(--menu-text-icon-color)" : "var(--highlight-color)"}`}} 
+                className="flex flex-col gap-0.5">
+                <label>
+                    <input 
+                        disabled={disableCustomTheme} 
+                        type="color" 
+                        value={theme["menuTextIconColor"]} 
+                        onChange={(e) => onChangeSetColor(e, "menuTextIconColor", "customMenuTextIconColor", "--menu-text-icon-color")} />
+                    &nbsp;Menu Text & Icon
+                </label>
+                <label>
+                    <input 
+                        disabled={disableCustomTheme} 
+                        type="color" 
+                        value={theme["highlightColor"]} 
+                        onChange={(e) => onChangeSetColor(e, "highlightColor", "customHighlightColor", "--highlight-color")} />
+                    &nbsp;Highlight
+                </label>
+            </div>
         </div>
     );
 }
@@ -198,7 +247,7 @@ function Administrative(props) {
 
     return (
         <div className="flex flex-col grow gap-2">
-            <div className="text-black">Administrative</div>
+            <div style={{color: "var(--menu-text-icon-color)"}}>Administrative</div>
                 {buttons}
                 {showSettingMessage && 
                     (reloadRunning ? 

@@ -127,7 +127,9 @@ export default function Queue(props) {
     let display;
     if (implicitQueueItems.length === 0 && explicitQueueItems.length === 0) {
         // nothing in either queue
-        display = <div className="m-2 select-none text-base 2xl:text-lg font-semibold text-slate-50">Queue is Empty. Add something to get started!</div>;
+        display = <div 
+            style={{color: "var(--highlight-color)"}}
+            className="m-2 select-none text-base 2xl:text-lg font-semibold">Queue is Empty. Add something to get started!</div>;
     } else {
         // calculate next index for implicit queue
         const [ nextDiscIndex, nextTrackIndex ] = incrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
@@ -135,11 +137,12 @@ export default function Queue(props) {
             <div className="w-screen md:w-auto">
                 {explicitQueue.length > 0 && 
                     <div className="flex flex-row justify-between px-0.5 pb-[2px]">
-                        <div>
+                        <div style={{color: "var(--menu-text-icon-color)"}}>
                             Current Queue
                         </div>
                         <div
                             onClick={onClickClearExplicitQueue} 
+                            style={{color: "var(--menu-text-icon-color)"}}
                             className="select-none hover:cursor-pointer hover:underline">
                             Clear All
                         </div>
@@ -147,13 +150,16 @@ export default function Queue(props) {
                 {explicitQueueItems}
                 {implicitQueuePlaylist && (inExplicitQueue || explicitQueueLength > 0) && 
                     <div className="flex flex-row flex-nowrap justify-start px-0.5 pb-[2px]">
-                        <div className="shrink-0">
+                        <div
+                            style={{color: "var(--menu-text-icon-color)"}} 
+                            className="shrink-0">
                             Continue From&nbsp;
                         </div>
                         <HashLink to={implicitQueuePlaylist ? `/album/${implicitQueuePlaylist.id}#${implicitQueuePlaylist.discs[nextDiscIndex].tracks[nextTrackIndex].id}` : `/`}
                             smooth
                             scroll={scrollWithOffset}
                             onClick={onClickHideMobileMenu}
+                            style={{color: "var(--menu-text-icon-color)"}}
                             className="font-sans truncate font-semibold hover:underline hover:decoration-solid">
                             {implicitQueuePlaylist ? implicitQueuePlaylist.name : ""}
                         </HashLink>
@@ -196,8 +202,9 @@ function QueueItem(props) {
     const onLeaveRestoreBackgroundRemove = () => setChangeBackgroundRemove(false);
 
     const rightButton = onClickRemoveFunc ? 
-        <div onClick={onClickRemoveFunc} onMouseEnter={onEnterChangeBackgroundRemove} onMouseLeave={onLeaveRestoreBackgroundRemove}
-            className={`ml-auto select-none ${(!onBigScreen || showButton) ? "text-5xl" : "text-normal"} hover:cursor-pointer hover:text-black`}>
+        <div style={{color: `${changeBackgroundRemove ? "var(--menu-text-icon-color)" : "var(--highlight-color)"}`}}
+            onClick={onClickRemoveFunc} onMouseEnter={onEnterChangeBackgroundRemove} onMouseLeave={onLeaveRestoreBackgroundRemove}
+            className={`ml-auto select-none ${(!onBigScreen || showButton) ? "text-5xl" : "text-normal"} hover:cursor-pointer`}>
             {(!onBigScreen || showButton) ? "-" : secondsToTimeString(track.length_seconds)}
         </div> :
         <div className="ml-auto">
@@ -208,9 +215,12 @@ function QueueItem(props) {
 
     return (                       
         <div onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}
-            className={`flex flex-row items-center gap-1.5 px-1 py-[2px] transition duration-200 ease-in-out text-black hover:text-slate-50 ${changeBackground ? "bg-amber-700" : (changeBackgroundRemove ? "bg-red-500" : "bg-gray-500 hover:bg-gray-700")}`}>
-            <div onClick={onClickSkipFunc} onMouseEnter={onEnterChangeBackground} onMouseLeave={onLeaveRestoreBackground}
-                className={`w-3 select-none ${showButton ? "text-xl" : "text-lg"} shrink-0 hover:text-black hover:cursor-pointer`}>
+            style={{color: `${showButton ? "var(--highlight-color)" : "var(--menu-text-icon-color)"}`}}
+            className={`flex flex-row items-center gap-1.5 px-1 py-[2px] transition duration-200 ease-in-out ${changeBackground ? "bg-amber-700" : (changeBackgroundRemove ? "bg-red-500" : "bg-gray-500 hover:bg-gray-700")}`}>
+            <div
+                style={{color: `${changeBackground ? "var(--menu-text-icon-color)" : "var(--highlight-color)"}`}} 
+                onClick={onClickSkipFunc} onMouseEnter={onEnterChangeBackground} onMouseLeave={onLeaveRestoreBackground}
+                className={`w-3 select-none ${showButton ? "text-xl" : "text-lg"} shrink-0 hover:cursor-pointer`}>
                 {(!onBigScreen || showButton) ? `▶${String.fromCodePoint(0xFE0E)}` : (index ? index : track.number)}
             </div>
             <img 

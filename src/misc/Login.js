@@ -14,36 +14,44 @@ function Login(props) {
     };
 
     return (
-        <div className="m-2 md:m-8 w-auto max-w-60 2xl:max-w-80">
+        <div 
+            className="m-2 md:m-8 w-auto max-w-60 2xl:max-w-80">
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>musicthing</title>
             </Helmet>
-            <p className="mb-2 font-sans text-xl 2xl:text-3xl font-bold text-slate-50">
+            <p 
+                style={{color: "var(--highlight-color)"}}
+                className="mb-2 font-sans text-xl 2xl:text-3xl font-bold">
                 musicthing
             </p>
             <div className="grid grid-cols-3 grid-rows-3 gap-1 justify-start">
                 <p
-                    className="pl-3 text-base 2xl:text-lg font-semibold text-slate-50">
+                    style={{color: "var(--highlight-color)"}}
+                    className="pl-3 text-base 2xl:text-lg font-semibold">
                     Server&apos;s IPAddr:Port (no ending slash)
                 </p>
                 <input 
+                    style={{color: "var(--menu-text-icon-color)"}} 
                     type="text"
                     value={textInput ? textInput : ""}
                     onChange={(e) => updateInput(e)}
                     className="col-span-2" />
                 <p
-                    className="pl-3 text-base 2xl:text-lg font-semibold text-slate-50">
+                    style={{color: "var(--highlight-color)"}}
+                    className="pl-3 text-base 2xl:text-lg font-semibold">
                     Password
                 </p>
                 <input 
+                    style={{color: "var(--menu-text-icon-color)"}} 
                     type="password" 
                     value={passwordInput} 
                     onChange={(e) => updatePasswordInput(e)}
                     className="col-span-2" />
                 <div 
                     onClick={updateServerUrl}
-                    className="pl-3 bg-gray-800 rounded-md text-base 2xl:text-lg font-semibold text-slate-50 hover:cursor-pointer transition duration-300 hover:bg-amber-700" >
+                    style={{color: "var(--highlight-color)"}}
+                    className="pl-3 bg-gray-800 rounded-md text-base 2xl:text-lg font-semibold hover:cursor-pointer transition duration-300 hover:bg-amber-700" >
                     Enter
                 </div>
             </div>

@@ -111,8 +111,11 @@ function MenuCornerImage(props) {
         <div onMouseEnter={onEnterShowButton} onMouseLeave={onLeaveHideButton}
             className="bg-gray-700 overflow-hidden z-40 w-14 h-14 2xl:w-20 2xl:h-20 hover:cursor-pointer">
             <div onClick={onClickToggleSidebar} 
-                style={{"WebkitTextStroke": "2px white"}}
-                className={`absolute flex justify-center items-center select-none font-mono text-black drop-shadow z-10 transition ease-in-out duration-200 text-7xl w-14 h-14 2xl:text-9xl 2xl:w-20 2xl:h-20 ${!showButton && !showSidebar && "opacity-0"}`}>
+                style={{
+                    WebkitTextStroke: "2px var(--highlight-color)",
+                    color: "var(--menu-text-icon-color)",
+                }}
+                className={`absolute flex justify-center items-center select-none font-mono drop-shadow z-10 transition ease-in-out duration-200 text-7xl w-14 h-14 2xl:text-9xl 2xl:w-20 2xl:h-20 ${!showButton && !showSidebar && "opacity-0"}`}>
                 {!showSidebar ? `☰${String.fromCodePoint(0xFE0E)}` : "X"}
             </div>
             <img 
@@ -159,8 +162,10 @@ function MenuMiniControls(props) {
     }
 
     return(
-        <div className={`flex flex-col z-40 w-42 h-14 pl-1 gap-y-0.5 2xl:w-60 2xl:h-20 2xl:pl-2 
-            transition ease-in-out duration-300 bg-gray-700 text-slate-50`}>
+        <div 
+            style={{color: "var(--highlight-color)"}}
+            className={`flex flex-col z-40 w-42 h-14 pl-1 gap-y-0.5 2xl:w-60 2xl:h-20 2xl:pl-2 
+            transition ease-in-out duration-300 bg-gray-700`}>
             <div className={`font-sans font-bold truncate text-xl pt-0.5 2xl:text-2xl 2xl:pt-1`}>
                 {title}
             </div>
@@ -203,7 +208,8 @@ function MenuMiniControls(props) {
 function VolumeButton() {
     return (
         <div
-            className="justify-self-end pr-3 transition duration-300 text-slate-50 hover:text-amber-500 hover:cursor-pointer">
+            style={{color: "var(--highlight-color)"}}
+            className="justify-self-end pr-3 transition duration-300 hover:text-amber-500 hover:cursor-pointer">
             ?{/* 🕪&#xFE0E; */}
         </div>
     );

@@ -42,7 +42,8 @@ function AlbumDisplay(props) {
             /> 
         : 
         <div
-            className="text-slate-50 text-3xl 2xl:text-5xl font-semibold self-end">
+            style={{color: "var(--highlight-color)"}}
+            className="text-3xl 2xl:text-5xl font-semibold self-end">
             <div className="mt-20">
                 {`No albums fetched.`}
             </div>

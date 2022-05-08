@@ -39,7 +39,10 @@ function App() {
     const [ implicitQueueTrackIndex, setImplicitQueueTrackIndex ] = useState(-1);
 
     // set theme
+    const menuTextIconColorLocal = localStorage.getItem("menuTextIconColor") ? localStorage.getItem("menuTextIconColor") : "#000";
     const highlightColorLocal = localStorage.getItem("highlightColor") ? localStorage.getItem("highlightColor") : "#f8fafc";
+    
+    document.documentElement.style.setProperty('--menu-text-icon-color', menuTextIconColorLocal);
     document.documentElement.style.setProperty('--highlight-color', highlightColorLocal);
 
     // detect mobile

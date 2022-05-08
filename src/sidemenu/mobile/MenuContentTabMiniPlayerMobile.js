@@ -95,8 +95,11 @@ function MenuContentTabMobileLeftIcon(props) {
         <div onClick={onClickToggleContentVisible}
             className={`bg-gray-700 overflow-hidden object-contain basis-10 h-10 shrink-0 hover:cursor-pointer`}>
             <div
-                style={{"WebkitTextStroke": "2px white"}} 
-                className={`absolute text-center flex flex-col justify-center select-none text-black drop-shadow z-10 text-7xl w-10 h-10 ${!bottomMenuContentVisible && "hidden"}`}>
+                style={{
+                    WebkitTextStroke: "2px var(--highlight-color)",
+                    color: "var(--menu-text-icon-color)",
+                }}
+                className={`absolute text-center flex flex-col justify-center select-none drop-shadow z-10 text-7xl w-10 h-10 ${!bottomMenuContentVisible && "hidden"}`}>
                 X
             </div>
             <img 
@@ -122,10 +125,14 @@ function MenuMiniPlayerMobileDetails(props) {
     return (
         <div onClick={onClickToggleContentVisible} 
             className="flex flex-col grow min-w-0 bg-gray-700 hover:cursor-pointer">
-            <div className="font-sans font-bold text-base pl-1 pt-1 text-slate-50 truncate">
+            <div 
+                style={{color: "var(--highlight-color)"}}
+                className="font-sans font-bold text-base pl-1 pt-1 truncate">
                 {title}
             </div>
-            <div className="font-sans font-sem text-lg pl-1 pt-1 pb-1 text-slate-50 truncate">
+            <div 
+                style={{color: "var(--highlight-color)"}}
+                className="font-sans font-sem text-lg pl-1 pt-1 pb-1 truncate">
                 {artist} - {album}
             </div>
         </div>

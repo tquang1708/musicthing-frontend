@@ -25,9 +25,12 @@ function SettingsBox(props) {
     });
 
     return (
-        <div style={{left: xOffset - 160, top: yOffset}}
+        <div style={{
+            left: xOffset - 160, 
+            top: yOffset,
+            color: "var(--highlight-color)"}}
             ref={wrapperRef}
-            className="flex flex-col absolute p-1 gap-1 z-10 drop-shadow-lg rounded-xl text-lg font-medium bg-gray-700 text-slate-50">
+            className="flex flex-col absolute p-1 gap-1 z-10 drop-shadow-lg rounded-xl text-lg font-medium bg-gray-700">
             {buttons}
         </div>
     );

@@ -87,7 +87,8 @@ function Album(props) {
         />
         : 
         <div
-            className="p-4 text-slate-50 text-3xl 2xl:text-5xl font-semibold self-end">
+            style={{color: "var(--highlight-color)"}}
+            className="p-4 text-3xl 2xl:text-5xl font-semibold self-end">
             <div>
                 {`Album at ID ${id} can't be displayed. Currently fetching album's content, or the ID is Invalid.`}
             </div>
@@ -102,8 +103,10 @@ function Album(props) {
             <HashLink
                 to={hashLink}
                 scroll={scrollWithOffset}
-                style={{"WebkitTextStroke": "2px black"}}
-                className={`${!onBigScreen ? "absolute" : ""} self-end flex justify-center items-center w-14 h-14 select-none text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono text-slate-50 transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-500`}>
+                style={{
+                    WebkitTextStroke: "2px var(--menu-text-icon-color)",
+                    color: "var(--highlight-color)"}}
+                className={`${!onBigScreen ? "absolute" : ""} self-end flex justify-center items-center w-14 h-14 select-none text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-500`}>
                 X
             </HashLink>
             {display}
@@ -185,7 +188,9 @@ function AlbumDisplay(props) {
                     className="bg-gray-700 object-contain md:w-40 md:h-40 2xl:w-81 2xl:h-81" >
                 </img>
                 <div className="flex flex-col-reverse pt-3 grow min-w-0 md:pt-0">
-                    <div className="flex flex-row items-center font-sans font-light text-base md:text-xl pl-3 2xl:pl-0 text-slate-50 break-words">
+                    <div 
+                        style={{color: "var(--highlight-color)"}}
+                        className="flex flex-row items-center font-sans font-light text-base md:text-xl pl-3 2xl:pl-0 break-words">
                         <div onClick={onClickPlayAlbum} 
                             className="font-mono select-none text-3xl transition duration-300 hover:text-amber-500 hover:cursor-pointer">
                             ▶
@@ -194,10 +199,14 @@ function AlbumDisplay(props) {
                             &nbsp;{`${totalTrackCount} Tracks - ${secondsToTimeString(totalSecondsCount)}`}
                         </div>
                     </div>
-                    <div className="font-sans font-sem text-xl md:text-3xl pl-3 2xl:pl-0 pb-1 md:pb-3 text-slate-50 break-words">
+                    <div
+                        style={{color: "var(--highlight-color)"}} 
+                        className="font-sans font-sem text-xl md:text-3xl pl-3 2xl:pl-0 pb-1 md:pb-3 break-words">
                         {album.album_artist_name}
                     </div>
-                    <div className="flex flex-row text-3xl md:text-5xl pl-3 2xl:pl-0 pb-1 md:pb-3 2xl:pt-3 text-slate-50">
+                    <div
+                        style={{color: "var(--highlight-color)"}} 
+                        className="flex flex-row text-3xl md:text-5xl pl-3 2xl:pl-0 pb-1 md:pb-3 2xl:pt-3">
                         <div className="font-sans font-bold grow overflow-hidden break-words">
                             {album.name}
                         </div>
@@ -208,8 +217,9 @@ function AlbumDisplay(props) {
                         </div>
                     </div>
                     <div
+                        style={{color: "var(--highlight-color)"}}
                         onClick={onClickShowSettings}  
-                        className="font-mono font-bold text-5xl text-slate-50 grow hidden md:block 2xl:hidden self-end select-none transition duration-300 hover:text-amber-500 hover:cursor-pointer">
+                        className="font-mono font-bold text-5xl grow hidden md:block 2xl:hidden self-end select-none transition duration-300 hover:text-amber-500 hover:cursor-pointer">
                         ⋮
                     </div>
                 </div>
@@ -386,7 +396,9 @@ function Disc(props) {
     return (
         <div className="flex flex-col">
             {!lengthOne && 
-                <div className="flex flex-row text-slate-50 items-end">
+                <div
+                    style={{color: "var(--highlight-color)"}} 
+                    className="flex flex-row items-end">
                     <div onClick={onClickPlayDisc} onMouseEnter={onEnterShowPlay} onMouseLeave={onLeaveHidePlay}
                         className="font-mono select-none text-2xl w-2.5 md:transition md:duration-300 hover:md:text-amber-500 hover:md:cursor-pointer">
                         {showPlayButton && onBigScreen ? "▶" : "⦿"}
@@ -511,9 +523,11 @@ function Track(props) {
     const currPlaying = npTrack ? npTrack.id === track.id : false;
     return (
         <div 
-            className="flex flex-row text-slate-50 items-center">
+            style={{
+                color: "var(--highlight-color)"}}
+            className="flex flex-row items-center">
             {!onBigScreen && playButton}
-            <div className={`flex flex-row grow min-w-0 overflow-hidden items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 ${currPlaying ?  "bg-slate-50 text-slate-700" : "hover:bg-slate-50 hover:text-slate-700"}`}
+            <div className={`flex flex-row grow min-w-0 overflow-hidden items-center justify-items-center ml-2 md:ml-4 my-1 h-8 rounded-lg drop-shadow-md bg-gray-500 transition ease-linear duration-200 ${currPlaying ?  "bg-slate-50 text-gray-700" : "hover:bg-slate-50 hover:text-gray-700"}`}
                 onMouseEnter={onEnterShowButton} 
                 onMouseLeave={onLeaveHideButton}
                 id={currPlaying ? `${track.id}playing` : `${track.id}`}>

@@ -152,7 +152,8 @@ function MenuHideButton(props) {
     return (
         <div 
             onClick={onClickToggleMenu}
-            className={`flex flex-col justify-center px-1 bg-gray-800 h-14 2xl:h-20 font-mono text-2xl text-slate-50 hover:cursor-pointer hover:text-amber-300 hover:bg-gray-900 transition ease-in-out duration-500 ${showMenu ? "translate-x-0 opacity-100" : "-translate-x-56 2xl:-translate-x-80 opacity-90"}`}>
+            style={{color: "var(--highlight-color)"}}
+            className={`flex flex-col justify-center px-1 bg-gray-800 h-14 2xl:h-20 font-mono text-2xl hover:cursor-pointer hover:text-amber-300 hover:bg-gray-900 transition ease-in-out duration-500 ${showMenu ? "translate-x-0 opacity-100" : "-translate-x-56 2xl:-translate-x-80 opacity-90"}`}>
             {showMenu ? "◀︎" : "▶︎"}
         </div>
     );
