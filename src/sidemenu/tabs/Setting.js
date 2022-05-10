@@ -121,7 +121,7 @@ function Theming() {
             localStorage.setItem('menuTextIconColor', customTheme["customMenuTextIconColor"]);
             localStorage.setItem('highlightColor', customTheme["customHighlightColor"]);
 
-            document.documentElement.style.setProperty('--menu-text-icon-color', customTheme["customMenuTextIconColorLocal"]);
+            document.documentElement.style.setProperty('--menu-text-icon-color', customTheme["customMenuTextIconColor"]);
             document.documentElement.style.setProperty('--highlight-color', customTheme["customHighlightColor"]);
         } else {
             setDisableCustomTheme(true);
