@@ -41,9 +41,11 @@ function App() {
     // set theme
     const menuTextIconColorLocal = localStorage.getItem("menuTextIconColor") ? localStorage.getItem("menuTextIconColor") : "#000";
     const highlightColorLocal = localStorage.getItem("highlightColor") ? localStorage.getItem("highlightColor") : "#f8fafc";
+    const selectColorLocal = localStorage.getItem("selectColor") ? localStorage.getItem("selectColor") : "#f59e0b";
     
     document.documentElement.style.setProperty('--menu-text-icon-color', menuTextIconColorLocal);
     document.documentElement.style.setProperty('--highlight-color', highlightColorLocal);
+    document.documentElement.style.setProperty('--select-color', selectColorLocal);
 
     // detect mobile
     // from https://stackoverflow.com/questions/54491645/media-query-syntax-for-reactjs

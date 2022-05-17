@@ -206,10 +206,17 @@ function MenuMiniControls(props) {
 }
 
 function VolumeButton() {
+    const [ isHover, setIsHover ] = useState(false);
+
+    const onEnterEnableHover = () => setIsHover(true);
+    const onLeaveDisableHover = () => setIsHover(false);
+
     return (
         <div
-            style={{color: "var(--highlight-color)"}}
-            className="justify-self-end pr-3 transition duration-300 hover:text-amber-500 hover:cursor-pointer">
+            onMouseEnter={onEnterEnableHover}
+            onMouseLeave={onLeaveDisableHover}
+            style={{color: `${isHover ? "var(--select-color)" : "var(--highlight-color)"}`}}
+            className="justify-self-end pr-3 transition duration-300 hover:cursor-pointer">
             ?{/* 🕪&#xFE0E; */}
         </div>
     );

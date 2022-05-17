@@ -93,17 +93,21 @@ function Theming() {
 
     const menuTextIconColorLocal = localStorage.getItem("menuTextIconColor") ? localStorage.getItem("menuTextIconColor") : "#000";
     const highlightColorLocal = localStorage.getItem("highlightColor") ? localStorage.getItem("highlightColor") : "#f8fafc";
+    const selectColorLocal = localStorage.getItem("selectColor") ? localStorage.getItem("selectColor") : "#f59e0b";
 
     const customMenuTextIconColorLocal = localStorage.getItem("customMenuTextIconColor") ? localStorage.getItem("customMenuTextIconColor") : "#000";
     const customHighlightColorLocal = localStorage.getItem("customHighlightColor") ? localStorage.getItem("customHighlightColor") : "#f8fafc";
+    const customSelectColorLocal = localStorage.getItem("customSelectColor") ? localStorage.getItem("customSelectColor") : "#f59e0b";
 
     const [ theme, setTheme ] = useState({
         menuTextIconColor: menuTextIconColorLocal,
         highlightColor: highlightColorLocal,
+        selectColor: selectColorLocal,
     });
     const [ customTheme, setCustomTheme ] = useState({
         customMenuTextIconColor: customMenuTextIconColorLocal,
         customHighlightColor: customHighlightColorLocal,
+        customSelectColor: customSelectColorLocal,
     });
     const [ disableCustomTheme, setDisableCustomTheme ] = useState(themeSelection !== "custom");
 
@@ -116,13 +120,16 @@ function Theming() {
             setTheme({
                 menuTextIconColor: customTheme["customMenuTextIconColor"],
                 highlightColor: customTheme["customHighlightColor"],
+                selectColor: customTheme["customSelectColor"],
             });
 
             localStorage.setItem('menuTextIconColor', customTheme["customMenuTextIconColor"]);
             localStorage.setItem('highlightColor', customTheme["customHighlightColor"]);
+            localStorage.setItem('selectColor', customTheme["customSelectColor"]);
 
             document.documentElement.style.setProperty('--menu-text-icon-color', customTheme["customMenuTextIconColor"]);
             document.documentElement.style.setProperty('--highlight-color', customTheme["customHighlightColor"]);
+            document.documentElement.style.setProperty('--select-color', customTheme["customSelectColor"]);
         } else {
             setDisableCustomTheme(true);
 
@@ -130,19 +137,89 @@ function Theming() {
                 setTheme({
                     menuTextIconColor: '#000',
                     highlightColor: '#f8fafc',
+                    selectColor: '#f59e0b',
                 });
                 
                 localStorage.setItem('menuTextIconColor', '#000');
                 localStorage.setItem('highlightColor', '#f8fafc');
+                localStorage.setItem('selectColor', '#f59e0b');
 
                 document.documentElement.style.setProperty('--menu-text-icon-color', '#000');
                 document.documentElement.style.setProperty('--highlight-color', '#f8fafc');
+                document.documentElement.style.setProperty('--select-color', '#f59e0b');
             }
         }
 
         localStorage.setItem('themeSelection', newTheme);
         setThemeSelection(newTheme);
     };
+
+    return (
+        <div
+            style={{color: "var(--menu-text-icon-color)"}} 
+            className="flex flex-col grow gap-1">
+            <div>Theming</div>
+            <select className="grow" value={themeSelection} onChange={onChangeSetTheme}>
+                <option value="default">Default</option>
+                <option value="custom">Custom</option>
+            </select>
+            <div
+                style={{color: `${disableCustomTheme ? "var(--menu-text-icon-color)" : "var(--highlight-color)"}`}} 
+                className="flex flex-col gap-0.5">
+                <ThemingOption 
+                    theme={theme}
+                    setTheme={setTheme}
+                    customTheme={customTheme}
+                    setCustomTheme={setCustomTheme}
+                    themeSelection={themeSelection}
+                    disableCustomTheme={disableCustomTheme}
+                    labelTitle="Menu Text & Icon"
+                    themeKey="menuTextIconColor"
+                    customThemeKey="customMenuTextIconColor"
+                    cssVar="--menu-text-icon-color"
+                />
+                <ThemingOption 
+                    theme={theme}
+                    setTheme={setTheme}
+                    customTheme={customTheme}
+                    setCustomTheme={setCustomTheme}
+                    themeSelection={themeSelection}
+                    disableCustomTheme={disableCustomTheme}
+                    labelTitle="Highlight"
+                    themeKey="highlightColor"
+                    customThemeKey="customHighlightColor"
+                    cssVar="--highlight-color"
+                />
+                <ThemingOption 
+                    theme={theme}
+                    setTheme={setTheme}
+                    customTheme={customTheme}
+                    setCustomTheme={setCustomTheme}
+                    themeSelection={themeSelection}
+                    disableCustomTheme={disableCustomTheme}
+                    labelTitle="Select"
+                    themeKey="selectColor"
+                    customThemeKey="customSelectColor"
+                    cssVar="--select-color"
+                />
+            </div>
+        </div>
+    );
+}
+
+function ThemingOption(props) {
+    const {
+        theme,
+        setTheme,
+        customTheme,
+        setCustomTheme,
+        themeSelection,
+        disableCustomTheme,
+        labelTitle,
+        themeKey,
+        customThemeKey,
+        cssVar,
+    } = props;
 
     const onChangeSetColor = (e, themeKey, customThemeKey, cssVar) => {
         const newColor = e.target.value;
@@ -166,35 +243,14 @@ function Theming() {
     }
 
     return (
-        <div
-            style={{color: "var(--menu-text-icon-color)"}} 
-            className="flex flex-col grow gap-1">
-            <div>Theming</div>
-            <select className="grow" value={themeSelection} onChange={onChangeSetTheme}>
-                <option value="default">Default</option>
-                <option value="custom">Custom</option>
-            </select>
-            <div
-                style={{color: `${disableCustomTheme ? "var(--menu-text-icon-color)" : "var(--highlight-color)"}`}} 
-                className="flex flex-col gap-0.5">
-                <label>
-                    <input 
-                        disabled={disableCustomTheme} 
-                        type="color" 
-                        value={theme["menuTextIconColor"]} 
-                        onChange={(e) => onChangeSetColor(e, "menuTextIconColor", "customMenuTextIconColor", "--menu-text-icon-color")} />
-                    &nbsp;Menu Text & Icon
-                </label>
-                <label>
-                    <input 
-                        disabled={disableCustomTheme} 
-                        type="color" 
-                        value={theme["highlightColor"]} 
-                        onChange={(e) => onChangeSetColor(e, "highlightColor", "customHighlightColor", "--highlight-color")} />
-                    &nbsp;Highlight
-                </label>
-            </div>
-        </div>
+        <label>
+            <input 
+                disabled={disableCustomTheme} 
+                type="color" 
+                value={theme[themeKey]} 
+                onChange={(e) => onChangeSetColor(e, themeKey, customThemeKey, cssVar)} />
+            &nbsp;{labelTitle}
+        </label>  
     );
 }
 

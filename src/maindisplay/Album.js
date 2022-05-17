@@ -30,6 +30,7 @@ function Album(props) {
     const [ album, setAlbum ] = useState(null);
     const [ hashLink, setHashLink ] = useState("/album");
     const [ error, setError ] = useState("");
+    const [ xIsHover, setXIsHover ] = useState(false);
 
     const { id } = useParams();
 
@@ -98,15 +99,20 @@ function Album(props) {
             </div>
         </div>
 
+    const onEnterEnableHover = () => setXIsHover(true);
+    const onLeaveDisableHover = () => setXIsHover(false);
+
     return (
         <div className="flex flex-col">
             <HashLink
                 to={hashLink}
                 scroll={scrollWithOffset}
+                onMouseEnter={onEnterEnableHover}
+                onMouseLeave={onLeaveDisableHover}
                 style={{
                     WebkitTextStroke: "2px var(--menu-text-icon-color)",
-                    color: "var(--highlight-color)"}}
-                className={`${!onBigScreen ? "absolute" : ""} self-end flex justify-center items-center w-14 h-14 select-none text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono transition ease-in-out duration-300 hover:cursor-pointer hover:text-amber-500`}>
+                    color: `${xIsHover ? "var(--select-color)" : "var(--highlight-color)"}`}}
+                className={`${!onBigScreen ? "absolute" : ""} self-end flex justify-center items-center w-14 h-14 select-none text-6xl 2xl:w-20 2xl:h-20 2xl:text-8xl font-mono transition ease-in-out duration-300 hover:cursor-pointer`}>
                 X
             </HashLink>
             {display}
@@ -132,8 +138,15 @@ function AlbumDisplay(props) {
         setImplicitQueueTrackIndex,
     } = props;
     const [ showSettings, setShowSettings ] = useState(false);
+    const [ playIsHover, setPlayIsHover ] = useState(false);
+    const [ settingsIsHover, setSettingsIsHover ] = useState(false);
     const [ xOffset, setxOffset ] = useState(0);
     const [ yOffset, setyOffset ] = useState(0);
+
+    const onEnterEnableHoverPlay = () => setPlayIsHover(true);
+    const onLeaveDisableHoverPlay = () => setPlayIsHover(false);
+    const onEnterEnableHoverSettings = () => setSettingsIsHover(true);
+    const onLeaveDisableHoverSettings = () => setSettingsIsHover(false);
 
     // calculating some information
     const artSource = album.art_path ? `${serverUrl}/api/art/${album.art_path}` : unknown_album;
@@ -191,8 +204,9 @@ function AlbumDisplay(props) {
                     <div 
                         style={{color: "var(--highlight-color)"}}
                         className="flex flex-row items-center font-sans font-light text-base md:text-xl pl-3 2xl:pl-0 break-words">
-                        <div onClick={onClickPlayAlbum} 
-                            className="font-mono select-none text-3xl transition duration-300 hover:text-amber-500 hover:cursor-pointer">
+                        <div onClick={onClickPlayAlbum} onMouseEnter={onEnterEnableHoverPlay} onMouseLeave={onLeaveDisableHoverPlay}
+                            style={{color: `${playIsHover ? "var(--select-color)" : "var(--highlight-color)"}`}}
+                            className="font-mono select-none text-3xl transition duration-300 hover:cursor-pointer">
                             ▶
                         </div>
                         <div>
@@ -211,15 +225,16 @@ function AlbumDisplay(props) {
                             {album.name}
                         </div>
                         <div
-                            onClick={onClickShowSettings} 
-                            className="font-mono font-bold select-none transition duration-300 pt-1 pr-3 2xl:pr-0 md:hidden 2xl:block 2xl:hover:text-amber-500 hover:cursor-pointer">
+                            onClick={onClickShowSettings} onMouseEnter={onEnterEnableHoverSettings} onMouseLeave={onLeaveDisableHoverSettings}
+                            style={{color: `${settingsIsHover ? "var(--select-color)" : ""}`}}
+                            className="font-mono font-bold select-none transition duration-300 pt-1 pr-3 2xl:pr-0 md:hidden 2xl:block hover:cursor-pointer">
                             ⋮
                         </div>
                     </div>
                     <div
-                        style={{color: "var(--highlight-color)"}}
-                        onClick={onClickShowSettings}  
-                        className="font-mono font-bold text-5xl grow hidden md:block 2xl:hidden self-end select-none transition duration-300 hover:text-amber-500 hover:cursor-pointer">
+                        onClick={onClickShowSettings}  onMouseEnter={onEnterEnableHoverSettings} onMouseLeave={onLeaveDisableHoverSettings}
+                        style={{color: `${settingsIsHover ? "var(--select-color)" : "var(--highlight-color)"}`}}
+                        className="font-mono font-bold text-5xl grow hidden md:block 2xl:hidden self-end select-none transition duration-300 hover:cursor-pointer">
                         ⋮
                     </div>
                 </div>
@@ -327,6 +342,8 @@ function Disc(props) {
         setImplicitQueueTrackIndex,
     } = props;
     const [ showPlayButton, setShowPlayButton ] = useState(false);
+    const [ playIsHover, setPlayIsHover ] = useState(false);
+    const [ settingsIsHover, setSettingsIsHover ] = useState(false);
     const [ showSettings, setShowSettings ] = useState(false);
     const [ xOffset, setxOffset ] = useState(0);
     const [ yOffset, setyOffset ] = useState(0);
@@ -357,6 +374,16 @@ function Disc(props) {
 
     const onEnterShowPlay = () => setShowPlayButton(true);
     const onLeaveHidePlay = () => setShowPlayButton(false);
+    const onEnterEnableHoverPlay = () => {
+        setPlayIsHover(true);
+        setShowPlayButton(true);
+    };
+    const onLeaveDisableHoverPlay = () => {
+        setPlayIsHover(false);
+        setShowPlayButton(false);
+    };
+    const onEnterEnableHoverSettings = () => setSettingsIsHover(true);
+    const onLeaveDisableHoverSettings = () => setSettingsIsHover(false);
     const onClickPlayDisc = () => {
         if (onBigScreen) {
             // only play while not on mobile
@@ -399,19 +426,23 @@ function Disc(props) {
                 <div
                     style={{color: "var(--highlight-color)"}} 
                     className="flex flex-row items-end">
-                    <div onClick={onClickPlayDisc} onMouseEnter={onEnterShowPlay} onMouseLeave={onLeaveHidePlay}
-                        className="font-mono select-none text-2xl w-2.5 md:transition md:duration-300 hover:md:text-amber-500 hover:md:cursor-pointer">
+                    <div onClick={onClickPlayDisc} onMouseEnter={onEnterEnableHoverPlay} onMouseLeave={onLeaveDisableHoverPlay}
+                        style={{color: `${playIsHover && onBigScreen ? "var(--select-color)" : ""}`}}
+                        className="font-mono select-none text-2xl w-2.5 md:transition md:duration-300 hover:md:cursor-pointer">
                         {showPlayButton && onBigScreen ? "▶" : "⦿"}
                     </div>
                     <div className="flex flex-row items-baseline">
-                        <div onMouseEnter={onEnterShowPlay} onMouseLeave={onLeaveHidePlay} className="font-sans font-medium text-3xl">
+                        <div onMouseEnter={onEnterShowPlay} onMouseLeave={onLeaveHidePlay}
+                            className="font-sans font-medium text-3xl">
                             &nbsp;&nbsp;{`Disc ${discContent.number}`}
                         </div>
                         <div className="font-light text-lg">
                             &nbsp;&nbsp;{`${disc.trackCount} Tracks - ${secondsToTimeString(disc.lengthSecondsCount)}`}
                         </div>
-                        <div className="text-xl select-none hover:cursor-pointer transition duration-300 hover:text-amber-500"
-                            onClick={onClickShowSettings}>
+                        <div 
+                            onClick={onClickShowSettings} onMouseEnter={onEnterEnableHoverSettings} onMouseLeave={onLeaveDisableHoverSettings}
+                            style={{color: `${settingsIsHover ? "var(--select-color)" : ""}`}}
+                            className="text-xl select-none hover:cursor-pointer transition duration-300">
                             &nbsp;&nbsp;…
                         </div>
                     </div>

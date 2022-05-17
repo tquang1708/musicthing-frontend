@@ -84,6 +84,7 @@ function PrevButton(props) {
         setnpAlbum,
     } = props;
     const [ isFirstTrack, setIsFirstTrack ] = useState(true);
+    // const [ isHover, setIsHover ] = useState(false);
 
     useEffect(() => {
         if (!inExplicitQueue) {
@@ -130,8 +131,14 @@ function PrevButton(props) {
         }
     }
 
+    // const onEnterEnableHover = () => setIsHover(true);
+    // const onLeaveDisableHover = () => setIsHover(false);
+
     return (
         <div onClick={onClickPrevTrack}
+            // onMouseEnter={onEnterEnableHover}
+            // onMouseLeave={onLeaveDisableHover}
+            // style={{color: `${isHover ? "var(--select-color)" : "var(--highlight-color)"}`}}
             className={`select-none transition duration-300 ${isFirstTrack ? "text-gray-600 hover:cursor-default" : "text-slate-50 hover:cursor-pointer hover:text-amber-500"}`}>
             ⏮&#xFE0E;
         </div>
@@ -152,6 +159,7 @@ function PlayPauseButton(props) {
         setnpAlbum,
         setTabTitle,
     } = props;
+    const [ isHover, setIsHover ] = useState(false);
 
     const onPlayPauseClick = () => {
         // if there is nothing in the implicit queue and something in the explicit queue play the first track there
@@ -171,11 +179,16 @@ function PlayPauseButton(props) {
         }
     };
 
+    const onEnterEnableHover = () => setIsHover(true);
+    const onLeaveDisableHover = () => setIsHover(false);
+
     return (
         <button 
             onClick={onPlayPauseClick}
-            style={{color: "var(--highlight-color)"}}
-            className="select-none font-mono font-medium hover:text-amber-500 transition duration-300">
+            onMouseEnter={onEnterEnableHover}
+            onMouseLeave={onLeaveDisableHover}
+            style={{color: `${isHover ? "var(--select-color)" : "var(--highlight-color)"}`}}
+            className="select-none font-mono font-medium transition duration-300">
             {isPlaying ? `⏸${String.fromCodePoint(0xFE0E)}` : `▶${String.fromCodePoint(0xFE0E)}`}
         </button>
     );
