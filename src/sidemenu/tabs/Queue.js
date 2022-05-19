@@ -61,6 +61,7 @@ export default function Queue(props) {
                                     <QueueItem
                                         key={`implicit queue item ${track.id} ${j}`} 
                                         serverUrl={serverUrl}
+                                        onBigScreen={onBigScreen}
                                         track={track}
                                         onClickSkipFunc={() => onClickSkipToImplicitQueueTrack(i, j)}
                                         setBottomMenuContentVisible={setBottomMenuContentVisible}
@@ -202,7 +203,7 @@ function QueueItem(props) {
     const onLeaveRestoreBackgroundRemove = () => setChangeBackgroundRemove(false);
 
     const rightButton = onClickRemoveFunc ? 
-        <div style={{color: `${changeBackgroundRemove ? "var(--menu-text-icon-color)" : "var(--highlight-color)"}`}}
+        <div style={{color: `${(changeBackgroundRemove || !showButton) ? "var(--menu-text-icon-color)" : "var(--highlight-color)"}`}}
             onClick={onClickRemoveFunc} onMouseEnter={onEnterChangeBackgroundRemove} onMouseLeave={onLeaveRestoreBackgroundRemove}
             className={`ml-auto select-none ${(!onBigScreen || showButton) ? "text-5xl" : "text-normal"} hover:cursor-pointer`}>
             {(!onBigScreen || showButton) ? "-" : secondsToTimeString(track.length_seconds)}
@@ -218,7 +219,7 @@ function QueueItem(props) {
             style={{color: `${showButton ? "var(--highlight-color)" : "var(--menu-text-icon-color)"}`}}
             className={`flex flex-row items-center gap-1.5 px-1 py-[2px] transition duration-200 ease-in-out ${changeBackground ? "bg-amber-700" : (changeBackgroundRemove ? "bg-red-500" : "bg-gray-500 hover:bg-gray-700")}`}>
             <div
-                style={{color: `${changeBackground ? "var(--menu-text-icon-color)" : "var(--highlight-color)"}`}} 
+                style={{color: `${(changeBackground || !showButton) ? "var(--menu-text-icon-color)" : "var(--highlight-color)"}`}} 
                 onClick={onClickSkipFunc} onMouseEnter={onEnterChangeBackground} onMouseLeave={onLeaveRestoreBackground}
                 className={`w-3 select-none ${showButton ? "text-xl" : "text-lg"} shrink-0 hover:cursor-pointer`}>
                 {(!onBigScreen || showButton) ? `▶${String.fromCodePoint(0xFE0E)}` : (index ? index : track.number)}
