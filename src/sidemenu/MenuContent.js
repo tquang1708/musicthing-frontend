@@ -108,24 +108,18 @@ function MenuTabItems(props) {
         setShowSettingMessage,
     } = props;
 
-    const onClickSetTab = (i) => {
-        setSelectedTab(i);
-        if (i !== tabIcons.length - 1) {
-            setShowSettingMessage(false);
-        }
-    };
+    console.log(tabIcons);
 
     const images = tabIcons.map((tab, i) => {
         return (
-            <div
+            <MenuTabItem 
                 key={`tab image ${tab[0]}`} 
-                onClick={() => onClickSetTab(i)}
-                className={`p-2 2xl:p-3 w-14 h-14 2xl:w-20 2xl:h-20
-                    ${i === tabIcons.length - 1 && "mt-auto"} 
-                    ${i !== selectedTab ? "bg-gray-700" : "bg-gray-500"} 
-                    transition duration-350 ease-in-out hover:cursor-pointer hover:bg-amber-700`}>
-                {tab[1]}
-            </div>
+                i={i}
+                image={tab[1]}
+                selectedTab={selectedTab}
+                setSelectedTab={setSelectedTab}
+                setShowSettingMessage={setShowSettingMessage}
+            />
         )
     });
 
@@ -134,6 +128,38 @@ function MenuTabItems(props) {
             {images}
         </div>
     )
+}
+
+function MenuTabItem(props) {
+    const {
+        i,
+        image,
+        selectedTab,
+        setSelectedTab,
+        setShowSettingMessage,
+    } = props;
+    const [ isHover, setIsHover ] = useState(false);
+    const onEnterEnableHover = () => setIsHover(true);
+    const onLeaveDisableHover = () => setIsHover(false);
+
+    const onClickSetTab = (i) => {
+        setSelectedTab(i);
+        if (i !== tabIcons.length - 1) {
+            setShowSettingMessage(false);
+        }
+    };
+
+    return (
+        <div
+            onClick={() => onClickSetTab(i)} onMouseEnter={onEnterEnableHover} onMouseLeave={onLeaveDisableHover}
+            style={{backgroundColor: `${isHover ? "var(--select-dark-color)" : ""}`}}
+            className={`p-2 2xl:p-3 w-14 h-14 2xl:w-20 2xl:h-20
+                ${i === tabIcons.length - 1 && "mt-auto"} 
+                ${i !== selectedTab ? "bg-gray-700" : "bg-gray-500"} 
+                transition duration-350 ease-in-out hover:cursor-pointer`}>
+            {image}
+        </div>
+    );
 }
 
 function MenuTabContent(props) {

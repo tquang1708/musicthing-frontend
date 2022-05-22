@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 function SettingsBox(props) {
     const {
@@ -42,15 +42,20 @@ function SettingsButton(props) {
         onClickFunc,
         setShowSettings,
     } = props;
+    const [ isHover, setIsHover ] = useState(false);
 
     const onClickHideSettings = () => {
         onClickFunc();
         setShowSettings(false);
     }
 
+    const onEnterEnableHover = () => setIsHover(true);
+    const onLeaveDisableHover = () => setIsHover(false);
+
     return (
-        <div onClick={onClickHideSettings} 
-            className="select-none py-0.5 pl-0.5 pr-5 rounded-md transition duration-200 ease-linear hover:bg-amber-700 hover:cursor-pointer">
+        <div onClick={onClickHideSettings} onMouseEnter={onEnterEnableHover} onMouseLeave={onLeaveDisableHover}
+            style={{backgroundColor: `${isHover ? "var(--select-dark-color)" : ""}`}}
+            className="select-none py-0.5 pl-0.5 pr-5 rounded-md transition duration-200 ease-linear hover:cursor-pointer">
             {content}
         </div>
     );

@@ -5,6 +5,7 @@ function Login(props) {
     const { setServerUrl } = props;
     const [ textInput, setTextInput ] = useState(localStorage.getItem("prevServerUrl"));
     const [ passwordInput, setPasswordInput ] = useState("");
+    const [ isHover, setIsHover ] = useState(false);
 
     const updateInput = (e) => setTextInput(e.target.value);
     const updatePasswordInput = (e) => setPasswordInput(e.target.value);
@@ -12,6 +13,9 @@ function Login(props) {
         setServerUrl(textInput);
         localStorage.setItem('serverUrl', textInput);
     };
+
+    const onEnterEnableHover = () => setIsHover(true);
+    const onLeaveDisableHover = () => setIsHover(false);
 
     return (
         <div 
@@ -49,9 +53,9 @@ function Login(props) {
                     onChange={(e) => updatePasswordInput(e)}
                     className="col-span-2" />
                 <div 
-                    onClick={updateServerUrl}
-                    style={{color: "var(--highlight-color)"}}
-                    className="pl-3 bg-gray-800 rounded-md text-base 2xl:text-lg font-semibold hover:cursor-pointer transition duration-300 hover:bg-amber-700" >
+                    onClick={updateServerUrl} onMouseEnter={onEnterEnableHover} onMouseLeave={onLeaveDisableHover}
+                    style={{color: "var(--highlight-color)", backgroundColor: `${isHover ? "var(--select-dark-color)" : ""}`}}
+                    className="pl-3 bg-gray-800 rounded-md text-base 2xl:text-lg font-semibold hover:cursor-pointer transition duration-300" >
                     Enter
                 </div>
             </div>

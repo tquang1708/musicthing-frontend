@@ -2,7 +2,7 @@ import React from "react";
 
 // icon from https://www.svgrepo.com/svg/393204/triangle-right-filled
 const controller_icon = 
-    <svg x="0px" y="0px" viewBox="0 0 58.752 58.752" style={{fill: "var(--menu-text-icon-color)"}}>
+    <svg x="0px" y="0px" viewBox="0 0 58.752 58.752" alt="controller icon" style={{fill: "var(--menu-text-icon-color)"}}>
         <path d="M52.524,23.925L12.507,0.824c-1.907-1.1-4.376-1.097-6.276,0C4.293,1.94,3.088,4.025,3.088,6.264v46.205
             c0,2.24,1.204,4.325,3.131,5.435c0.953,0.555,2.042,0.848,3.149,0.848c1.104,0,2.192-0.292,3.141-0.843l40.017-23.103
             c1.936-1.119,3.138-3.203,3.138-5.439C55.663,27.134,54.462,25.05,52.524,23.925z M49.524,29.612L9.504,52.716
@@ -13,12 +13,12 @@ const controller_icon =
 
 // queue icon from https://www.svgrepo.com/svg/364782/queue-fill
 const queue_icon = 
-    <svg x="0px" y="0px" viewBox="0 0 256 256" style={{fill: "var(--menu-text-icon-color)"}}>
+    <svg x="0px" y="0px" viewBox="0 0 256 256" alt="queue icon" style={{fill: "var(--menu-text-icon-color)"}}>
         <path d="M144,192a8.00008,8.00008,0,0,1-8,8H40a8,8,0,0,1,0-16h96A8.00008,8.00008,0,0,1,144,192ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16Zm96,48H40a8,8,0,0,0,0,16h96a8,8,0,0,0,0-16Zm108.24023,33.21582-64-40A8.00044,8.00044,0,0,0,168,120v80a8.00043,8.00043,0,0,0,12.24023,6.78418l64-40a8.00062,8.00062,0,0,0,0-13.56836Z"/>
     </svg>;
 
 const settings_icon = 
-    <svg x="0px" y="0px" viewBox="0 0 491.52 491.52" style={{fill: "var(--menu-text-icon-color)"}}>
+    <svg x="0px" y="0px" viewBox="0 0 491.52 491.52" alt="settings icon" style={{fill: "var(--menu-text-icon-color)"}}>
         <path d="M491.52,285.15v-78.78l-57.55-9.6c-4.49-17.3-11.375-33.86-20.525-49.41l33.95-47.53l-55.715-55.7l-47.53,33.95
             c-15.545-9.16-32.11-16.04-49.405-20.53L285.155,0h-78.79l-9.59,57.55c-17.295,4.49-33.86,11.37-49.405,20.53L99.84,44.13
             l-55.715,55.7l33.95,47.53c-9.15,15.55-16.035,32.11-20.525,49.41L0,206.37v78.78l57.55,9.6c4.49,17.3,11.375,33.86,20.525,49.41

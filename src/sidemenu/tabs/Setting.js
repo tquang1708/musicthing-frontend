@@ -94,20 +94,28 @@ function Theming() {
     const menuTextIconColorLocal = localStorage.getItem("menuTextIconColor") ? localStorage.getItem("menuTextIconColor") : "#000";
     const highlightColorLocal = localStorage.getItem("highlightColor") ? localStorage.getItem("highlightColor") : "#f8fafc";
     const selectColorLocal = localStorage.getItem("selectColor") ? localStorage.getItem("selectColor") : "#f59e0b";
+    const selectDarkColorLocal = localStorage.getItem("selectDarkColor") ? localStorage.getItem("selectDarkColor") : "#b45309";
+    const dangerColorLocal = localStorage.getItem("dangerColor") ? localStorage.getItem("dangerColor") : "#ef4444";
 
     const customMenuTextIconColorLocal = localStorage.getItem("customMenuTextIconColor") ? localStorage.getItem("customMenuTextIconColor") : "#000";
     const customHighlightColorLocal = localStorage.getItem("customHighlightColor") ? localStorage.getItem("customHighlightColor") : "#f8fafc";
     const customSelectColorLocal = localStorage.getItem("customSelectColor") ? localStorage.getItem("customSelectColor") : "#f59e0b";
+    const customSelectDarkColorLocal = localStorage.getItem("customSelectDarkColor") ? localStorage.getItem("customSelectDarkColor") : "#b45309";
+    const customDangerColorLocal = localStorage.getItem("customDangerColor") ? localStorage.getItem("customDangerColor") : "#ef4444";
 
     const [ theme, setTheme ] = useState({
         menuTextIconColor: menuTextIconColorLocal,
         highlightColor: highlightColorLocal,
         selectColor: selectColorLocal,
+        selectDarkColor: selectDarkColorLocal,
+        dangerColor: dangerColorLocal,
     });
     const [ customTheme, setCustomTheme ] = useState({
         customMenuTextIconColor: customMenuTextIconColorLocal,
         customHighlightColor: customHighlightColorLocal,
         customSelectColor: customSelectColorLocal,
+        customSelectDarkColor: customSelectDarkColorLocal,
+        customDangerColorLocal: customDangerColorLocal,
     });
     const [ disableCustomTheme, setDisableCustomTheme ] = useState(themeSelection !== "custom");
 
@@ -121,15 +129,21 @@ function Theming() {
                 menuTextIconColor: customTheme["customMenuTextIconColor"],
                 highlightColor: customTheme["customHighlightColor"],
                 selectColor: customTheme["customSelectColor"],
+                selectDarkColor: customTheme["customSelectDarkColor"],
+                dangerColor: customTheme["customDangerColorLocal"],
             });
 
             localStorage.setItem('menuTextIconColor', customTheme["customMenuTextIconColor"]);
             localStorage.setItem('highlightColor', customTheme["customHighlightColor"]);
             localStorage.setItem('selectColor', customTheme["customSelectColor"]);
+            localStorage.setItem('selectDarkColor', customTheme["customSelectDarkColor"]);
+            localStorage.setItem('dangerColor', customTheme["customDangerColorLocal"]);
 
             document.documentElement.style.setProperty('--menu-text-icon-color', customTheme["customMenuTextIconColor"]);
             document.documentElement.style.setProperty('--highlight-color', customTheme["customHighlightColor"]);
             document.documentElement.style.setProperty('--select-color', customTheme["customSelectColor"]);
+            document.documentElement.style.setProperty('--select-dark-color', customTheme["customSelectDarkColor"]);
+            document.documentElement.style.setProperty('--danger-color', customTheme["customDangerColorLocal"]);
         } else {
             setDisableCustomTheme(true);
 
@@ -138,15 +152,21 @@ function Theming() {
                     menuTextIconColor: '#000',
                     highlightColor: '#f8fafc',
                     selectColor: '#f59e0b',
+                    selectDarkColor: '#b45309',
+                    dangerColor: '#ef4444',
                 });
                 
                 localStorage.setItem('menuTextIconColor', '#000');
                 localStorage.setItem('highlightColor', '#f8fafc');
                 localStorage.setItem('selectColor', '#f59e0b');
+                localStorage.setItem('selectDarkColor', '#b45309');
+                localStorage.setItem('dangerColor', '#ef4444');
 
                 document.documentElement.style.setProperty('--menu-text-icon-color', '#000');
                 document.documentElement.style.setProperty('--highlight-color', '#f8fafc');
                 document.documentElement.style.setProperty('--select-color', '#f59e0b');
+                document.documentElement.style.setProperty('--select-dark-color', '#b45309');
+                document.documentElement.style.setProperty('--danger-color', '#ef4444');
             }
         }
 
@@ -201,6 +221,30 @@ function Theming() {
                     themeKey="selectColor"
                     customThemeKey="customSelectColor"
                     cssVar="--select-color"
+                />
+                <ThemingOption 
+                    theme={theme}
+                    setTheme={setTheme}
+                    customTheme={customTheme}
+                    setCustomTheme={setCustomTheme}
+                    themeSelection={themeSelection}
+                    disableCustomTheme={disableCustomTheme}
+                    labelTitle="Select Dark"
+                    themeKey="selectDarkColor"
+                    customThemeKey="customSelectDarkColor"
+                    cssVar="--select-dark-color"
+                />
+                <ThemingOption 
+                    theme={theme}
+                    setTheme={setTheme}
+                    customTheme={customTheme}
+                    setCustomTheme={setCustomTheme}
+                    themeSelection={themeSelection}
+                    disableCustomTheme={disableCustomTheme}
+                    labelTitle="Danger"
+                    themeKey="dangerColor"
+                    customThemeKey="customDangerColor"
+                    cssVar="--danger-color"
                 />
             </div>
         </div>
@@ -326,11 +370,16 @@ function SettingButton(props) {
         onClickFunc,
         dangerous,
     } = props;
+    const [ isHover, setIsHover ] = useState(false);
+
+    const onEnterEnableHover = () => setIsHover(true);
+    const onLeaveDisableHover = () => setIsHover(false);
 
     return (
         <div 
-            onClick={onClickFunc}
-            className={`pl-3 bg-gray-800 rounded-md select-none transition duration-300 hover:cursor-pointer ${dangerous ? "hover:bg-red-500" : "hover:bg-amber-700"}`}>
+            onClick={onClickFunc} onMouseEnter={onEnterEnableHover} onMouseLeave={onLeaveDisableHover}
+            style={{backgroundColor: `${isHover ? `${dangerous ? "var(--danger-color)" : "var(--select-dark-color)"}` : ""}`}}
+            className={`pl-3 bg-gray-800 rounded-md select-none transition duration-300 hover:cursor-pointer`}>
             {content}
         </div>
     );

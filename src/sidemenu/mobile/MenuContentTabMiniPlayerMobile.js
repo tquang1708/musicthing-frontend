@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PlayPauseButton } from '../controls/ControlButtons';
 import unwrapMetadata from '../../misc/helper/unwrapMetadata';
 import tabIcons from "../tabs/tabIcons";
@@ -146,6 +146,38 @@ function MenuContentTabIconsMobile(props) {
         setShowSettingMessage,
     } = props;
 
+    const images = tabIcons.map((tab, i) => {
+        return (
+            <MenuContentTabIconMobile 
+                key={`tab icon mobile ${tab[0]}`} 
+                i={i}
+                image={tab[1]}
+                selectedTab={selectedTab}
+                setSelectedTab={setSelectedTab}
+                setShowSettingMessage={setShowSettingMessage}
+            />
+        )
+    });
+
+    return (
+        <div className="flex flex-row overflow-auto grow min-w-0 bg-gray-700">
+            {images}
+        </div>
+    );
+}
+
+function MenuContentTabIconMobile(props) { 
+    const {
+        i,
+        image,
+        selectedTab,
+        setSelectedTab,
+        setShowSettingMessage,
+    } = props;
+    const [ isHover, setIsHover ] = useState(false);
+    const onEnterEnableHover = () => setIsHover(true);
+    const onLeaveDisableHover = () => setIsHover(false);
+
     const onClickSetTab = (i) => {
         setSelectedTab(i);
         if (i !== tabIcons.length - 1) {
@@ -153,23 +185,15 @@ function MenuContentTabIconsMobile(props) {
         }
     };
 
-    const images = tabIcons.map((tab, i) => {
-        return (
-            <div
-                key={`tab image ${tab[0]}`} 
-                onClick={() => onClickSetTab(i)}
-                className={`p-1 w-10 h-10
-                    ${i === tabIcons.length - 1 && "ml-auto"} 
-                    ${i !== selectedTab ? "bg-gray-700" : "bg-gray-500"} 
-                    transition duration-350 ease-in-out hover:cursor-pointer hover:bg-amber-700`}>
-                {tab[1]}
-            </div>
-        )
-    });
-
     return (
-        <div className="flex flex-row overflow-auto grow min-w-0 bg-gray-700">
-            {images}
+        <div
+            onClick={() => onClickSetTab(i)} onMouseEnter={onEnterEnableHover} onMouseLeave={onLeaveDisableHover}
+            style={{backgroundColor: `${isHover ? "var(--select-dark-color)" : ""}`}}
+            className={`p-1 w-10 h-10
+                ${i === tabIcons.length - 1 && "ml-auto"} 
+                ${i !== selectedTab ? "bg-gray-700" : "bg-gray-500"} 
+                transition duration-350 ease-in-out hover:cursor-pointer`}>
+            {image}
         </div>
     );
 }
