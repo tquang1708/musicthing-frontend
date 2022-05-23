@@ -196,6 +196,7 @@ function MenuMiniControls(props) {
                     setIsPlaying={setIsPlaying}
                     setNewTrack={setNewTrack}
                     setTabTitle={setTabTitle}
+                    npTrack={npTrack}
                     setnpTrack={setnpTrack}
                     setnpAlbum={setnpAlbum}
                 />

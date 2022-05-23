@@ -485,6 +485,17 @@ function Track(props) {
     const onEnterShowButton = () => setShowButton(true);
     const onLeaveHideButton = () => setShowButton(false);
 
+    // explicit queue's first is at last (for quick track popping)
+    const onClickQueueTrackTop = () => setExplicitQueue([...explicitQueue, [track, album]]);
+    const onClickQueueTrack = () => setExplicitQueue([[track, album], ...explicitQueue]);
+    // const onClickShowDetails = () => console.log("DETAILS!!");
+
+    const onClickShowSettings = (e) => {
+        setShowSettings(true);
+        setxOffset(e.pageX);
+        setyOffset(e.pageY);
+    }
+
     const onClickPlayTrack = () => {
         setTabTitle(`${track.artist} - ${track.name} | musicthing`);
         setnpAlbum(album);
@@ -497,44 +508,29 @@ function Track(props) {
         setImplicitQueueTrackIndex(trackIndex);
     };
 
-    // explicit queue's first is at last (for quick track popping)
-    const onClickQueueTrackTop = () => setExplicitQueue([...explicitQueue, [track, album]]);
-    const onClickQueueTrack = () => setExplicitQueue([[track, album], ...explicitQueue]);
-    // const onClickShowDetails = () => console.log("DETAILS!!");
-
-    const onClickShowSettings = (e) => {
-        setShowSettings(true);
-        setxOffset(e.pageX);
-        setyOffset(e.pageY);
-    }
-
     const playButton = 
-    <div 
-        className="font-mono select-none text-3xl hover:transition hover:duration-300 hover:cursor-pointer hover:text-amber-500 hover:md:text-amber-700" 
-        onClick={onClickPlayTrack}>
-        ▶
-    </div>;
+        <PlayButton 
+            onBigScreen={onBigScreen}
+            onClickPlayTrack={onClickPlayTrack}
+        />;
 
     const miscButtons = 
         <div className="flex flex-row font-mono select-none text-3xl gap-2">
-            <div 
+            <TrackButton 
                 title="Play Next"
-                className="hidden md:block hover:transition hover:duration-300 hover:cursor-pointer hover:text-amber-700"
-                onClick={onClickQueueTrackTop}>
-                ±
-            </div>
-            <div 
+                icon="±"
+                onClickFunction={onClickQueueTrackTop}
+            />
+            <TrackButton 
                 title="Add to Queue"
-                className="hidden md:block hover:transition hover:duration-300 hover:cursor-pointer hover:text-amber-700"
-                onClick={onClickQueueTrack}>
-                ∓
-            </div>
-            <div
-                title="Settings" 
-                className="hover:transition hover:duration-300 hover:cursor-pointer hover:text-amber-700" 
-                onClick={(e) => onClickShowSettings(e)} >
-                …
-            </div>
+                icon="∓"
+                onClickFunction={onClickQueueTrack}
+            />
+            <TrackButton 
+                title="Settings"
+                icon="…"
+                onClickFunction={(e) => onClickShowSettings(e)}
+            />
         </div>;
 
     let rightButton;
@@ -590,6 +586,45 @@ function Track(props) {
                 xOffset={xOffset}
                 yOffset={yOffset}
                 setShowSettings={setShowSettings} /> }
+        </div>
+    );
+}
+
+function PlayButton(props) {
+    const {
+        onBigScreen,
+        onClickPlayTrack,
+    } = props;
+    const [ isHover, setIsHover ] = useState(false);
+    const onEnterEnableHover = () => setIsHover(true);
+    const onLeaveDisableHover = () => setIsHover(false);
+
+    return (<div 
+        onClick={onClickPlayTrack} onMouseEnter={onEnterEnableHover} onMouseLeave={onLeaveDisableHover}
+        style={{color: `${isHover ? `${onBigScreen ? "var(--select-dark-color)" : "var(--select-color)"}` : ""}`}}
+        className="font-mono select-none text-3xl hover:transition hover:duration-300 hover:cursor-pointer" >
+        ▶
+    </div>);
+}
+
+function TrackButton(props) {
+    const {
+        title,
+        icon,
+        onClickFunction,
+    } = props;
+    const [ isHover, setIsHover ] = useState(false);
+
+    const onEnterEnableHover = () => setIsHover(true);
+    const onLeaveDisableHover = () => setIsHover(false);
+
+    return (
+        <div 
+            title={title}
+            onClick={onClickFunction} onMouseEnter={onEnterEnableHover} onMouseLeave={onLeaveDisableHover}
+            style={{color: `${isHover ? "var(--select-dark-color)" : ""}`}}
+            className="hidden md:block hover:transition hover:duration-300 hover:cursor-pointer">
+        {icon}
         </div>
     );
 }

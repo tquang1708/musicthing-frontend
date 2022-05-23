@@ -108,8 +108,6 @@ function MenuTabItems(props) {
         setShowSettingMessage,
     } = props;
 
-    console.log(tabIcons);
-
     const images = tabIcons.map((tab, i) => {
         return (
             <MenuTabItem 

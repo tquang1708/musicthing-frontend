@@ -63,6 +63,7 @@ function MenuContentTabMiniPlayerMobile(props) {
                         setInExplicitQueue={setInExplicitQueue}
                         implicitQueuePlaylist={implicitQueuePlaylist}
                         setNewTrack={setNewTrack}
+                        npTrack={npTrack}
                         setnpTrack={setnpTrack}
                         setnpAlbum={setnpAlbum}
                         setTabTitle={setTabTitle} />

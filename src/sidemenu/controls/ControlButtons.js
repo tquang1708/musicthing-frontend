@@ -18,6 +18,7 @@ function ControlButtons(props) {
         setIsPlaying,
         setNewTrack,
         setTabTitle,
+        npTrack,
         setnpTrack,
         setnpAlbum,
     } = props;
@@ -47,6 +48,7 @@ function ControlButtons(props) {
                 setInExplicitQueue={setInExplicitQueue}
                 implicitQueuePlaylist={implicitQueuePlaylist}
                 setNewTrack={setNewTrack}
+                npTrack={npTrack}
                 setnpTrack={setnpTrack}
                 setnpAlbum={setnpAlbum}
                 setTabTitle={setTabTitle}
@@ -109,9 +111,11 @@ function PrevButton(props) {
 
         if (inExplicitQueue) {
             // dont update implicit queue index while exiting out of explicit queue
-            newnpTrack = implicitQueuePlaylist.discs[implicitQueueDiscIndex].tracks[implicitQueueTrackIndex];
-            newnpAlbum = implicitQueuePlaylist;
-            setInExplicitQueue(false);
+            if (implicitQueuePlaylist) {
+                newnpTrack = implicitQueuePlaylist.discs[implicitQueueDiscIndex].tracks[implicitQueueTrackIndex];
+                newnpAlbum = implicitQueuePlaylist;
+                setInExplicitQueue(false); // shouldn't do anything without an implicit queue
+            }
         } else {
             const [ newDiscIndex, newTrackIndex ] = decrementQueueIndex(implicitQueuePlaylist, implicitQueueDiscIndex, implicitQueueTrackIndex);
             if (newDiscIndex !== implicitQueueDiscIndex || newTrackIndex !== implicitQueueTrackIndex) {
@@ -155,6 +159,7 @@ function PlayPauseButton(props) {
         setInExplicitQueue,
         implicitQueuePlaylist,
         setNewTrack,
+        npTrack,
         setnpTrack,
         setnpAlbum,
         setTabTitle,
@@ -173,8 +178,8 @@ function PlayPauseButton(props) {
             setnpTrack(nextnpTrack);
             setnpAlbum(nextnpAlbum);
             setTabTitle(`${nextnpTrack.artist} - ${nextnpTrack.name} | musicthing`);
-        } else if (implicitQueuePlaylist || explicitQueue.length > 0) {
-            // dont do anything if there's nothing in the queue
+        } else if (npTrack) {
+            // dont do anything if there's nothing as now playing
             setIsPlaying(!isPlaying);
         }
     };
